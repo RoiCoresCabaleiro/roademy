@@ -1,0 +1,44 @@
+### Descripción de la petición
+GET http://localhost:3000/          
+
+
+### Registrar usuario 1
+POST http://localhost:3000/api/register
+Content-Type: application/json
+
+{
+  "nombre": "Roi Cores",
+  "email": "roi@correo.com",
+  "contraseña": "123456"
+}
+
+
+### Registrar usuario 2
+POST http://localhost:3000/api/register
+Content-Type: application/json
+
+{
+  "nombre": "Juan Pérez",
+  "email": "juan@correo.com",
+  "contraseña": "123456"
+}
+
+
+### Login 1
+POST http://localhost:3000/api/login
+Content-Type: application/json
+
+{
+  "identifier": "juan@correo.com",
+  "contraseña": "123456"
+}
+
+
+### Login 2
+POST http://localhost:3000/api/login
+Content-Type: application/json
+
+{
+  "identifier": "Roi Cores",
+  "contraseña": "123456"
+}
