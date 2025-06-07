@@ -1,6 +1,7 @@
-// src/middleware/validators.js
+// server/src/middleware/validators/usuarioValidators.js
 
 const { body, validationResult } = require("express-validator");
+
 
 const validateRegister = [
   // nombre: string alfanumérico, no vacío
@@ -42,6 +43,7 @@ const validateRegister = [
   },
 ];
 
+
 const validateLogin = [
   // identifier: nombre de usuario o email, no vacío
   body("identifier")
@@ -68,7 +70,63 @@ const validateLogin = [
   },
 ];
 
-module.exports = {
-  validateRegister,
-  validateLogin,
-};
+
+const validateEditarPerfil = [
+  body('nombre')
+    .optional()
+    .trim()
+    .notEmpty().withMessage('Por favor, introduzca un nombre de usuario.')
+    .isAlphanumeric().withMessage('El nombre solo puede contener letras y números.'),
+
+  body('email')
+    .optional()
+    .trim()
+    .notEmpty().withMessage('Por favor, introduzca un email.')
+    .isEmail().withMessage('Por favor, introduzca un email válido.'),
+
+  // Si el usuario envía nueva contraseña, debe incluir la antigua
+  body('contraseña')
+    .optional()
+    .isLength({ min: 6 }).withMessage('La contraseña debe tener al menos 6 caracteres.'),
+
+  body('antiguaContraseña')
+    .if(body('contraseña').exists())
+    .notEmpty().withMessage('Por favor, introduzca su contraseña actual para confirmar el cambio.'),
+
+  // Recolector de errores
+  (req, res, next) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({
+        success: false,
+        errors: errors.array().map(e => ({ field: e.param, message: e.msg }))
+      });
+    }
+    next();
+  }
+];
+
+
+const validateUnirseClase = [
+  body('codigoClase')
+    .notEmpty().withMessage('Por favor, introduzca un código de clase.')
+    .isAlphanumeric().withMessage('El código de clase solo puede tener letras y números.'),
+  (req, res, next) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({
+        success: false,
+        errors: errors.array().map(e => ({ field: e.param, message: e.msg }))
+      });
+    }
+    next();
+  }
+];
+
+
+const validateAbandonarClase = [
+  (req, res, next) => next()
+];
+
+
+module.exports = { validateRegister, validateLogin, validateEditarPerfil, validateUnirseClase, validateAbandonarClase };

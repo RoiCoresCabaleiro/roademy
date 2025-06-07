@@ -1,4 +1,4 @@
-// src/middleware/errorHandler.js
+// server/src/middleware/errorHandler.js
 
 function errorHandler(err, req, res, next) {
   console.error(err);  // O envíalo a tu herramienta de logs

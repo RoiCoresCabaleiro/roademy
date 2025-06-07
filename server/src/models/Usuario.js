@@ -1,4 +1,5 @@
 // server/src/models/Usuario.js
+
 const { DataTypes } = require('sequelize');
 const { sequelize } = require('../config/sequelize');
 
@@ -51,9 +52,16 @@ const Usuario = sequelize.define('Usuario', {
     defaultValue: 'estudiante'
   },
 
-  codigoClase: {
-    type: DataTypes.STRING,
-    allowNull: true
+  claseId: {
+    type: DataTypes.INTEGER,
+    allowNull: true,
+    references: {
+      model: 'clases',
+      key: 'id'
+    },
+    validate: {
+      isInt: { msg: 'El ID de la clase debe ser un número.' }
+    }
   }
 
 }, {

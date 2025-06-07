@@ -1,7 +1,9 @@
 // server/src/middleware/auth.js
 
 const jwt = require('jsonwebtoken');
+
 const JWT_SECRET = process.env.JWT_SECRET;
+
 
 function authenticateToken(req, res, next) {
   // El token suele enviarse en la cabecera Authorization: "Bearer <token>"

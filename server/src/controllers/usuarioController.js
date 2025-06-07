@@ -1,0 +1,303 @@
+// server/src/controllers/usuarioController.js
+
+const bcrypt = require("bcryptjs");
+const jwt = require("jsonwebtoken");
+const { Op } = require("sequelize");
+const Usuario = require("../models/Usuario");
+const Clase = require("../models/Clase");
+const randomCode = require("../utils/generateCode");
+
+const JWT_SECRET = process.env.JWT_SECRET;
+
+
+
+// POST /api/v1/register - Registra un nuevo usuario (Estudiante o Tutor)
+async function register(req, res, next) {
+  const { nombre, email, contraseña, rol, codigoClase } = req.body;
+
+  try {
+    if (
+      await Usuario.findOne({
+        where: { [Op.or]: [{ email }, { nombre }] },
+      })
+    ) {
+      const err = new Error("Nombre de usuario o email ya registrados.");
+      err.status = 409;
+      return next(err);
+    }
+
+    // Validar clase si se ha proporcionado (estudiante)
+    let clase = null;
+    if (rol === "estudiante" && codigoClase) {
+      clase = await Clase.findOne({ where: { codigo: codigoClase } });
+      if (!clase) {
+        const err = new Error("Código de clase inválido.");
+        err.status = 400;
+        return next(err);
+      }
+    }
+
+    const hash = await bcrypt.hash(contraseña, 10);
+
+    const nuevoUser = await Usuario.create({
+      nombre,
+      email,
+      contraseña: hash,
+      rol,
+      codigoClase: rol === "estudiante" && clase ? codigoClase : null,
+    });
+
+    // Crear clase inicial (tutor)
+    let initialClass = null;
+    if (rol === 'tutor') {
+      let code;  // Generar un código único (en bucle hasta no colisionar)
+      do {
+        code = randomCode(6);
+        initialClass = await Clase.findOne({ where: { codigo: code } });
+      } while (initialClass);
+
+      initialClass = await Clase.create({
+        nombre: 'Mi primera clase',
+        codigo: code,
+        tutorId: nuevoUser.id
+      });
+    }
+
+    // Generar token JWT para hacer login tras registrarse
+    const payload = {
+      id: nuevoUser.id,
+      email: nuevoUser.email,
+      rol: nuevoUser.rol,
+      codigoClase: nuevoUser.codigoClase
+    };
+    const token = jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: '1h' });
+
+    // Responder con el token y datos del usuario
+    const response = {
+      success: true,
+      token,
+      user: {
+        id: nuevoUser.id,
+        nombre: nuevoUser.nombre,
+        email: nuevoUser.email,
+        rol: nuevoUser.rol,
+        codigoClase: nuevoUser.codigoClase
+      }
+    };
+    if (initialClass) {
+      response.initialClass = {
+        id: initialClass.id,
+        nombre: initialClass.nombre,
+        codigo: initialClass.codigo
+      };
+    }
+
+    return res.status(201).json(response);
+    
+  } catch (err) {
+    next(err);
+  }
+}
+
+
+
+// POST /api/v1/login - Inicia sesión
+async function login(req, res, next) {
+  const { identifier, contraseña } = req.body;
+
+  try {
+    const user = await Usuario.findOne({
+      where: { [Op.or]: [{ email: identifier }, { nombre: identifier }] },
+    });
+
+    if (!user) {
+      const err = new Error("Usuario no encontrado.");
+      err.status = 404;
+      return next(err);
+    }
+
+    const match = await bcrypt.compare(contraseña, user.contraseña);
+    if (!match) {
+      const err = new Error("Contraseña incorrecta.");
+      err.status = 401;
+      return next(err);
+    }
+
+    const payload = {
+      id: user.id,
+      email: user.email,
+      rol: user.rol,
+      codigoClase: user.codigoClase,
+    };
+    const token = jwt.sign(payload, JWT_SECRET, { expiresIn: "1h" });
+
+    res.json({
+      success: true,
+      token,
+      user: {
+        id: user.id,
+        nombre: user.nombre,
+        email: user.email,
+        rol: user.rol,
+        codigoClase: user.codigoClase,
+      },
+    });
+
+  } catch (err) {
+    next(err);
+  }
+}
+
+
+/** 
+ * Devuelve los datos del perfil (id, nombre, email, rol, classId y, si tiene, la clase).
+ */
+// GET  /api/v1/usuarios/me
+async function verPerfil(req, res, next) {
+  try {
+    const user = await Usuario.findByPk(req.user.id, {
+      attributes: ['id', 'nombre', 'email', 'rol', 'classId'],
+      include: req.user.classId ? [{
+        model: Clase,
+        as: 'clase',
+        attributes: ['id', 'nombre', 'codigo']
+      }] : []
+    });
+
+    return res.json({ success: true, user });
+  } catch (err) {
+    next(err);
+  }
+}
+
+
+/**
+ * Permite editar nombre, email y/o contraseña (con confirmación de la antigua).
+ */
+// PUT /api/v1/usuarios/me
+async function editarPerfil(req, res, next) {
+  const { nombre, email, contraseña, antiguaContraseña } = req.body;
+  const updates = {};
+
+  try {
+    // 1. Si quiere cambiar contraseña, validamos la antigua
+    if (contraseña) {
+      const usuario = await Usuario.findByPk(req.user.id);
+      const match = await bcrypt.compare(antiguaContraseña, usuario.contraseña);
+      if (!match) {
+        const err = new Error('La contraseña actual no es correcta.');
+        err.status = 401;
+        return next(err);
+      }
+      updates.contraseña = await bcrypt.hash(contraseña, 10);
+    }
+
+    if (nombre) updates.nombre = nombre;
+    if (email)  updates.email = email;
+
+    // 2. Aplicar cambios y devolver el usuario actualizado
+    const [_, [usuarioActualizado]] = await Usuario.update(
+      updates,
+      {
+        where: { id: req.user.id },
+        returning: true
+      }
+    );
+
+    const { id, nombre: n, email: e, rol, classId } = usuarioActualizado;
+    return res.json({
+      success: true,
+      user: { id, nombre: n, email: e, rol, classId }
+    });
+
+  } catch (err) {
+    next(err);
+  }
+}
+
+
+/**
+ * Permite a un estudiante unirse a una clase por código.
+ * - Asigna classId para el usuario autenticado.
+ */
+// POST /api/v1/usuarios/me/unirse-clase
+async function unirseClase(req, res, next) {
+  const { codigoClase } = req.body;
+  const userId = req.user.id;
+
+  try {
+    if (req.user.rol !== 'estudiante') {
+      const err = new Error('Solo los estudiantes pueden unirse a una clase.');
+      err.status = 403;
+      return next(err);
+    }
+
+    if (req.user.classId) {
+      const err = new Error('Ya perteneces a una clase. Primero debes abandonarla para unirte a otra.');
+      err.status = 400;
+      return next(err);
+    }
+
+    const clase = await Clase.findOne({ where: { codigo: codigoClase } });
+    if (!clase) {
+      const err = new Error('Código de clase inválido.');
+      err.status = 400;
+      return next(err);
+    }
+
+    // Asignar classId al usuario
+    await Usuario.update(
+      { classId: clase.id },
+      { where: { id: userId } }
+    );
+
+    return res.json({
+      success: true,
+      message: `Te has unido correctamente a la clase “${clase.nombre}”.`
+    });
+
+  } catch (err) {
+    next(err);
+  }
+}
+
+
+
+/**
+ * Permite a un estudiante abandonar su clase.
+ * - Pone classId = null para el usuario autenticado.
+ */
+// DELETE /api/v1/usuarios/me/clase
+async function abandonarClase(req, res, next) {
+  const userId = req.user.id;
+
+  try {
+    if (req.user.rol !== 'estudiante') {
+      const err = new Error('Solo los estudiantes pueden abandonar una clase.');
+      err.status = 403;
+      return next(err);
+    }
+
+    if (!req.user.classId) {
+      const err = new Error('No perteneces a ninguna clase.');
+      err.status = 400;
+      return next(err);
+    }
+
+    // Desasignar classId del usuario
+    await Usuario.update(
+      { classId: null },
+      { where: { id: userId } }
+    );
+
+    return res.json({
+      success: true,
+      message: 'Has abandonado la clase correctamente.'
+    });
+  } catch (err) {
+    next(err);
+  }
+}
+
+
+module.exports = { register, login, verPerfil, editarPerfil, unirseClase, abandonarClase };
