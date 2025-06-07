@@ -1,13 +1,14 @@
 // server/src/routes/userRoutes.js
+
 const express = require('express');
-const { register, login } = require('../controllers/userController');
-
 const router = express.Router();
+const userController = require('../controllers/userController');
+const { validateRegister, validateLogin } = require('../middleware/validators');
 
-// POST /api/register
-router.post('/register', register);
+// POST /api/v1/register
+router.post('/register', validateRegister, userController.register);
 
-// POST /api/login
-router.post('/login', login);
+// POST /api/v1/login
+router.post('/login', validateLogin, userController.login);
 
 module.exports = router;
