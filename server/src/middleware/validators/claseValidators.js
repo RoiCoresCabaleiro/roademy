@@ -7,8 +7,7 @@ const validateCrearClase = [
   body('nombre')
     .trim()
     .notEmpty().withMessage('Por favor, introduzca un nombre para la clase.')
-    .isLength({ min: 3, max: 50 })
-      .withMessage('El nombre de la clase debe tener entre 3 y 50 caracteres.'),
+    .isLength({ min: 5, max: 50 }).withMessage('El nombre de la clase debe tener entre 5 y 50 caracteres.'),
   (req, res, next) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {

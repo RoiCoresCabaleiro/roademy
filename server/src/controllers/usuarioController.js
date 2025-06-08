@@ -3,13 +3,10 @@
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const { Op } = require("sequelize");
-const Usuario = require("../models/Usuario");
-const Clase = require("../models/Clase");
+const { Clase, Usuario } = require("../models");
 const randomCode = require("../utils/generateCode");
 
 const JWT_SECRET = process.env.JWT_SECRET;
-
-
 
 // POST /api/v1/register - Registra un nuevo usuario (Estudiante o Tutor)
 async function register(req, res, next) {
@@ -44,22 +41,22 @@ async function register(req, res, next) {
       email,
       contraseña: hash,
       rol,
-      codigoClase: rol === "estudiante" && clase ? codigoClase : null,
+      claseId: rol === "estudiante" && clase ? clase.id : null,
     });
 
     // Crear clase inicial (tutor)
     let initialClass = null;
-    if (rol === 'tutor') {
-      let code;  // Generar un código único (en bucle hasta no colisionar)
+    if (rol === "tutor") {
+      let code; // Generar un código único (en bucle hasta no colisionar)
       do {
         code = randomCode(6);
         initialClass = await Clase.findOne({ where: { codigo: code } });
       } while (initialClass);
 
       initialClass = await Clase.create({
-        nombre: 'Mi primera clase',
+        nombre: "Mi primera clase",
         codigo: code,
-        tutorId: nuevoUser.id
+        tutorId: nuevoUser.id,
       });
     }
 
@@ -68,9 +65,11 @@ async function register(req, res, next) {
       id: nuevoUser.id,
       email: nuevoUser.email,
       rol: nuevoUser.rol,
-      codigoClase: nuevoUser.codigoClase
+      claseId: nuevoUser.claseId,
     };
-    const token = jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: '1h' });
+    const token = jwt.sign(payload, process.env.JWT_SECRET, {
+      expiresIn: "1h",
+    });
 
     // Responder con el token y datos del usuario
     const response = {
@@ -81,25 +80,22 @@ async function register(req, res, next) {
         nombre: nuevoUser.nombre,
         email: nuevoUser.email,
         rol: nuevoUser.rol,
-        codigoClase: nuevoUser.codigoClase
-      }
+        claseId: nuevoUser.claseId,
+      },
     };
     if (initialClass) {
       response.initialClass = {
         id: initialClass.id,
         nombre: initialClass.nombre,
-        codigo: initialClass.codigo
+        codigo: initialClass.codigo,
       };
     }
 
     return res.status(201).json(response);
-    
   } catch (err) {
     next(err);
   }
 }
-
-
 
 // POST /api/v1/login - Inicia sesión
 async function login(req, res, next) {
@@ -142,26 +138,28 @@ async function login(req, res, next) {
         codigoClase: user.codigoClase,
       },
     });
-
   } catch (err) {
     next(err);
   }
 }
 
-
-/** 
- * Devuelve los datos del perfil (id, nombre, email, rol, classId y, si tiene, la clase).
+/**
+ * Devuelve los datos del perfil (id, nombre, email, rol, claseId y, si tiene, la clase).
  */
 // GET  /api/v1/usuarios/me
 async function verPerfil(req, res, next) {
   try {
     const user = await Usuario.findByPk(req.user.id, {
-      attributes: ['id', 'nombre', 'email', 'rol', 'classId'],
-      include: req.user.classId ? [{
-        model: Clase,
-        as: 'clase',
-        attributes: ['id', 'nombre', 'codigo']
-      }] : []
+      attributes: ["id", "nombre", "email", "rol", "claseId"],
+      include: req.user.claseId
+        ? [
+            {
+              model: Clase,
+              as: "clase",
+              attributes: ["id", "nombre", "codigo"],
+            },
+          ]
+        : [],
     });
 
     return res.json({ success: true, user });
@@ -169,7 +167,6 @@ async function verPerfil(req, res, next) {
     next(err);
   }
 }
-
 
 /**
  * Permite editar nombre, email y/o contraseña (con confirmación de la antigua).
@@ -185,7 +182,7 @@ async function editarPerfil(req, res, next) {
       const usuario = await Usuario.findByPk(req.user.id);
       const match = await bcrypt.compare(antiguaContraseña, usuario.contraseña);
       if (!match) {
-        const err = new Error('La contraseña actual no es correcta.');
+        const err = new Error("La contraseña actual no es correcta.");
         err.status = 401;
         return next(err);
       }
@@ -193,32 +190,27 @@ async function editarPerfil(req, res, next) {
     }
 
     if (nombre) updates.nombre = nombre;
-    if (email)  updates.email = email;
+    if (email) updates.email = email;
 
     // 2. Aplicar cambios y devolver el usuario actualizado
-    const [_, [usuarioActualizado]] = await Usuario.update(
-      updates,
-      {
-        where: { id: req.user.id },
-        returning: true
-      }
-    );
-
-    const { id, nombre: n, email: e, rol, classId } = usuarioActualizado;
-    return res.json({
-      success: true,
-      user: { id, nombre: n, email: e, rol, classId }
+    await Usuario.update(updates, { where: { id: req.user.id } });
+    const usuarioActualizado = await Usuario.findByPk(req.user.id, {
+      attributes: ["id", "nombre", "email", "rol", "claseId"],
     });
 
+    const { id, nombre: n, email: e, rol, claseId } = usuarioActualizado;
+    return res.json({
+      success: true,
+      user: { id, nombre: n, email: e, rol, claseId },
+    });
   } catch (err) {
     next(err);
   }
 }
 
-
 /**
  * Permite a un estudiante unirse a una clase por código.
- * - Asigna classId para el usuario autenticado.
+ * - Asigna claseId para el usuario autenticado.
  */
 // POST /api/v1/usuarios/me/unirse-clase
 async function unirseClase(req, res, next) {
@@ -226,78 +218,86 @@ async function unirseClase(req, res, next) {
   const userId = req.user.id;
 
   try {
-    if (req.user.rol !== 'estudiante') {
-      const err = new Error('Solo los estudiantes pueden unirse a una clase.');
+    if (req.user.rol !== "estudiante") {
+      const err = new Error("Solo los estudiantes pueden unirse a una clase.");
       err.status = 403;
       return next(err);
     }
 
-    if (req.user.classId) {
-      const err = new Error('Ya perteneces a una clase. Primero debes abandonarla para unirte a otra.');
-      err.status = 400;
-      return next(err);
-    }
+    const usuario = await Usuario.findByPk(userId);
 
     const clase = await Clase.findOne({ where: { codigo: codigoClase } });
     if (!clase) {
-      const err = new Error('Código de clase inválido.');
+      const err = new Error("Código de clase inválido.");
       err.status = 400;
       return next(err);
     }
 
-    // Asignar classId al usuario
-    await Usuario.update(
-      { classId: clase.id },
-      { where: { id: userId } }
-    );
+    if (usuario.claseId == clase.id) {
+      const err = new Error("Ya perteneces a esta clase.");
+      err.status = 400;
+      return next(err);
+    }
+
+    if (usuario.claseId && usuario.claseId !== clase.id) {
+      const err = new Error(
+        "Ya perteneces a otra clase. Primero debes abandonarla para unirte a otra."
+      );
+      err.status = 400;
+      return next(err);
+    }
+
+    // Asignar claseId al usuario
+    await Usuario.update({ claseId: clase.id }, { where: { id: userId } });
 
     return res.json({
       success: true,
-      message: `Te has unido correctamente a la clase “${clase.nombre}”.`
+      message: `Te has unido correctamente a la clase “${clase.nombre}”.`,
     });
-
   } catch (err) {
     next(err);
   }
 }
 
-
-
 /**
  * Permite a un estudiante abandonar su clase.
- * - Pone classId = null para el usuario autenticado.
+ * - Pone claseId = null para el usuario autenticado.
  */
 // DELETE /api/v1/usuarios/me/clase
 async function abandonarClase(req, res, next) {
   const userId = req.user.id;
 
   try {
-    if (req.user.rol !== 'estudiante') {
-      const err = new Error('Solo los estudiantes pueden abandonar una clase.');
+    if (req.user.rol !== "estudiante") {
+      const err = new Error("Solo los estudiantes pueden abandonar una clase.");
       err.status = 403;
       return next(err);
     }
 
-    if (!req.user.classId) {
-      const err = new Error('No perteneces a ninguna clase.');
+    const usuario = await Usuario.findByPk(userId);
+    if (!usuario.claseId) {
+      const err = new Error("No perteneces a ninguna clase.");
       err.status = 400;
       return next(err);
     }
 
-    // Desasignar classId del usuario
-    await Usuario.update(
-      { classId: null },
-      { where: { id: userId } }
-    );
+    // Desasignar claseId del usuario
+    await Usuario.update({ claseId: null }, { where: { id: userId } });
 
     return res.json({
       success: true,
-      message: 'Has abandonado la clase correctamente.'
+      message: "Has abandonado la clase correctamente.",
     });
   } catch (err) {
     next(err);
   }
 }
 
-
-module.exports = { register, login, verPerfil, editarPerfil, unirseClase, abandonarClase };
+module.exports = {
+  register,
+  login,
+  verPerfil,
+  editarPerfil,
+  unirseClase,
+  abandonarClase,
+};

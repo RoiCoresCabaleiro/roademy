@@ -6,7 +6,6 @@ const JWT_SECRET = process.env.JWT_SECRET;
 
 
 function authenticateToken(req, res, next) {
-  // El token suele enviarse en la cabecera Authorization: "Bearer <token>"
   const authHeader = req.headers['authorization'];
   if (!authHeader) {
     return res.status(401).json({ message: 'Token no proporcionado.' });
@@ -22,8 +21,7 @@ function authenticateToken(req, res, next) {
     if (err) {
       return res.status(403).json({ message: 'Token inválido o expirado.' });
     }
-    // Opcional: guardar datos del usuario en req.user
-    req.user = { id: payload.id, email: payload.email };
+    req.user = payload;
     next();
   });
 }

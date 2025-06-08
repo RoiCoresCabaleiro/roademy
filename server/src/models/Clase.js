@@ -1,8 +1,8 @@
 // server/src/models/Clase.js
 
 const { DataTypes } = require('sequelize');
-const { sequelize } = require('../config/sequelize');
-const { on } = require('../app');
+const sequelize = require('../config/sequelize');
+
 
 const Clase = sequelize.define('Clase', {
   id: {

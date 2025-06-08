@@ -1,7 +1,7 @@
 // server/src/models/Usuario.js
 
 const { DataTypes } = require('sequelize');
-const { sequelize } = require('../config/sequelize');
+const sequelize = require('../config/sequelize');
 
 const Usuario = sequelize.define('Usuario', {
   id: {
