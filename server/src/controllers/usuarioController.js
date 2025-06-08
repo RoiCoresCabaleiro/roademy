@@ -1,12 +1,10 @@
 // server/src/controllers/usuarioController.js
 
 const bcrypt = require("bcryptjs");
-const jwt = require("jsonwebtoken");
 const { Op } = require("sequelize");
 const { Clase, Usuario } = require("../models");
 const randomCode = require("../utils/generateCode");
-
-const JWT_SECRET = process.env.JWT_SECRET;
+const { generateTokensForUser } = require("../utils/tokenService");
 
 // POST /api/v1/register - Registra un nuevo usuario (Estudiante o Tutor)
 async function register(req, res, next) {
@@ -60,21 +58,13 @@ async function register(req, res, next) {
       });
     }
 
-    // Generar token JWT para hacer login tras registrarse
-    const payload = {
-      id: nuevoUser.id,
-      email: nuevoUser.email,
-      rol: nuevoUser.rol,
-      claseId: nuevoUser.claseId,
-    };
-    const token = jwt.sign(payload, process.env.JWT_SECRET, {
-      expiresIn: "1h",
-    });
+    // Generar y enviar tokens (access + refresh en cookie)
+    const accessToken = await generateTokensForUser(nuevoUser, res);
 
-    // Responder con el token y datos del usuario
+    // Construir la respuesta
     const response = {
       success: true,
-      token,
+      accessToken,
       user: {
         id: nuevoUser.id,
         nombre: nuevoUser.nombre,
@@ -119,25 +109,8 @@ async function login(req, res, next) {
       return next(err);
     }
 
-    const payload = {
-      id: user.id,
-      email: user.email,
-      rol: user.rol,
-      codigoClase: user.codigoClase,
-    };
-    const token = jwt.sign(payload, JWT_SECRET, { expiresIn: "1h" });
-
-    res.json({
-      success: true,
-      token,
-      user: {
-        id: user.id,
-        nombre: user.nombre,
-        email: user.email,
-        rol: user.rol,
-        codigoClase: user.codigoClase,
-      },
-    });
+    const accessToken = await generateTokensForUser(user, res);
+    return res.json({ accessToken });
   } catch (err) {
     next(err);
   }
@@ -293,6 +266,33 @@ async function abandonarClase(req, res, next) {
   }
 }
 
+/**
+ * El usuario autenticado se da de baja (se elimina su registro).
+ */
+async function eliminarCuenta(req, res, next) {
+  try {
+    const userId = req.user.id;
+    const { contraseña } = req.body;
+
+    const usuario = await Usuario.findByPk(userId);
+    if (!usuario) {
+      return res.status(404).json({ msg: "Usuario no encontrado" });
+    }
+
+    const match = await bcrypt.compare(contraseña, usuario.contraseña);
+    if (!match) {
+      return res.status(401).json({ msg: "Contraseña incorrecta" });
+    }
+
+    // Borrado definitivo
+    await Usuario.destroy({ where: { id: userId } });
+    
+    return res.status(204).send();
+  } catch (err) {
+    next(err);
+  }
+}
+
 module.exports = {
   register,
   login,
@@ -300,4 +300,5 @@ module.exports = {
   editarPerfil,
   unirseClase,
   abandonarClase,
+  eliminarCuenta,
 };

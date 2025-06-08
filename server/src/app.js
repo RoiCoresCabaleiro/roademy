@@ -3,17 +3,21 @@
 const express = require("express");
 const cors = require("cors");
 const helmet = require("helmet");
+const cookieParser = require('cookie-parser');
 const rateLimit = require("express-rate-limit");
+
+const errorHandler = require("./middleware/errorHandler");
 
 const usuarioRoutes = require("./routes/usuarioRoutes");
 const claseRoutes = require("./routes/claseRoutes");
-const errorHandler = require("./middleware/errorHandler");
+const authRoutes   = require("./routes/authRoutes");
 
 const app = express();
 
 // Seguridad y parsing
 app.use(helmet());
 app.use(cors());
+app.use(cookieParser());
 app.use(express.json());
 
 // Limitador de peticiones
@@ -21,6 +25,7 @@ const limiter = rateLimit({ windowMs: 15 * 60 * 1000, max: 100 });
 app.use(limiter);
 
 // Rutas de la API
+app.use("/api/v1/auth", authRoutes);
 app.use("/api/v1/usuarios", usuarioRoutes);
 app.use("/api/v1/clases", claseRoutes);
 
