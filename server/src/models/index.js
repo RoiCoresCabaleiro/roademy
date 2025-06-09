@@ -27,6 +27,7 @@ Usuario.associate(db);
 Clase.associate(db);
 Tema.associate(db);
 Nivel.associate(db);
+PreguntaSolucion.associate(db);
 ProgresoUsuarioNivel.associate(db);
 ProgresoRespuesta.associate(db);
 

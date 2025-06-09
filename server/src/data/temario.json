@@ -1,0 +1,119 @@
+[
+  {
+    "temaId": 1,
+    "titulo": "1.Señales de tráfico",
+    "orden": 1,
+    "estrellasNecesarias": 4,
+    "niveles": [
+      {
+        "nivelId": 101,
+        "orden": 1,
+        "tipo": "leccion",
+        "preguntas": [
+          { "preguntaId": 1001, "respuestaCorrecta": 2 },
+          { "preguntaId": 1002, "respuestaCorrecta": 0 },
+          { "preguntaId": 1003, "respuestaCorrecta": 1 }
+        ]
+      },
+      {
+        "nivelId": 102,
+        "orden": 2,
+        "tipo": "leccion",
+        "preguntas": [
+          { "preguntaId": 1004, "respuestaCorrecta": 1 },
+          { "preguntaId": 1005, "respuestaCorrecta": 2 },
+          { "preguntaId": 1006, "respuestaCorrecta": 0 }
+        ]
+      },
+      {
+        "nivelId": 103,
+        "orden": 3,
+        "tipo": "quiz",
+        "puntuacionMinima": 50,
+        "preguntas": [
+          { "preguntaId": 1007, "respuestaCorrecta": 0 },
+          { "preguntaId": 1008, "respuestaCorrecta": 1 },
+          { "preguntaId": 1009, "respuestaCorrecta": 2 }
+        ]
+      }
+    ]
+  },
+  {
+    "temaId": 2,
+    "titulo": "2.Normas de prioridad",
+    "orden": 2,
+    "estrellasNecesarias": 4,
+    "niveles": [
+      {
+        "nivelId": 201,
+        "orden": 1,
+        "tipo": "leccion",
+        "preguntas": [
+          { "preguntaId": 2001, "respuestaCorrecta": 1 },
+          { "preguntaId": 2002, "respuestaCorrecta": 2 },
+          { "preguntaId": 2003, "respuestaCorrecta": 0 }
+        ]
+      },
+      {
+        "nivelId": 202,
+        "orden": 2,
+        "tipo": "leccion",
+        "preguntas": [
+          { "preguntaId": 2004, "respuestaCorrecta": 2 },
+          { "preguntaId": 2005, "respuestaCorrecta": 0 },
+          { "preguntaId": 2006, "respuestaCorrecta": 1 }
+        ]
+      },
+      {
+        "nivelId": 203,
+        "orden": 3,
+        "tipo": "quiz",
+        "puntuacionMinima": 50,
+        "preguntas": [
+          { "preguntaId": 2007, "respuestaCorrecta": 1 },
+          { "preguntaId": 2008, "respuestaCorrecta": 0 },
+          { "preguntaId": 2009, "respuestaCorrecta": 2 }
+        ]
+      }
+    ]
+  },
+  {
+    "temaId": 3,
+    "titulo": "3.Tema de ejemplo",
+    "orden": 3,
+    "estrellasNecesarias": 4,
+    "niveles": [
+      {
+        "nivelId": 301,
+        "orden": 1,
+        "tipo": "leccion",
+        "preguntas": [
+          { "preguntaId": 3001, "respuestaCorrecta": 1 },
+          { "preguntaId": 3002, "respuestaCorrecta": 2 },
+          { "preguntaId": 3003, "respuestaCorrecta": 0 }
+        ]
+      },
+      {
+        "nivelId": 302,
+        "orden": 2,
+        "tipo": "leccion",
+        "preguntas": [
+          { "preguntaId": 3004, "respuestaCorrecta": 2 },
+          { "preguntaId": 3005, "respuestaCorrecta": 0 },
+          { "preguntaId": 3006, "respuestaCorrecta": 1 }
+        ]
+      },
+      {
+        "nivelId": 303,
+        "orden": 3,
+        "tipo": "quiz",
+        "puntuacionMinima": 50,
+        "preguntas": [
+          { "preguntaId": 3007, "respuestaCorrecta": 1 },
+          { "preguntaId": 3008, "respuestaCorrecta": 0 },
+          { "preguntaId": 3009, "respuestaCorrecta": 2 }
+        ]
+      }
+    ]
+  }
+]

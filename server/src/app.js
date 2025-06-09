@@ -8,9 +8,11 @@ const rateLimit = require("express-rate-limit");
 
 const errorHandler = require("./middleware/errorHandler");
 
+const authRoutes   = require("./routes/authRoutes");
 const usuarioRoutes = require("./routes/usuarioRoutes");
 const claseRoutes = require("./routes/claseRoutes");
-const authRoutes   = require("./routes/authRoutes");
+const progresoRoutes = require('./routes/progresoRoutes');
+
 
 const app = express();
 
@@ -28,6 +30,7 @@ app.use(limiter);
 app.use("/api/v1/auth", authRoutes);
 app.use("/api/v1/usuarios", usuarioRoutes);
 app.use("/api/v1/clases", claseRoutes);
+app.use('/api/v1/progresos', progresoRoutes);
 
 // Ruta pública de prueba
 app.get("/", (req, res) => {
