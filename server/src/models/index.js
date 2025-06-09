@@ -1,20 +1,33 @@
 // server/src/models/index.js
 
-const sequelize = require('../config/sequelize');
-const Usuario = require('./Usuario');
-const Clase   = require('./Clase');
-const RefreshToken = require('./RefreshToken');
+const sequelize = require("../config/sequelize");
+const RefreshToken = require("./RefreshToken");
+const Usuario = require("./Usuario");
+const Clase = require("./Clase");
+const Tema = require("./Tema");
+const Nivel = require("./Nivel");
+const PreguntaSolucion = require("./PreguntaSolucion");
+const ProgresoUsuarioNivel = require("./ProgresoUsuarioNivel");
+const ProgresoRespuesta = require("./ProgresoRespuesta");
 
-const db = { sequelize, Usuario, Clase, RefreshToken };
-
-// Asociación 1 Estudiante → 0..1 Clase
-Usuario.belongsTo(Clase, { foreignKey: 'claseId', as: 'clase' });
-Clase.hasMany(Usuario,  { foreignKey: 'claseId', as: 'estudiantes' });
-
-// Asociación 1 Tutor → 1..n Clases
-Usuario.hasMany(Clase,  { foreignKey: 'tutorId', as: 'clases', onDelete: 'CASCADE' });  // Si el tutor se elimina, sus clases también
-Clase.belongsTo(Usuario,{ foreignKey: 'tutorId', as: 'tutor' });
+const db = {
+  sequelize,
+  RefreshToken,
+  Usuario,
+  Clase,
+  Tema,
+  Nivel,
+  PreguntaSolucion,
+  ProgresoUsuarioNivel,
+  ProgresoRespuesta,
+};
 
 RefreshToken.associate(db);
+Usuario.associate(db);
+Clase.associate(db);
+Tema.associate(db);
+Nivel.associate(db);
+ProgresoUsuarioNivel.associate(db);
+ProgresoRespuesta.associate(db);
 
 module.exports = db;
