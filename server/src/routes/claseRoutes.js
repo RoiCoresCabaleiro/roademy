@@ -2,31 +2,33 @@
 
 const express = require('express');
 const router = express.Router();
+
 const claseController = require('../controllers/claseController');
 const authenticateToken = require('../middleware/auth');
+const ensureTutor = require('../middleware/ensureTutor');
+const ensureClaseAccessible = require('../middleware/ensureClaseAccessible');
 
 const { validateCrearClase, validateIdParam, validateEliminarEstudiante } = require('../middleware/validators');
 
 
+// Todas estas rutas requieren token
 router.use(authenticateToken);
 
-// POST /api/v1/clases - Crea una nueva clase (solo para tutores)
-router.post('/', validateCrearClase, claseController.crearClase);
+router.post('/', ensureTutor, validateCrearClase, claseController.crearClase);
 
-// GET /api/v1/clases - Lista todas las clases del tutor autenticado
-router.get('/', claseController.listarClases);
+router.get('/', ensureTutor, claseController.listarClases);
 
-// GET /api/v1/clases/:id - Muestra una clase específica
-router.get('/:id', validateIdParam, claseController.verClase);
+router.get('/:id', validateIdParam, ensureClaseAccessible, claseController.verClase);
 
-// PUT /api/v1/clases/:id - Actualiza nombre de la clase
-router.put('/:id', validateIdParam, validateCrearClase, claseController.actualizarClase);
 
-// DELETE /api/v1/clases/:claseId/estudiantes/:userId
+// Solo tutores propietarios de la clase pueden acceder a los endpoints siguientes
+router.use('/:id', validateIdParam, ensureTutor, ensureClaseAccessible);
+
+router.put('/:id', validateCrearClase, claseController.actualizarClase);
+
 router.delete('/:claseId/estudiantes/:userId', validateEliminarEstudiante, claseController.eliminarEstudiante);
 
-// DELETE /api/v1/clases/:id - Elimina una clase
-router.delete('/:id', validateIdParam, claseController.eliminarClase);
+router.delete('/:id', claseController.eliminarClase);
 
 
 module.exports = router;

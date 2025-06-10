@@ -1,7 +1,7 @@
 // server/src/controllers/claseController.js
 
 const { Clase, Usuario } = require("../models");
-const randomCode = require("../utils/generateCode");
+const generateUniqueCode = require('../utils/generateUniqueCode');
 
 /**
  * Crea una nueva clase para el tutor autenticado.
@@ -10,44 +10,28 @@ const randomCode = require("../utils/generateCode");
  */
 // POST /api/v1/clases - Crea una nueva clase (solo para tutores)
 async function crearClase(req, res, next) {
-  const { nombre } = req.body;
-  const tutorId = req.user.id;
-
   try {
-    if (req.user.rol !== "tutor") {
-      const err = new Error("Solo los tutores pueden crear clases.");
-      err.status = 403;
-      return next(err);
-    }
-
-    const existentePorNombre = await Clase.findOne({
-      where: { tutorId, nombre },
+    const existente = await Clase.findOne({
+      where: { tutorId: req.user.id, nombre: req.body.nombre },
     });
-    if (existentePorNombre) {
-      const err = new Error("Ya tienes otra clase con ese nombre.");
-      err.status = 409;
-      return next(err);
+    if (existente) {
+      return res.status(409).json({
+        success: false,
+        message: "Ya tienes otra clase con ese nombre.",
+      });
     }
 
     // Generar un código único
-    let codigo, existe;
-    do {
-      codigo = randomCode(6);
-      existe = await Clase.findOne({ where: { codigo } });
-    } while (existe);
+    const codigo = await generateUniqueCode(6);
 
     // Crear la clase
-    const nueva = await Clase.create({ nombre, codigo, tutorId });
-
-    return res.status(201).json({
-      success: true,
-      clase: {
-        id: nueva.id,
-        nombre: nueva.nombre,
-        codigo: nueva.codigo,
-        tutorId: nueva.tutorId,
-      },
+    const nueva = await Clase.create({
+      nombre: req.body.nombre,
+      codigo,
+      tutorId: req.user.id,
     });
+
+    return res.status(201).json({ success: true, clase: nueva });
   } catch (err) {
     next(err);
   }
@@ -58,17 +42,9 @@ async function crearClase(req, res, next) {
  */
 // GET /api/v1/clases - Lista todas las clases del tutor autenticado
 async function listarClases(req, res, next) {
-  const tutorId = req.user.id;
-
   try {
-    if (req.user.rol !== "tutor") {
-      const err = new Error("Solo los tutores pueden ver sus clases.");
-      err.status = 403;
-      return next(err);
-    }
-
     const clases = await Clase.findAll({
-      where: { tutorId },
+      where: { tutorId: req.user.id },
       include: [
         {
           model: Usuario,
@@ -84,7 +60,6 @@ async function listarClases(req, res, next) {
       nombre: c.nombre,
       numEstudiantes: c.estudiantes.length, // Número de estudiantes de cada clase
     }));
-
     return res.json({ success: true, clases: resultado });
   } catch (err) {
     next(err);
@@ -94,20 +69,12 @@ async function listarClases(req, res, next) {
 /**
  * Devuelve los detalles de una clase específica.
  */
-// GET /api/v1/clases/:id - Muestra una clase específica
+// GET /api/v1/clases/:id
 async function verClase(req, res, next) {
-  const { id } = req.params;
-  const userId = req.user.id;
-  const userRol = req.user.rol;
-
   try {
-    const clase = await Clase.findByPk(id, {
+    const clase = await Clase.findByPk(req.clase.id, {
       include: [
-        {
-          model: Usuario,
-          as: "tutor",
-          attributes: ["id", "nombre", "email"],
-        },
+        { model: Usuario, as: "tutor", attributes: ["id", "nombre", "email"] },
         {
           model: Usuario,
           as: "estudiantes",
@@ -115,34 +82,6 @@ async function verClase(req, res, next) {
         },
       ],
     });
-
-    if (!clase) {
-      const err = new Error("Clase no encontrada.");
-      err.status = 404;
-      return next(err);
-    }
-
-    if (userRol === "tutor") {
-      // El tutor sólo puede ver sus propias clases
-      if (clase.tutorId !== userId) {
-        const err = new Error("No tienes permiso para ver esta clase.");
-        err.status = 403;
-        return next(err);
-      }
-    } else if (userRol === "estudiante") {
-      // El estudiante sólo puede ver la clase a la que pertenece
-      const usuario = await Usuario.findByPk(userId);
-      if (usuario.claseId !== clase.id) {
-        const err = new Error("No tienes permiso para ver esta clase.");
-        err.status = 403;
-        return next(err);
-      }
-    } else {
-      // Roles inesperados
-      const err = new Error("Rol no autorizado.");
-      err.status = 403;
-      return next(err);
-    }
 
     return res.json({
       success: true,
@@ -166,49 +105,22 @@ async function verClase(req, res, next) {
  */
 // PUT /api/v1/clases/:id - Actualiza nombre de la clase
 async function actualizarClase(req, res, next) {
-  const { id } = req.params;
-  const { nombre } = req.body;
-  const tutorId = req.user.id;
-
   try {
-    const clase = await Clase.findByPk(id);
-    if (!clase) {
-      const err = new Error("Clase no encontrada.");
-      err.status = 404;
-      return next(err);
-    }
-    if (req.user.rol !== "tutor" || clase.tutorId !== tutorId) {
-      const err = new Error("No tienes permiso para modificar esta clase.");
-      err.status = 403;
-      return next(err);
-    }
-
-    if (nombre && nombre !== clase.nombre) {
-      const duplicada = await Clase.findOne({
-        where: {
-          tutorId,
-          nombre
-        }
+    const clase = req.clase;
+    if (req.body.nombre !== clase.nombre) {
+      const dup = await Clase.findOne({
+        where: { tutorId: req.user.id, nombre: req.body.nombre },
       });
-      if (duplicada) {
-        const err = new Error("Ya tienes otra clase con ese nombre.");
-        err.status = 409;
-        return next(err);
+      if (dup) {
+        return res.status(409).json({
+          success: false,
+          message: "Ya tienes otra clase con ese nombre.",
+        });
       }
-      clase.nombre = nombre;
+      clase.nombre = req.body.nombre;
+      await clase.save();
     }
-
-    await clase.save();
-
-    return res.json({
-      success: true,
-      clase: {
-        id: clase.id,
-        nombre: clase.nombre,
-        codigo: clase.codigo,
-        tutorId: clase.tutorId,
-      },
-    });
+    return res.json({ success: true, clase });
   } catch (err) {
     next(err);
   }
@@ -220,32 +132,15 @@ async function actualizarClase(req, res, next) {
  */
 // DELETE /api/v1/clases/:claseId/estudiantes/:userId
 async function eliminarEstudiante(req, res, next) {
-  const tutorId = req.user.id;
-  const { claseId, userId } = req.params;
-
   try {
-    const clase = await Clase.findByPk(claseId);
-    if (!clase) {
-      const err = new Error("Clase no encontrada.");
-      err.status = 404;
-      return next(err);
+    const alumno = await Usuario.findByPk(req.params.userId);
+    if (!alumno || alumno.claseId !== req.clase.id) {
+      return res.status(400).json({
+        success: false,
+        message: "El alumno no pertenece a esta clase.",
+      });
     }
-    if (clase.tutorId !== tutorId) {
-      const err = new Error("No tienes permiso para modificar esta clase.");
-      err.status = 403;
-      return next(err);
-    }
-
-    const alumno = await Usuario.findByPk(userId);
-    if (!alumno || alumno.claseId !== clase.id) {
-      const err = new Error("El alumno no pertenece a esta clase.");
-      err.status = 400;
-      return next(err);
-    }
-
-    // Desasignar el claseId del alumno
-    await Usuario.update({ claseId: null }, { where: { id: userId } });
-
+    await alumno.update({ claseId: null });
     return res.json({
       success: true,
       message: `El estudiante ${alumno.nombre} ha sido expulsado de la clase.`,
@@ -260,24 +155,8 @@ async function eliminarEstudiante(req, res, next) {
  */
 // DELETE /api/v1/clases/:id - Elimina una clase
 async function eliminarClase(req, res, next) {
-  const { id } = req.params;
-  const tutorId = req.user.id;
-
   try {
-    const clase = await Clase.findByPk(id);
-    if (!clase) {
-      const err = new Error("Clase no encontrada.");
-      err.status = 404;
-      return next(err);
-    }
-    if (req.user.rol !== "tutor" || clase.tutorId !== tutorId) {
-      const err = new Error("No tienes permiso para eliminar esta clase.");
-      err.status = 403;
-      return next(err);
-    }
-
-    await clase.destroy();
-
+    await req.clase.destroy();
     return res.json({
       success: true,
       message: "Clase eliminada correctamente.",

@@ -1,6 +1,6 @@
-// server/src/middleware/ensureStudent.js
+// server/src/middleware/ensureEstudiante.js
 
-module.exports = function ensureStudent(req, res, next) {
+module.exports = function ensureEstudiante(req, res, next) {
   if (req.user.rol !== 'estudiante') {
     return res.status(403).json({
       success: false,

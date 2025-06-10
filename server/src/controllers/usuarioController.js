@@ -3,7 +3,7 @@
 const bcrypt = require("bcryptjs");
 const { Op } = require("sequelize");
 const { Clase, Usuario } = require("../models");
-const randomCode = require("../utils/generateCode");
+const generateUniqueCode = require('../utils/generateUniqueCode');
 const { generateTokensForUser } = require("../utils/tokenService");
 
 // POST /api/v1/register - Registra un nuevo usuario (Estudiante o Tutor)
@@ -45,15 +45,11 @@ async function register(req, res, next) {
     // Crear clase inicial (tutor)
     let initialClass = null;
     if (rol === "tutor") {
-      let code; // Generar un código único (en bucle hasta no colisionar)
-      do {
-        code = randomCode(6);
-        initialClass = await Clase.findOne({ where: { codigo: code } });
-      } while (initialClass);
+      const codigo = await generateUniqueCode(6);
 
       initialClass = await Clase.create({
         nombre: "Mi primera clase",
-        codigo: code,
+        codigo,
         tutorId: nuevoUser.id,
       });
     }
@@ -95,7 +91,6 @@ async function login(req, res, next) {
     const user = await Usuario.findOne({
       where: { [Op.or]: [{ email: identifier }, { nombre: identifier }] },
     });
-
     if (!user) {
       const err = new Error("Usuario no encontrado.");
       err.status = 404;
@@ -123,18 +118,27 @@ async function login(req, res, next) {
 async function verPerfil(req, res, next) {
   try {
     const user = await Usuario.findByPk(req.user.id, {
-      attributes: ["id", "nombre", "email", "rol", "claseId"],
-      include: req.user.claseId
-        ? [
+      attributes: ["id", "nombre", "email", "rol"],
+      include: [
+        {
+          model: Clase,
+          as: "clase",
+          attributes: ["id", "nombre", "codigo"],
+          include: [
             {
-              model: Clase,
-              as: "clase",
-              attributes: ["id", "nombre", "codigo"],
+              model: Usuario,
+              as: "tutor",
+              attributes: ["id", "nombre", "email"],
             },
-          ]
-        : [],
+          ],
+        },
+      ],
     });
-
+    if (!user) {
+      const err = new Error("Usuario no encontrado.");
+      err.status = 404;
+      return next(err);
+    }
     return res.json({ success: true, user });
   } catch (err) {
     next(err);
@@ -162,10 +166,37 @@ async function editarPerfil(req, res, next) {
       updates.contraseña = await bcrypt.hash(contraseña, 10);
     }
 
-    if (nombre) updates.nombre = nombre;
-    if (email) updates.email = email;
+    // 2. Validar duplicados de nombre y email
+    if (nombre) {
+      const existente = await Usuario.findOne({
+        where: {
+          nombre,
+          id: { [Op.ne]: req.user.id }, // distinto al actual
+        },
+      });
+      if (existente) {
+        const err = new Error("El nombre ya está en uso por otro usuario.");
+        err.status = 409;
+        return next(err);
+      }
+      updates.nombre = nombre;
+    }
+    if (email) {
+      const existente = await Usuario.findOne({
+        where: {
+          email,
+          id: { [Op.ne]: req.user.id },
+        },
+      });
+      if (existente) {
+        const err = new Error("El email ya está registrado.");
+        err.status = 409;
+        return next(err);
+      }
+      updates.email = email;
+    }
 
-    // 2. Aplicar cambios y devolver el usuario actualizado
+    // 3. Aplicar cambios y devolver el usuario actualizado
     await Usuario.update(updates, { where: { id: req.user.id } });
     const usuarioActualizado = await Usuario.findByPk(req.user.id, {
       attributes: ["id", "nombre", "email", "rol", "claseId"],
@@ -286,7 +317,7 @@ async function eliminarCuenta(req, res, next) {
 
     // Borrado definitivo
     await Usuario.destroy({ where: { id: userId } });
-    
+
     return res.status(204).send();
   } catch (err) {
     next(err);

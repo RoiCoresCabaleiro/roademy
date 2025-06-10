@@ -68,7 +68,10 @@ async function buildContext(usuarioId) {
 
 
 /**
- * GET /progresos/:nivelId
+ * GET  /api/v1/progresos/:nivelId
+ * ────────────────────────────────
+ * Recupera o inicializa el progreso del usuario en ese nivel,
+ * junto con todas las respuestas parciales guardadas.
  */
 async function getProgresoNivel(req, res, next) {
   const usuarioId = req.user.id;
@@ -110,7 +113,9 @@ async function getProgresoNivel(req, res, next) {
 }
 
 /**
- * POST /progresos/:nivelId/answer
+ * POST /api/v1/progresos/:nivelId/answer
+ * ───────────────────────────────────────
+ * Valida e inserta/actualiza una única respuesta a una pregunta.
  */
 async function answerPregunta(req, res, next) {
   const usuarioId = req.user.id;
@@ -178,7 +183,10 @@ async function answerPregunta(req, res, next) {
 }
 
 /**
- * POST /progresos/:nivelId/complete
+ * POST /api/v1/progresos/:nivelId/complete
+ * ─────────────────────────────────────────
+ * Marca un intento como completado, calcula estrellas/nota,
+ * borra respuestas parciales y actualiza intentos.
  */
 async function completeNivel(req, res, next) {
   const usuarioId = req.user.id;
@@ -239,6 +247,8 @@ async function completeNivel(req, res, next) {
 
 /**
  * GET /api/v1/progresos/usuario/roadmap
+ * ──────────────────────────────────────────
+ * Devuelve el estado de **todos** los niveles y un resumen por tema.
  */
 async function getRoadmap(req, res, next) {
   const usuarioId = req.user.id;
