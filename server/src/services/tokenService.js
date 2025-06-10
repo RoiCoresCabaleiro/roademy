@@ -1,4 +1,4 @@
-// server/src/utils/tokenService.js
+// server/src/services/tokenService.js
 
 const jwt = require("jsonwebtoken");
 const crypto = require("crypto");

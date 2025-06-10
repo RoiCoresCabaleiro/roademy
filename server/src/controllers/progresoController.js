@@ -38,20 +38,20 @@ async function buildContext(usuarioId) {
       .reduce((sum, n) => sum + n.estrellas, 0);
     const completados = relacionados.filter(n => n.completado).length;
     return {
-      temaId:           t.id,
+      temaId: t.id,
+      totalNiveles: relacionados.length,
+      completados,
       estrellasObtenidas,
-      totalNiveles:     relacionados.length,
-      completados
     };
   });
 
   // Segunda pasada: desbloqueo
   const temasEstado = temasParcial.map((tp, idx) => {
-    const requisito = temas[idx].estrellasNecesarias;
+    const estrellasNecesarias = temas[idx].estrellasNecesarias;
     const desbloqueado = idx === 0
       ? true
-      : temasParcial[idx - 1].estrellasObtenidas >= requisito;
-    return { ...tp, desbloqueado };
+      : temasParcial[idx - 1].estrellasObtenidas >= estrellasNecesarias;
+    return { ...tp, estrellasNecesarias, desbloqueado };
   });
 
   // 3) Nivel actual y accesibles
@@ -212,18 +212,21 @@ async function completeNivel(req, res, next) {
 
     // 3) Calcular resultado
     let completado = false,
+      mejorado = false,
       estrellas = null,
       nota = null;
     if (req.nivel.tipo === "leccion") {
       estrellas = Math.min(3, aciertos);
       completado = aciertos >= 1;
-      if (estrellas > (prog.estrellas || 0)) prog.estrellas = estrellas;
+      mejorado = estrellas > (prog.estrellas || 0);
+      if (mejorado) prog.estrellas = estrellas;
     } else {
       nota = total > 0 ? Math.floor((aciertos / total) * 100) : 0;
       completado = nota >= req.nivel.puntuacionMinima;
-      if (nota > (prog.nota || 0)) prog.nota = nota;
+      mejorado = nota > (prog.nota || 0);
+      if (mejorado) prog.nota = nota;
     }
-    if (completado && !prog.completedAt) {
+    if (completado && mejorado) {
       prog.completedAt = new Date();
     }
     prog.completado = prog.completado || completado; // no se revierte
@@ -273,4 +276,5 @@ module.exports = {
   answerPregunta,
   completeNivel,
   getRoadmap,
+  buildContext
 };

@@ -2,9 +2,11 @@
 
 const bcrypt = require("bcryptjs");
 const { Op } = require("sequelize");
-const { Clase, Usuario } = require("../models");
+const { Clase, Usuario, Tema, Nivel, ProgresoUsuarioNivel } = require("../models");
+const { buildContext } = require('./progresoController');
+const { getActivityLog } = require('../services/activityLogService');
 const generateUniqueCode = require('../utils/generateUniqueCode');
-const { generateTokensForUser } = require("../utils/tokenService");
+const { generateTokensForUser } = require("../services/tokenService");
 
 // POST /api/v1/register - Registra un nuevo usuario (Estudiante o Tutor)
 async function register(req, res, next) {
@@ -110,6 +112,46 @@ async function login(req, res, next) {
     next(err);
   }
 }
+
+/**
+ * Devuelve la informacion para el dashboard del estudiante
+ */
+// GET  /api/v1/usuarios/dashboard
+async function dashboard(req, res, next) {
+  try {
+    const userId = req.user.id;
+    // 1) Contexto general
+    const { nivelesEstado, temasEstado, nivelActual } = await buildContext(userId);
+
+    // 2) Determinar tema actual
+    const nActual = nivelesEstado.find(n => n.nivelId === nivelActual);
+    const temaEntry = temasEstado.find(t => t.temaId === nActual.temaId);
+
+    // 3) Calcular progreso en tema actual
+    const { temaId, estrellasObtenidas, totalNiveles, estrellasNecesarias } = temaEntry;
+    const estrellasPosibles = totalNiveles * 3;
+    const porcentaje = Math.round((estrellasObtenidas / estrellasPosibles) * 100);
+
+    // 4) Últimos 3 niveles completados
+    const ultimosNiveles = await getActivityLog([userId], 5);
+
+    return res.json({
+      success: true,
+      progresoTema: {
+        temaId,
+        titulo: (await Tema.findByPk(temaId)).titulo,
+        estrellasObtenidas,
+        estrellasNecesarias,
+        estrellasPosibles, // Total estrellas posibles en el tema
+        porcentaje,
+      },
+      ultimosNiveles
+    });
+  } catch (err) {
+    next(err);
+  }
+}
+
 
 /**
  * Devuelve los datos del perfil (id, nombre, email, rol, claseId y, si tiene, la clase).
@@ -272,12 +314,6 @@ async function abandonarClase(req, res, next) {
   const userId = req.user.id;
 
   try {
-    if (req.user.rol !== "estudiante") {
-      const err = new Error("Solo los estudiantes pueden abandonar una clase.");
-      err.status = 403;
-      return next(err);
-    }
-
     const usuario = await Usuario.findByPk(userId);
     if (!usuario.claseId) {
       const err = new Error("No perteneces a ninguna clase.");
@@ -327,6 +363,7 @@ async function eliminarCuenta(req, res, next) {
 module.exports = {
   register,
   login,
+  dashboard,
   verPerfil,
   editarPerfil,
   unirseClase,

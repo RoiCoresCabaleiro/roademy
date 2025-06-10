@@ -8,7 +8,7 @@ const authenticateToken = require('../middleware/auth');
 const ensureEstudiante = require('../middleware/ensureEstudiante');
 const ensureNivelAccessible = require('../middleware/ensureNivelAccessible');
 
-const { validateNivelId, validateAnswer } = require('../middleware/validators/progresoValidators');
+const { validateNivelId, validateAnswer } = require('../middleware/validators');
 
 
 // Todas estas rutas requieren token y que el usuario sea estudiante

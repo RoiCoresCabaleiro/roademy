@@ -1,6 +1,8 @@
 // server/src/controllers/claseController.js
 
-const { Clase, Usuario } = require("../models");
+const { Clase, Usuario, Nivel } = require("../models");
+const { buildContext } = require('./progresoController');
+const { getActivityLog } = require('../services/activityLogService');
 const generateUniqueCode = require('../utils/generateUniqueCode');
 
 /**
@@ -83,6 +85,37 @@ async function verClase(req, res, next) {
       ],
     });
 
+    // Calcular porcentaje de progreso total de cada estudiante
+    const alumnos = await Promise.all(
+      clase.estudiantes.map(async u => {
+        const { nivelesEstado } = await buildContext(u.id);
+        const estrellasObtenidas = nivelesEstado
+          .reduce((sum, n) => sum + n.estrellas, 0);
+
+        const totalNiveles = await Nivel.count();
+        const estrellasPosibles = totalNiveles * 3;
+
+        const porcentajeProgreso = estrellasPosibles
+          ? Math.round((estrellasObtenidas / estrellasPosibles) * 100)
+          : 0;
+
+        return {
+          id: u.id,
+          nombre: u.nombre,
+          email: u.email,
+          estrellasObtenidas,
+          porcentajeProgreso
+        };
+      })
+    );
+
+    // Solo si el que llama es tutor, añadimos log de actividad
+    let actividad = [];
+    if (req.user.rol === 'tutor') {
+      const usuarioIds = clase.estudiantes.map(u => u.id);
+      actividad = await getActivityLog(usuarioIds, 50);
+    }
+
     return res.json({
       success: true,
       clase: {
@@ -91,8 +124,9 @@ async function verClase(req, res, next) {
         codigo: clase.codigo,
         numEstudiantes: clase.estudiantes.length,
         tutor: clase.tutor, // { id, nombre, email }
-        estudiantes: clase.estudiantes, // [ { id, nombre, email }, ... ]
+        estudiantes: alumnos, // [ { id, nombre, email, porcentajeProgreso }, ... ]
       },
+      actividad
     });
   } catch (err) {
     next(err);

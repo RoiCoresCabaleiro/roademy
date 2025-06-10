@@ -1,15 +1,14 @@
 // server/src/utils/generateUniqueCode.js
 
-const crypto = require('crypto');
-const { Clase } = require('../models');
-
+const crypto = require("crypto");
+const { Clase } = require("../models");
 
 /**
  * Genera un string aleatorio de mayúsculas y dígitos de longitud `length`.
  */
 function randomCode(length = 6) {
   const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
-  let code = '';
+  let code = "";
   for (let i = 0; i < length; i++) {
     const idx = crypto.randomInt(0, chars.length);
     code += chars[idx];
