@@ -16,7 +16,7 @@ router.use(authenticateToken, ensureEstudiante);
 
 router.get('/usuario/roadmap', progresoController.getRoadmap);
 
-router.get('/:nivelId', validateNivelId, ensureNivelAccessible, progresoController.getProgresoNivel);
+router.get('/:nivelId/init', validateNivelId, ensureNivelAccessible, progresoController.iniciarNivel);
 
 router.post('/:nivelId/answer', validateNivelId, validateAnswer, ensureNivelAccessible, progresoController.answerPregunta);
 

@@ -2,11 +2,11 @@
 const { Clase, Usuario } = require('../models');
 
 module.exports = async function ensureClaseAccessible(req, res, next) {
-  const userId  = req.user.id;
-  const userRol = req.user.rol;
-  const claseId = Number(req.params.id || req.params.claseId);
-
   try {
+    const userId  = req.user.id;
+    const userRol = req.user.rol;
+    const claseId = Number(req.params.id || req.params.claseId);
+
     const clase = await Clase.findByPk(claseId);
     if (!clase) {
       return res.status(404).json({ success: false, message: 'Clase no encontrada.' });

@@ -17,7 +17,7 @@ async function getActivityLog(usuarioIds, limit = 50) {
     alumnoId: c.usuarioId,
     nivelId: c.nivelId,
     tipo: c.nivel.tipo,
-    score: c.nivel.tipo === "leccion" ? c.estrellas : c.nota,
+    ...(c.nivel.tipo === "leccion" ? { estrellas: c.estrellas ?? 0 } : { nota: c.nota ?? 0 }),
     completedAt: c.completedAt,
   }));
 }

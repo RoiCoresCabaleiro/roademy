@@ -10,9 +10,9 @@ const { generateTokensForUser } = require("../services/tokenService");
 
 // POST /api/v1/register - Registra un nuevo usuario (Estudiante o Tutor)
 async function register(req, res, next) {
-  const { nombre, email, contraseña, rol, codigoClase } = req.body;
-
   try {
+    const { nombre, email, contraseña, rol, codigoClase } = req.body;
+
     if (
       await Usuario.findOne({
         where: { [Op.or]: [{ email }, { nombre }] },
@@ -87,9 +87,9 @@ async function register(req, res, next) {
 
 // POST /api/v1/login - Inicia sesión
 async function login(req, res, next) {
-  const { identifier, contraseña } = req.body;
-
   try {
+    const { identifier, contraseña } = req.body;
+    
     const user = await Usuario.findOne({
       where: { [Op.or]: [{ email: identifier }, { nombre: identifier }] },
     });
@@ -121,28 +121,47 @@ async function dashboard(req, res, next) {
   try {
     const userId = req.user.id;
     // 1) Contexto general
-    const { nivelesEstado, temasEstado, nivelActual } = await buildContext(userId);
+    const { nivelesEstado, temasEstado, nivelActual, estrellasPosiblesCurso } = await buildContext(userId);
 
     // 2) Determinar tema actual
-    const nActual = nivelesEstado.find(n => n.nivelId === nivelActual);
-    const temaEntry = temasEstado.find(t => t.temaId === nActual.temaId);
+    let temaEntry, nActual;
+    if (nivelActual) {
+      nActual   = nivelesEstado.find(n => n.nivelId === nivelActual);
+      temaEntry = temasEstado.find(t => t.temaId === nActual.temaId);
+    } else {
+      const desbloqueados = temasEstado.filter(t => t.desbloqueado);
+      temaEntry = desbloqueados[desbloqueados.length - 1];
+    }
 
     // 3) Calcular progreso en tema actual
-    const { temaId, estrellasObtenidas, totalNiveles, estrellasNecesarias } = temaEntry;
-    const estrellasPosibles = totalNiveles * 3;
+    const { temaId, estrellasObtenidas, estrellasNecesarias, estrellasPosibles, totalNiveles, completados } = temaEntry;
     const porcentaje = Math.round((estrellasObtenidas / estrellasPosibles) * 100);
 
     // 4) Últimos 3 niveles completados
     const ultimosNiveles = await getActivityLog([userId], 5);
 
+    // 5) Calcular progreso total del curso
+    const estrellasObtenidasCurso = nivelesEstado.reduce((sum, n) => sum + n.estrellas, 0);
+    const porcentajeProgresoTotal = estrellasPosiblesCurso
+      ? Math.round((estrellasObtenidasCurso / estrellasPosiblesCurso) * 100)
+      : 0;
+
     return res.json({
       success: true,
-      progresoTema: {
+      progresoTotalCurso: {
+        estrellasObtenidasCurso,
+        estrellasPosiblesCurso, // Total de estrellas del curso
+        porcentajeProgresoTotal
+      },
+      progresoTemaActual: {
         temaId,
         titulo: (await Tema.findByPk(temaId)).titulo,
+        nivelActual: nActual ? nActual.nivelId : null,
+        totalNiveles,
+        completados,
         estrellasObtenidas,
         estrellasNecesarias,
-        estrellasPosibles, // Total estrellas posibles en el tema
+        estrellasPosibles, // Total de estrellas del tema
         porcentaje,
       },
       ultimosNiveles
@@ -192,10 +211,10 @@ async function verPerfil(req, res, next) {
  */
 // PUT /api/v1/usuarios/me
 async function editarPerfil(req, res, next) {
+  try {
   const { nombre, email, contraseña, antiguaContraseña } = req.body;
   const updates = {};
 
-  try {
     // 1. Si quiere cambiar contraseña, validamos la antigua
     if (contraseña) {
       const usuario = await Usuario.findByPk(req.user.id);
@@ -260,10 +279,10 @@ async function editarPerfil(req, res, next) {
  */
 // POST /api/v1/usuarios/me/unirse-clase
 async function unirseClase(req, res, next) {
-  const { codigoClase } = req.body;
-  const userId = req.user.id;
-
   try {
+    const { codigoClase } = req.body;
+    const userId = req.user.id;
+
     if (req.user.rol !== "estudiante") {
       const err = new Error("Solo los estudiantes pueden unirse a una clase.");
       err.status = 403;
@@ -311,9 +330,9 @@ async function unirseClase(req, res, next) {
  */
 // DELETE /api/v1/usuarios/me/clase
 async function abandonarClase(req, res, next) {
-  const userId = req.user.id;
-
   try {
+    const userId = req.user.id;
+
     const usuario = await Usuario.findByPk(userId);
     if (!usuario.claseId) {
       const err = new Error("No perteneces a ninguna clase.");

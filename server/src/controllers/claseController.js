@@ -86,25 +86,20 @@ async function verClase(req, res, next) {
     });
 
     // Calcular porcentaje de progreso total de cada estudiante
-    const alumnos = await Promise.all(
+    const estudiantes = await Promise.all(
       clase.estudiantes.map(async u => {
-        const { nivelesEstado } = await buildContext(u.id);
-        const estrellasObtenidas = nivelesEstado
-          .reduce((sum, n) => sum + n.estrellas, 0);
-
-        const totalNiveles = await Nivel.count();
-        const estrellasPosibles = totalNiveles * 3;
-
-        const porcentajeProgreso = estrellasPosibles
-          ? Math.round((estrellasObtenidas / estrellasPosibles) * 100)
+        const { nivelesEstado, estrellasPosiblesCurso } = await buildContext(u.id);
+        const estrellasObtenidasCurso = nivelesEstado.reduce((sum, n) => sum + n.estrellas, 0);
+        const porcentajeProgresoTotal = estrellasPosiblesCurso
+          ? Math.round((estrellasObtenidasCurso / estrellasPosiblesCurso) * 100)
           : 0;
-
         return {
           id: u.id,
           nombre: u.nombre,
           email: u.email,
-          estrellasObtenidas,
-          porcentajeProgreso
+          estrellasObtenidasCurso,
+          estrellasPosiblesCurso,
+          porcentajeProgresoTotal
         };
       })
     );
@@ -124,8 +119,8 @@ async function verClase(req, res, next) {
         codigo: clase.codigo,
         numEstudiantes: clase.estudiantes.length,
         tutor: clase.tutor, // { id, nombre, email }
-        estudiantes: alumnos, // [ { id, nombre, email, porcentajeProgreso }, ... ]
       },
+      estudiantes, // [ { id, nombre, email, porcentajeProgreso }, ... ]
       actividad
     });
   } catch (err) {
