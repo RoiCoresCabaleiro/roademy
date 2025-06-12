@@ -8,6 +8,12 @@ const { RefreshToken } = require("../models");
  * Genera y envía al cliente accessToken + refreshToken.
  */
 async function generateTokensForUser(user, res) {
+  // 0) Revocar todos los refreshTokens previos del usuario
+  await RefreshToken.update(
+    { revoked: true },
+    { where: { usuarioId: user.id, revoked: false } }
+  );
+
   // 1) Access Token (15 minutos)
   const accessToken = jwt.sign(
     { id: user.id, email: user.email, rol: user.rol, claseId: user.claseId },
@@ -24,6 +30,7 @@ async function generateTokensForUser(user, res) {
     token: refreshToken,
     usuarioId: user.id,
     expiresAt,
+    revoked: false,
   });
 
   // 4) Mandar la cookie HTTP-only

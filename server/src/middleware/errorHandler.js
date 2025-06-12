@@ -1,12 +1,13 @@
 // server/src/middleware/errorHandler.js
 
 function errorHandler(err, req, res, next) {
-  console.error(err);  // O envíalo a tu herramienta de logs
+  console.error(err); // O envíalo a tu herramienta de logs
   const status = err.status || 500;
-  res.status(status).json({
+  const response = {
     success: false,
-    error: err.message || 'Internal Server Error'
-  });
+    message: err.message || "Internal Server Error",
+  };
+  res.status(status).json(response);
 }
 
 module.exports = errorHandler;

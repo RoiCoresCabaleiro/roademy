@@ -34,8 +34,7 @@ const Respuesta = sequelize.define(
   },
   {
     tableName: "progreso_respuesta",
-    timestamps: true,
-    indexes: [{ unique: true, fields: ["progresoId", "preguntaId"] }],
+    indexes: [{ unique: true, fields: ["progreso_id", "pregunta_id"] }],
   }
 );
 

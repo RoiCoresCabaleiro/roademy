@@ -2,6 +2,7 @@
 
 const { DataTypes } = require("sequelize");
 const sequelize = require("../config/sequelize");
+const bcrypt = require("bcryptjs");
 
 const Usuario = sequelize.define(
   "Usuario",
@@ -68,8 +69,18 @@ const Usuario = sequelize.define(
   },
   {
     tableName: "usuarios",
-    timestamps: true,
-    underscored: false, // camelCase
+    hooks: {
+      beforeCreate: async (usuario) => {
+        if (usuario.contraseña) {
+          usuario.contraseña = await bcrypt.hash(usuario.contraseña, 10);
+        }
+      },
+      beforeUpdate: async (usuario) => {
+        if (usuario.changed("contraseña")) {
+          usuario.contraseña = await bcrypt.hash(usuario.contraseña, 10);
+        }
+      },
+    },
   }
 );
 
@@ -85,9 +96,16 @@ Usuario.associate = (models) => {
     as: "clases",
     onDelete: "CASCADE", // Si el tutor se elimina, sus clases también
   });
-
-  // Navegar de usuario a sus refresh tokens:
-  // Usuario.hasMany(models.RefreshToken, { foreignKey: 'usuarioId', as: 'refreshTokens' })
+  Usuario.hasMany(models.ProgresoUsuarioNivel, {
+    foreignKey: "usuarioId",
+    as: "progresos",
+    onDelete: "CASCADE",
+  });
+  Usuario.hasMany(models.RefreshToken, {
+    foreignKey: "usuarioId",
+    as: "refreshTokens",
+    onDelete: "CASCADE",
+  });
 };
 
 module.exports = Usuario;

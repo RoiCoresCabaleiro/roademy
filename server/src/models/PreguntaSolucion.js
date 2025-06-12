@@ -22,15 +22,14 @@ const PreguntaSolucion = sequelize.define(
   },
   {
     tableName: "pregunta_soluciones",
-    timestamps: true,
   }
 );
 
-PreguntaSolucion.associate = models => {
+PreguntaSolucion.associate = (models) => {
   // Cada solución pertenece a un nivel
   PreguntaSolucion.belongsTo(models.Nivel, {
-    foreignKey: 'nivelId',
-    as: 'nivel'
+    foreignKey: "nivelId",
+    as: "nivel",
   });
 };
 

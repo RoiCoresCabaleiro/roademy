@@ -4,6 +4,7 @@ require("dotenv").config();
 const { sequelize } = require("./models");
 const { seedData } = require("./seed");
 const app = require("./app");
+require("./cron/cleanupRefreshTokens");
 
 const PORT = process.env.PORT || 3000;
 

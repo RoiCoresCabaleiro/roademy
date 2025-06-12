@@ -41,6 +41,10 @@ const Clase = sequelize.define(
           args: true,
           msg: "El código de la clase solo puede contener letras y números.",
         },
+        len: {
+          args: [6, 6],
+          msg: "El código de la clase debe tener exactamente 6 caracteres.",
+        },
       },
     },
 
@@ -65,21 +69,20 @@ const Clase = sequelize.define(
   },
   {
     tableName: "clases",
-    timestamps: true,
-    underscored: false, // camelCase
   }
 );
 
-Clase.associate = models => {
+Clase.associate = (models) => {
   // Una clase agrupa muchos estudiantes
   Clase.hasMany(models.Usuario, {
-    foreignKey: 'claseId',
-    as: 'estudiantes'
+    foreignKey: "claseId",
+    as: "estudiantes",
+    onDelete: "SET NULL",
   });
   // Una clase pertenece a un tutor
   Clase.belongsTo(models.Usuario, {
-    foreignKey: 'tutorId',
-    as: 'tutor'
+    foreignKey: "tutorId",
+    as: "tutor",
   });
 };
 

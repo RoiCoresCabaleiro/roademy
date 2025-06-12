@@ -44,8 +44,7 @@ const Progreso = sequelize.define(
   },
   {
     tableName: "progreso_usuario_nivel",
-    timestamps: true,
-    indexes: [{ unique: true, fields: ["usuarioId", "nivelId"] }],
+    indexes: [{ unique: true, fields: ["usuario_id", "nivel_id"] }],
   }
 );
 
@@ -61,6 +60,7 @@ Progreso.associate = (models) => {
   Progreso.hasMany(models.ProgresoRespuesta, {
     foreignKey: "progresoId",
     as: "respuestas",
+    onDelete: "CASCADE",
   });
 };
 

@@ -34,12 +34,11 @@ async function register(req, res, next) {
       }
     }
 
-    const hash = await bcrypt.hash(contraseña, 10);
 
     const nuevoUser = await Usuario.create({
       nombre,
       email,
-      contraseña: hash,
+      contraseña,
       rol,
       claseId: rol === "estudiante" && clase ? clase.id : null,
     });
@@ -224,7 +223,7 @@ async function editarPerfil(req, res, next) {
         err.status = 401;
         return next(err);
       }
-      updates.contraseña = await bcrypt.hash(contraseña, 10);
+      updates.contraseña = contraseña;
     }
 
     // 2. Validar duplicados de nombre y email
@@ -258,7 +257,7 @@ async function editarPerfil(req, res, next) {
     }
 
     // 3. Aplicar cambios y devolver el usuario actualizado
-    await Usuario.update(updates, { where: { id: req.user.id } });
+    await Usuario.update(updates, { where: { id: req.user.id }, individualHooks: true });
     const usuarioActualizado = await Usuario.findByPk(req.user.id, {
       attributes: ["id", "nombre", "email", "rol", "claseId"],
     });

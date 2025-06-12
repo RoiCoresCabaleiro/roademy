@@ -34,8 +34,7 @@ const Nivel = sequelize.define(
   },
   {
     tableName: "niveles",
-    timestamps: true,
-    indexes: [{ unique: "tema_orden_idx", fields: ["temaId", "orden"] }],
+    indexes: [{ unique: "tema_orden_idx", fields: ["tema_id", "orden"] }],
   }
 );
 
@@ -47,6 +46,12 @@ Nivel.associate = (models) => {
   Nivel.hasMany(models.ProgresoUsuarioNivel, {
     foreignKey: "nivelId",
     as: "progresos",
+    onDelete: "CASCADE",
+  });
+  Nivel.hasMany(models.PreguntaSolucion, {
+    foreignKey: "nivelId",
+    as: "soluciones",
+    onDelete: "CASCADE",
   });
 };
 

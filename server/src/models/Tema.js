@@ -31,7 +31,6 @@ const Tema = sequelize.define(
   },
   {
     tableName: "temas",
-    timestamps: true,
   }
 );
 

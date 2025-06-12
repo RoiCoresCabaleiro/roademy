@@ -18,15 +18,18 @@ const app = express();
 
 // Seguridad y parsing
 app.use(helmet());
-app.use(cors());
 app.use(cookieParser());
 app.use(express.json());
+// const corsOptions = {
+//   origin: [process.env.FRONTEND_URL]
+//   methods: ["GET","POST","PUT","DELETE"],
+//   credentials: true,
+// };
+app.use(cors());  // app.use(cors(corsOptions));
 
-// Limitador de peticiones
-const limiter = rateLimit({ windowMs: 15 * 60 * 1000, max: 100 });
-app.use(limiter);
 
 // Rutas de la API
+app.use("/api/v1/auth", rateLimit({ windowMs: 15 * 60 * 1000, max: 100 }));
 app.use("/api/v1/auth", authRoutes);
 app.use("/api/v1/usuarios", usuarioRoutes);
 app.use("/api/v1/clases", claseRoutes);
