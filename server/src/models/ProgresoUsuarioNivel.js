@@ -44,7 +44,10 @@ const Progreso = sequelize.define(
   },
   {
     tableName: "progreso_usuario_nivel",
-    indexes: [{ unique: true, fields: ["usuario_id", "nivel_id"] }],
+    indexes: [
+      { unique: true, fields: ["usuario_id", "nivel_id"] },
+      { fields: ["usuario_id", "completed_at"] },
+    ],
   }
 );
 

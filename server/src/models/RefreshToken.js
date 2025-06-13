@@ -23,6 +23,7 @@ const RefreshToken = sequelize.define(
   },
   {
     tableName: "refresh_tokens",
+    indexes: [{ fields: ["expires_at"] }]
   }
 );
 

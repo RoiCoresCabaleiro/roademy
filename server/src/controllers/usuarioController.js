@@ -2,11 +2,11 @@
 
 const bcrypt = require("bcryptjs");
 const { Op } = require("sequelize");
-const { Clase, Usuario, Tema, Nivel, ProgresoUsuarioNivel } = require("../models");
-const { buildContext } = require('./progresoController');
-const { getActivityLog } = require('../services/activityLogService');
+const { Clase, Usuario, Tema } = require("../models");
+const progresoService = require('../services/progresoService');
+const activityLogService = require("../services/activityLogService");
 const generateUniqueCode = require('../utils/generateUniqueCode');
-const { generateTokensForUser } = require("../services/tokenService");
+const tokenService = require("../services/tokenService");
 
 // POST /api/v1/register - Registra un nuevo usuario (Estudiante o Tutor)
 async function register(req, res, next) {
@@ -56,7 +56,7 @@ async function register(req, res, next) {
     }
 
     // Generar y enviar tokens (access + refresh en cookie)
-    const accessToken = await generateTokensForUser(nuevoUser, res);
+    const accessToken = await tokenService.generateTokensForUser(nuevoUser, res);
 
     // Construir la respuesta
     const response = {
@@ -105,7 +105,7 @@ async function login(req, res, next) {
       return next(err);
     }
 
-    const accessToken = await generateTokensForUser(user, res);
+    const accessToken = await tokenService.generateTokensForUser(user, res);
     return res.json({ accessToken });
   } catch (err) {
     next(err);
@@ -120,7 +120,7 @@ async function dashboard(req, res, next) {
   try {
     const userId = req.user.id;
     // 1) Contexto general
-    const { nivelesEstado, temasEstado, nivelActual, estrellasPosiblesCurso } = await buildContext(userId);
+    const { nivelesEstado, temasEstado, nivelActual, estrellasPosiblesCurso } = await progresoService.getContext(userId);
 
     // 2) Determinar tema actual
     let temaEntry, nActual;
@@ -133,11 +133,11 @@ async function dashboard(req, res, next) {
     }
 
     // 3) Calcular progreso en tema actual
-    const { temaId, estrellasObtenidas, estrellasNecesarias, estrellasPosibles, totalNiveles, completados } = temaEntry;
+    const { temaId, titulo, estrellasObtenidas, estrellasNecesarias, estrellasPosibles, totalNiveles, completados } = temaEntry;
     const porcentaje = Math.round((estrellasObtenidas / estrellasPosibles) * 100);
 
     // 4) Últimos 3 niveles completados
-    const ultimosNiveles = await getActivityLog([userId], 5);
+    const ultimosNiveles = await activityLogService.getActivityLog([userId], 5);
 
     // 5) Calcular progreso total del curso
     const estrellasObtenidasCurso = nivelesEstado.reduce((sum, n) => sum + n.estrellas, 0);
@@ -154,7 +154,7 @@ async function dashboard(req, res, next) {
       },
       progresoTemaActual: {
         temaId,
-        titulo: (await Tema.findByPk(temaId)).titulo,
+        titulo,
         nivelActual: nActual ? nActual.nivelId : null,
         totalNiveles,
         completados,

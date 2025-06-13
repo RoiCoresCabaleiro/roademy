@@ -10,7 +10,7 @@ const PORT = process.env.PORT || 3000;
 
 async function start() {
   try {
-    await sequelize.sync({ force: true });
+    await sequelize.sync({ force: true });  // en producion usar sync() a secas o migraciones
 
     // Sembrar datos iniciales
     await seedData();

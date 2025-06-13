@@ -1,7 +1,7 @@
 // server/src/middleware/ensureNivelAccessible.js
 
 const { Nivel } = require('../models');
-const { buildContext } = require('../controllers/progresoController');
+const progresoService = require('../services/progresoService');
 
 module.exports = async function ensureNivelAccessible(req, res, next) {
   try {
@@ -15,7 +15,7 @@ module.exports = async function ensureNivelAccessible(req, res, next) {
     }
 
     // 2) Nivel desbloqueado?
-    const { accesibles } = await buildContext(usuarioId);
+    const { accesibles } = await progresoService.getContext(usuarioId);
     if (!accesibles.has(nivelId)) {
       return res.status(403).json({ success:false, message:'Nivel bloqueado' });
     }
