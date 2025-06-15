@@ -21,7 +21,8 @@ const validateRegister = [
 
   body("contraseña")
     .notEmpty().withMessage("Por favor, introduzca una contraseña.")
-    .isLength({ min: 6 }).withMessage("La contraseña debe tener al menos 6 caracteres."),
+    .isLength({ min: 6 }).withMessage("La contraseña debe tener al menos 6 caracteres.")
+    .matches(/^\S+$/).withMessage("La contraseña no puede contener espacios."),
 
   body("rol")
     .notEmpty().withMessage("Por favor, seleccione un rol.")
@@ -29,6 +30,7 @@ const validateRegister = [
 
   body('codigoClase')
     .optional()
+    .trim()
     .isAlphanumeric().withMessage('El código de clase solo puede tener letras y números.')
     .isLength({ min: 6, max: 6 }).withMessage("El código de clase debe tener exactamente 6 caracteres."),
 
@@ -92,7 +94,8 @@ const validateEditarPerfil = [
   // Si el usuario envía nueva contraseña, debe incluir la antigua
   body('contraseña')
     .optional()
-    .isLength({ min: 6 }).withMessage('La contraseña debe tener al menos 6 caracteres.'),
+    .isLength({ min: 6 }).withMessage('La contraseña debe tener al menos 6 caracteres.')
+    .matches(/^\S+$/).withMessage("La contraseña no puede contener espacios."),
 
   body('antiguaContraseña')
     .if(body('contraseña').exists())
@@ -114,6 +117,7 @@ const validateEditarPerfil = [
 
 const validateUnirseClase = [
   body('codigoClase')
+    .trim()
     .notEmpty().withMessage('Por favor, introduzca un código de clase.')
     .isAlphanumeric().withMessage('El código de clase solo puede tener letras y números.')
     .isLength({ min: 6, max: 6 }).withMessage("El código de clase debe tener exactamente 6 caracteres."),
