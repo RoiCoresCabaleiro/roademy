@@ -156,7 +156,7 @@ async function getContext(usuarioId) {
 /**
  * Devuelve unicamente los niveles accesibles para un usuario.
  */
-async function getAccessibleLevels(usuarioId) {
+async function getAccessibleNiveles(usuarioId) {
   const nivelesEstado = await getNivelesEstado(usuarioId);
   const temasEstado   = await computeTemasEstado(nivelesEstado);
   const { accesibles } = computeNivelActualYAccesibles(nivelesEstado, temasEstado);
@@ -169,5 +169,5 @@ module.exports = {
   computeNivelActualYAccesibles,
   getTotalCourseStars,
   getContext,
-  getAccessibleLevels,
+  getAccessibleNiveles,
 };
