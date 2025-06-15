@@ -95,11 +95,11 @@ async function verClase(req, res, next) {
     // Calcular porcentaje de progreso total de cada estudiante
     const estudiantes = await Promise.all(
       clase.estudiantes.map(async u => {
-        const { nivelesEstado, estrellasPosiblesCurso } = await progresoService.getContext(u.id);
-        const estrellasObtenidasCurso = nivelesEstado.reduce((sum, n) => sum + n.estrellas, 0);
-        const porcentajeProgresoTotal = estrellasPosiblesCurso
-          ? Math.round((estrellasObtenidasCurso / estrellasPosiblesCurso) * 100)
-          : 0;
+        const nivelesEstado = await progresoService.getNivelesEstado(u.id);
+        const { estrellasPosiblesCurso } = await progresoService.getTotalCourseStars();
+
+        const estrellasObtenidasCurso = nivelesEstado.reduce((sum, n) => sum + (n.estrellas || 0), 0);
+        const porcentajeProgresoTotal = estrellasPosiblesCurso ? Math.round((estrellasObtenidasCurso / estrellasPosiblesCurso) * 100) : 0;
         return {
           id: u.id,
           nombre: u.nombre,

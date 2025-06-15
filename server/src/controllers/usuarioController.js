@@ -125,18 +125,22 @@ async function dashboard(req, res, next) {
     // 2) Determinar tema actual
     let temaEntry, nActual;
     if (nivelActual) {
-      nActual   = nivelesEstado.find(n => n.nivelId === nivelActual);
-      temaEntry = temasEstado.find(t => t.temaId === nActual.temaId);
+      nActual = nivelesEstado.find((n) => n.nivelId === nivelActual);
+      temaEntry = temasEstado.find((t) => t.temaId === nActual.temaId);
     } else {
-      const desbloqueados = temasEstado.filter(t => t.desbloqueado);
+      const desbloqueados = temasEstado.filter((t) => t.desbloqueado);
       temaEntry = desbloqueados[desbloqueados.length - 1];
     }
 
     // 3) Calcular progreso en tema actual
     const { temaId, titulo, estrellasObtenidas, estrellasNecesarias, estrellasPosibles, totalNiveles, completados } = temaEntry;
-    const porcentaje = Math.round((estrellasObtenidas / estrellasPosibles) * 100);
+    const porcentaje = estrellasPosibles ? Math.round((estrellasObtenidas / estrellasPosibles) * 100) : 0;
 
-    // 4) Actividad reciente
+    // 4) Calcular progreso total del curso
+    const estrellasObtenidasCurso = nivelesEstado.reduce((sum, n) => sum + n.estrellas,0);
+    const porcentajeProgresoTotal = estrellasPosiblesCurso ? Math.round((estrellasObtenidasCurso / estrellasPosiblesCurso) * 100) : 0;
+
+    // 5) Actividad reciente
     const actividadReciente = await activityLogService.getActivityLog({
       usuarioIds: [userId],
       types: ["nivel", "tema"],
@@ -144,18 +148,12 @@ async function dashboard(req, res, next) {
       limit: 5,
     });
 
-    // 5) Calcular progreso total del curso
-    const estrellasObtenidasCurso = nivelesEstado.reduce((sum, n) => sum + n.estrellas, 0);
-    const porcentajeProgresoTotal = estrellasPosiblesCurso
-      ? Math.round((estrellasObtenidasCurso / estrellasPosiblesCurso) * 100)
-      : 0;
-
     return res.json({
       success: true,
       progresoTotalCurso: {
         estrellasObtenidasCurso,
         estrellasPosiblesCurso, // Total de estrellas del curso
-        porcentajeProgresoTotal
+        porcentajeProgresoTotal,
       },
       progresoTemaActual: {
         temaId,

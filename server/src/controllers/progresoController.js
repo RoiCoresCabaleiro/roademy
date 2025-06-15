@@ -7,7 +7,6 @@ const { fn, col, literal } = require("sequelize");
 
 /**
  * GET /api/v1/progresos/:nivelId/init
- * ────────────────────────────────
  * Recupera o inicializa el progreso del usuario en ese nivel,
  * junto con todas las respuestas parciales guardadas.
  */
@@ -47,7 +46,6 @@ async function iniciarNivel(req, res, next) {
 
 /**
  * POST /api/v1/progresos/:nivelId/answer
- * ───────────────────────────────────────
  * Valida e inserta/actualiza una única respuesta a una pregunta.
  */
 async function answerPregunta(req, res, next) {
@@ -121,7 +119,6 @@ async function answerPregunta(req, res, next) {
 
 /**
  * POST /api/v1/progresos/:nivelId/complete
- * ─────────────────────────────────────────
  * Marca un intento como completado, calcula estrellas/nota,
  * borra respuestas parciales y actualiza intentos.
  */
@@ -195,14 +192,15 @@ async function completeNivel(req, res, next) {
     );
     
     // 6) Detectar y registrar tema completado
-    const { temasEstado } = await progresoService.getContext(usuarioId);
-    const estado = temasEstado.find((t) => t.temaId === req.nivel.temaId);
+    const nivelesEstado = await progresoService.getNivelesEstado(usuarioId);
+    const temasEstado   = await progresoService.computeTemasEstado(nivelesEstado);
+    const estadoTema = temasEstado.find((t) => t.temaId === req.nivel.temaId);
     if (
       ActivityLogTemaComplete.findOne({
         where: { usuarioId, temaId: req.nivel.temaId },
       }) &&
-      estado.completados === estado.totalNiveles &&
-      estado.estrellasObtenidas >= estado.estrellasNecesarias
+      estadoTema.completados === estadoTema.totalNiveles &&
+      estadoTema.estrellasObtenidas >= estadoTema.estrellasNecesarias
     ) {
       await activityLogService.logTemaCompletion(usuarioId, req.nivel.temaId);
     }
@@ -233,7 +231,6 @@ async function completeNivel(req, res, next) {
 
 /**
  * GET /api/v1/progresos/usuario/roadmap
- * ──────────────────────────────────────────
  * Devuelve el estado de **todos** los niveles y un resumen por tema.
  */
 async function getRoadmap(req, res, next) {
@@ -241,8 +238,9 @@ async function getRoadmap(req, res, next) {
     const usuarioId = req.user.id;
 
     // Obtenemos el contexto
-    const { nivelesEstado, temasEstado, nivelActual, partialLevels } =
-      await progresoService.getContext(usuarioId);
+    const nivelesEstado = await progresoService.getNivelesEstado(usuarioId);
+    const temasEstado   = await progresoService.computeTemasEstado(nivelesEstado);
+    const { nivelActual } = progresoService.computeNivelActualYAccesibles(nivelesEstado, temasEstado);
 
     // Preparamos la lista de niveles para el front
     const niveles = nivelesEstado.map((n) => ({
@@ -252,7 +250,7 @@ async function getRoadmap(req, res, next) {
       completado: n.completado,
       ...(n.tipo === "leccion" ? { estrellas: n.estrellas } : { nota: n.nota }),
       intentos: n.intentos,
-      enCurso: partialLevels.has(n.nivelId),
+      enCurso: n.enCurso,
     }));
 
     return res.json({

@@ -15,7 +15,7 @@ module.exports = async function ensureNivelAccessible(req, res, next) {
     }
 
     // 2) Nivel desbloqueado?
-    const { accesibles } = await progresoService.getContext(usuarioId);
+    const accesibles = await progresoService.getAccessibleLevels(usuarioId);
     if (!accesibles.has(nivelId)) {
       return res.status(403).json({ success:false, message:'Nivel bloqueado' });
     }
