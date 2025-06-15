@@ -53,6 +53,11 @@ Nivel.associate = (models) => {
     as: "soluciones",
     onDelete: "CASCADE",
   });
+  Nivel.hasMany(models.ActivityLogNivel, {
+    foreignKey: "nivelId",
+    as: "nivelLogs",
+    onDelete: "CASCADE",
+  });
 };
 
 module.exports = Nivel;

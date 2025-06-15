@@ -8,7 +8,6 @@ const generateUniqueCode = require('../utils/generateUniqueCode');
 /**
  * Crea una nueva clase para el tutor autenticado.
  * - Genera automáticamente un código alfanumérico único (6 caracteres).
- * - Solo usuarios con rol 'tutor' pueden crear clases.
  */
 // POST /api/v1/clases - Crea una nueva clase (solo para tutores)
 async function crearClase(req, res, next) {
@@ -32,8 +31,15 @@ async function crearClase(req, res, next) {
       codigo,
       tutorId: req.user.id,
     });
-
-    return res.status(201).json({ success: true, clase: nueva });
+    return res.status(201).json({
+      success: true,
+      clase: {
+        id: nueva.id,
+        nombre: nueva.nombre,
+        codigo: nueva.codigo,
+        tutorId: nueva.tutorId,
+      },
+    });
   } catch (err) {
     next(err);
   }
@@ -60,6 +66,7 @@ async function listarClases(req, res, next) {
     const resultado = clases.map((c) => ({
       id: c.id,
       nombre: c.nombre,
+      codigo: c.codigo,
       numEstudiantes: c.estudiantes.length, // Número de estudiantes de cada clase
     }));
     return res.json({ success: true, clases: resultado });
@@ -69,7 +76,7 @@ async function listarClases(req, res, next) {
 }
 
 /**
- * Devuelve los detalles de una clase específica.
+ * Devuelve los detalles de una clase específica (tutor o estudiante).
  */
 // GET /api/v1/clases/:id
 async function verClase(req, res, next) {
@@ -105,10 +112,15 @@ async function verClase(req, res, next) {
     );
 
     // Solo si el que llama es tutor, añadimos log de actividad
-    let actividad = [];
-    if (req.user.rol === 'tutor') {
-      const usuarioIds = clase.estudiantes.map(u => u.id);
-      actividad = await activityLogService.getActivityLog(usuarioIds, 50);
+    let actividadReciente = [];
+    if (req.user.rol === "tutor") {
+      const usuarioIds = clase.estudiantes.map((u) => u.id);
+      actividadReciente = await activityLogService.getActivityLog({
+        usuarioIds,
+        types: ['nivel','tema'],
+        invertOrder: false,
+        limit: 50
+      });
     }
 
     return res.json({
@@ -121,7 +133,7 @@ async function verClase(req, res, next) {
         tutor: clase.tutor, // { id, nombre, email }
       },
       estudiantes, // [ { id, nombre, email, porcentajeProgreso }, ... ]
-      actividad,
+      actividadReciente,
     });
   } catch (err) {
     next(err);
@@ -149,7 +161,15 @@ async function actualizarClase(req, res, next) {
       clase.nombre = req.body.nombre;
       await clase.save();
     }
-    return res.json({ success: true, clase });
+    return res.json({
+      success: true,
+      clase: {
+        id: clase.id,
+        nombre: clase.nombre,
+        codigo: clase.codigo,
+        tutorId: clase.tutorId,
+      },
+    });
   } catch (err) {
     next(err);
   }

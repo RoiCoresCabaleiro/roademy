@@ -2,7 +2,7 @@
 
 const bcrypt = require("bcryptjs");
 const { Op } = require("sequelize");
-const { Clase, Usuario, Tema } = require("../models");
+const { Clase, Usuario } = require("../models");
 const progresoService = require('../services/progresoService');
 const activityLogService = require("../services/activityLogService");
 const generateUniqueCode = require('../utils/generateUniqueCode');
@@ -136,8 +136,13 @@ async function dashboard(req, res, next) {
     const { temaId, titulo, estrellasObtenidas, estrellasNecesarias, estrellasPosibles, totalNiveles, completados } = temaEntry;
     const porcentaje = Math.round((estrellasObtenidas / estrellasPosibles) * 100);
 
-    // 4) Últimos 3 niveles completados
-    const ultimosNiveles = await activityLogService.getActivityLog([userId], 5);
+    // 4) Actividad reciente
+    const actividadReciente = await activityLogService.getActivityLog({
+      usuarioIds: [userId],
+      types: ["nivel", "tema"],
+      invertOrder: false,
+      limit: 5,
+    });
 
     // 5) Calcular progreso total del curso
     const estrellasObtenidasCurso = nivelesEstado.reduce((sum, n) => sum + n.estrellas, 0);
@@ -163,7 +168,7 @@ async function dashboard(req, res, next) {
         estrellasPosibles, // Total de estrellas del tema
         porcentaje,
       },
-      ultimosNiveles
+      actividadReciente,
     });
   } catch (err) {
     next(err);

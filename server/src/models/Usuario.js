@@ -106,6 +106,16 @@ Usuario.associate = (models) => {
     as: "refreshTokens",
     onDelete: "CASCADE",
   });
+  Usuario.hasMany(models.ActivityLogNivel, {
+    foreignKey: "usuarioId",
+    as: "nivelLogs",
+    onDelete: "CASCADE",
+  });
+  Usuario.hasMany(models.ActivityLogTemaComplete, {
+    foreignKey: "usuarioId",
+    as: "temaLogs",
+    onDelete: "CASCADE",
+  });
 };
 
 module.exports = Usuario;

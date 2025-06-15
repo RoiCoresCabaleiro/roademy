@@ -1,7 +1,8 @@
 // server/src/controllers/progresoController.js
 
-const { PreguntaSolucion, ProgresoUsuarioNivel, ProgresoRespuesta } = require("../models");
+const { PreguntaSolucion, ProgresoUsuarioNivel, ProgresoRespuesta, ActivityLogTemaComplete } = require("../models");
 const progresoService = require("../services/progresoService");
+const activityLogService = require("../services/activityLogService");
 const { fn, col, literal } = require("sequelize");
 
 /**
@@ -168,8 +169,7 @@ async function completeNivel(req, res, next) {
       const totalPreguntas = await PreguntaSolucion.count({
         where: { nivelId },
       });
-      attemptNota =
-        totalPreguntas > 0 ? Math.round((aciertos / totalPreguntas) * 100) : 0;
+      attemptNota = totalPreguntas > 0 ? Math.round((aciertos / totalPreguntas) * 100) : 0;
       attemptCompletado = attemptNota >= req.nivel.puntuacionMinima;
       mejorado = attemptNota > (prog.nota || 0);
       if (mejorado) prog.nota = attemptNota;
@@ -184,7 +184,30 @@ async function completeNivel(req, res, next) {
     await prog.save();
     await ProgresoRespuesta.destroy({ where: { progresoId: prog.id } });
 
-    // 6) Construir la respuesta
+    // 5) Registrar intento de nivel
+    const puntuacionAttempt = req.nivel.tipo === "leccion" ? attemptEstrellas : attemptNota;
+    await activityLogService.logNivelAttempt(
+      usuarioId,
+      nivelId,
+      attemptCompletado,
+      puntuacionAttempt,
+      prog.intentos
+    );
+    
+    // 6) Detectar y registrar tema completado
+    const { temasEstado } = await progresoService.getContext(usuarioId);
+    const estado = temasEstado.find((t) => t.temaId === req.nivel.temaId);
+    if (
+      ActivityLogTemaComplete.findOne({
+        where: { usuarioId, temaId: req.nivel.temaId },
+      }) &&
+      estado.completados === estado.totalNiveles &&
+      estado.estrellasObtenidas >= estado.estrellasNecesarias
+    ) {
+      await activityLogService.logTemaCompletion(usuarioId, req.nivel.temaId);
+    }
+
+    // 7) Construir la respuesta
     const payload = {
       success: true,
       nivelId,
@@ -199,7 +222,7 @@ async function completeNivel(req, res, next) {
       payload.attemptNota = attemptNota;
       payload.bestNota = prog.nota ?? 0;
     }
-    if (mejorado) {
+    if (mejorado && prog.intentos > 1) {
       payload.mejorado = true;
     }
     return res.json(payload);

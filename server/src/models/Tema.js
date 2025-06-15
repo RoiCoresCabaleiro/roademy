@@ -40,6 +40,11 @@ Tema.associate = (models) => {
     as: "niveles",
     onDelete: "RESTRICT",
   });
+  Tema.hasMany(models.ActivityLogTemaComplete, {
+    foreignKey: "temaId",
+    as: "temaLogs",
+    onDelete: "CASCADE",
+  });
 };
 
 module.exports = Tema;

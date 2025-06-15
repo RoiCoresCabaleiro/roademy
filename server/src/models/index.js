@@ -9,6 +9,8 @@ const Nivel = require("./Nivel");
 const PreguntaSolucion = require("./PreguntaSolucion");
 const ProgresoUsuarioNivel = require("./ProgresoUsuarioNivel");
 const ProgresoRespuesta = require("./ProgresoRespuesta");
+const ActivityLogNivel = require("./ActivityLogNivel");
+const ActivityLogTemaComplete = require("./ActivityLogTemaComplete");
 
 const db = {
   sequelize,
@@ -20,6 +22,8 @@ const db = {
   PreguntaSolucion,
   ProgresoUsuarioNivel,
   ProgresoRespuesta,
+  ActivityLogNivel,
+  ActivityLogTemaComplete,
 };
 
 RefreshToken.associate(db);
@@ -30,5 +34,7 @@ Nivel.associate(db);
 PreguntaSolucion.associate(db);
 ProgresoUsuarioNivel.associate(db);
 ProgresoRespuesta.associate(db);
+ActivityLogNivel.associate(db);
+ActivityLogTemaComplete.associate(db);
 
 module.exports = db;
