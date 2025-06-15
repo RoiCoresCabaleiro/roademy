@@ -4,7 +4,7 @@ const express = require('express');
 const router = express.Router();
 
 const usuarioController = require('../controllers/usuarioController');
-const authenticateToken = require('../middleware/auth');
+const authenticateToken = require('../middleware/authToken');
 const ensureEstudiante   = require('../middleware/ensureEstudiante');
 
 const { validateRegister, validateLogin, validateEditarPerfil, validateUnirseClase } = require('../middleware/validators');

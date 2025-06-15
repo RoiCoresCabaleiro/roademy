@@ -4,7 +4,7 @@ const express = require('express');
 const router = express.Router();
 
 const claseController = require('../controllers/claseController');
-const authenticateToken = require('../middleware/auth');
+const authenticateToken = require('../middleware/authToken');
 const ensureTutor = require('../middleware/ensureTutor');
 const ensureClaseAccessible = require('../middleware/ensureClaseAccessible');
 

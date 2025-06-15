@@ -4,7 +4,7 @@ const express = require('express');
 const router = express.Router();
 
 const progresoController = require('../controllers/progresoController');
-const authenticateToken = require('../middleware/auth');
+const authenticateToken = require('../middleware/authToken');
 const ensureEstudiante = require('../middleware/ensureEstudiante');
 const ensureNivelAccessible = require('../middleware/ensureNivelAccessible');
 
