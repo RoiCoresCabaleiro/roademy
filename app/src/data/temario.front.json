@@ -1,0 +1,310 @@
+{
+  "temas": [
+    {
+      "temaId": 1,
+      "titulo": "1. Señales de tráfico",
+      "orden": 1,
+      "niveles": [
+        {
+          "nivelId": 101,
+          "orden": 1,
+          "tipo": "leccion",
+          "teoria": [
+            {
+              "subId": 1,
+              "texto": "Teoría de ejemplo nivel 1.1 - contexto de Pregunta 1001"
+            },
+            {
+              "subId": 2,
+              "texto": "Teoría de ejemplo nivel 1.1 - contexto de Pregunta 1002"
+            },
+            {
+              "subId": 3,
+              "texto": "Teoría de ejemplo nivel 1.1 - contexto de Pregunta 1003"
+            }
+          ],
+          "preguntas": [
+            {
+              "preguntaId": 1001,
+              "texto": "¿Pregunta 1001?",
+              "opciones": ["A", "B", "C"]
+            },
+            {
+              "preguntaId": 1002,
+              "texto": "¿Pregunta 1002?",
+              "opciones": ["A", "B", "C"]
+            },
+            {
+              "preguntaId": 1003,
+              "texto": "¿Pregunta 1003?",
+              "opciones": ["A", "B", "C"]
+            }
+          ]
+        },
+        {
+          "nivelId": 102,
+          "orden": 2,
+          "tipo": "leccion",
+          "teoria": [
+            {
+              "subId": 1,
+              "texto": "Teoría de ejemplo nivel 1.2 - contexto de Pregunta 1004"
+            },
+            {
+              "subId": 2,
+              "texto": "Teoría de ejemplo nivel 1.2 - contexto de Pregunta 1005"
+            },
+            {
+              "subId": 3,
+              "texto": "Teoría de ejemplo nivel 1.2 - contexto de Pregunta 1006"
+            }
+          ],
+          "preguntas": [
+            {
+              "preguntaId": 1004,
+              "texto": "¿Pregunta 1004?",
+              "opciones": ["A", "B", "C"]
+            },
+            {
+              "preguntaId": 1005,
+              "texto": "¿Pregunta 1005?",
+              "opciones": ["A", "B", "C"]
+            },
+            {
+              "preguntaId": 1006,
+              "texto": "¿Pregunta 1006?",
+              "opciones": ["A", "B", "C"]
+            }
+          ]
+        },
+        {
+          "nivelId": 103,
+          "orden": 3,
+          "tipo": "quiz",
+          "teoria": [],
+          "preguntas": [
+            {
+              "preguntaId": 1007,
+              "texto": "¿Pregunta 1007?",
+              "opciones": ["A", "B", "C"]
+            },
+            {
+              "preguntaId": 1008,
+              "texto": "¿Pregunta 1008?",
+              "opciones": ["A", "B", "C"]
+            },
+            {
+              "preguntaId": 1009,
+              "texto": "¿Pregunta 1009?",
+              "opciones": ["A", "B", "C"]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "temaId": 2,
+      "titulo": "2. Normas de prioridad",
+      "orden": 2,
+      "niveles": [
+        {
+          "nivelId": 201,
+          "orden": 1,
+          "tipo": "leccion",
+          "teoria": [
+            {
+              "subId": 1,
+              "texto": "Teoría de ejemplo nivel 2.1 - contexto de Pregunta 2001"
+            },
+            {
+              "subId": 2,
+              "texto": "Teoría de ejemplo nivel 2.1 - contexto de Pregunta 2002"
+            },
+            {
+              "subId": 3,
+              "texto": "Teoría de ejemplo nivel 2.1 - contexto de Pregunta 2003"
+            }
+          ],
+          "preguntas": [
+            {
+              "preguntaId": 2001,
+              "texto": "¿Pregunta 2001?",
+              "opciones": ["A", "B", "C"]
+            },
+            {
+              "preguntaId": 2002,
+              "texto": "¿Pregunta 2002?",
+              "opciones": ["A", "B", "C"]
+            },
+            {
+              "preguntaId": 2003,
+              "texto": "¿Pregunta 2003?",
+              "opciones": ["A", "B", "C"]
+            }
+          ]
+        },
+        {
+          "nivelId": 202,
+          "orden": 2,
+          "tipo": "leccion",
+          "teoria": [
+            {
+              "subId": 1,
+              "texto": "Teoría de ejemplo nivel 2.2 - contexto de Pregunta 2004"
+            },
+            {
+              "subId": 2,
+              "texto": "Teoría de ejemplo nivel 2.2 - contexto de Pregunta 2005"
+            },
+            {
+              "subId": 3,
+              "texto": "Teoría de ejemplo nivel 2.2 - contexto de Pregunta 2006"
+            }
+          ],
+          "preguntas": [
+            {
+              "preguntaId": 2004,
+              "texto": "¿Pregunta 2004?",
+              "opciones": ["A", "B", "C"]
+            },
+            {
+              "preguntaId": 2005,
+              "texto": "¿Pregunta 2005?",
+              "opciones": ["A", "B", "C"]
+            },
+            {
+              "preguntaId": 2006,
+              "texto": "¿Pregunta 2006?",
+              "opciones": ["A", "B", "C"]
+            }
+          ]
+        },
+        {
+          "nivelId": 203,
+          "orden": 3,
+          "tipo": "quiz",
+          "teoria": [],
+          "preguntas": [
+            {
+              "preguntaId": 2007,
+              "texto": "¿Pregunta 2007?",
+              "opciones": ["A", "B", "C"]
+            },
+            {
+              "preguntaId": 2008,
+              "texto": "¿Pregunta 2008?",
+              "opciones": ["A", "B", "C"]
+            },
+            {
+              "preguntaId": 2009,
+              "texto": "¿Pregunta 2009?",
+              "opciones": ["A", "B", "C"]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "temaId": 3,
+      "titulo": "3. Tema de ejemplo",
+      "orden": 3,
+      "niveles": [
+        {
+          "nivelId": 301,
+          "orden": 1,
+          "tipo": "leccion",
+          "teoria": [
+            {
+              "subId": 1,
+              "texto": "Teoría de ejemplo nivel 3.1 - contexto de Pregunta 3001"
+            },
+            {
+              "subId": 2,
+              "texto": "Teoría de ejemplo nivel 3.1 - contexto de Pregunta 3002"
+            },
+            {
+              "subId": 3,
+              "texto": "Teoría de ejemplo nivel 3.1 - contexto de Pregunta 3003"
+            }
+          ],
+          "preguntas": [
+            {
+              "preguntaId": 3001,
+              "texto": "¿Pregunta 3001?",
+              "opciones": ["A", "B", "C"]
+            },
+            {
+              "preguntaId": 3002,
+              "texto": "¿Pregunta 3002?",
+              "opciones": ["A", "B", "C"]
+            },
+            {
+              "preguntaId": 3003,
+              "texto": "¿Pregunta 3003?",
+              "opciones": ["A", "B", "C"]
+            }
+          ]
+        },
+        {
+          "nivelId": 302,
+          "orden": 2,
+          "tipo": "leccion",
+          "teoria": [
+            {
+              "subId": 1,
+              "texto": "Teoría de ejemplo nivel 3.2 - contexto de Pregunta 3004"
+            },
+            {
+              "subId": 2,
+              "texto": "Teoría de ejemplo nivel 3.2 - contexto de Pregunta 3005"
+            },
+            {
+              "subId": 3,
+              "texto": "Teoría de ejemplo nivel 3.2 - contexto de Pregunta 3006"
+            }
+          ],
+          "preguntas": [
+            {
+              "preguntaId": 3004,
+              "texto": "¿Pregunta 3004?",
+              "opciones": ["A", "B", "C"]
+            },
+            {
+              "preguntaId": 3005,
+              "texto": "¿Pregunta 3005?",
+              "opciones": ["A", "B", "C"]
+            },
+            {
+              "preguntaId": 3006,
+              "texto": "¿Pregunta 3006?",
+              "opciones": ["A", "B", "C"]
+            }
+          ]
+        },
+        {
+          "nivelId": 303,
+          "orden": 3,
+          "tipo": "quiz",
+          "teoria": [],
+          "preguntas": [
+            {
+              "preguntaId": 3007,
+              "texto": "¿Pregunta 3007?",
+              "opciones": ["A", "B", "C"]
+            },
+            {
+              "preguntaId": 3008,
+              "texto": "¿Pregunta 3008?",
+              "opciones": ["A", "B", "C"]
+            },
+            {
+              "preguntaId": 3009,
+              "texto": "¿Pregunta 3009?",
+              "opciones": ["A", "B", "C"]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
