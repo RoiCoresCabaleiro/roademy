@@ -217,6 +217,12 @@ async function editarPerfil(req, res, next) {
   const { nombre, email, contraseña, antiguaContraseña } = req.body;
   const updates = {};
 
+    if (!nombre && !email && !contraseña) {
+      const err = new Error("Debe proporcionar al menos un campo para actualizar.");
+      err.status = 400;
+      return next(err);
+    }  
+
     // 1. Si quiere cambiar contraseña, validamos la antigua
     if (contraseña) {
       const usuario = await Usuario.findByPk(req.user.id);

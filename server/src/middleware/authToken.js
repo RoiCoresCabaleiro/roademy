@@ -19,7 +19,7 @@ function authenticateToken(req, res, next) {
   const token = parts[1];
   jwt.verify(token, JWT_SECRET, (err, payload) => {
     if (err) {
-      return res.status(403).json({ message: 'Token inválido o expirado.' });
+      return res.status(401).json({ message: 'Token inválido o expirado.' });
     }
     req.user = payload;
     next();
