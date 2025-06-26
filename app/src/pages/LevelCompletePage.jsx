@@ -8,8 +8,8 @@ export default function LevelCompletePage() {
 
   // Mensajes motivacionales según estrellas
   const mensajes = [
+    '¡Muy bien! Pero puedes mejorar aún más.',
     '¡Genial! Sigue así.',
-    '¡Muy bien! Puedes mejorar aún más.',
     '¡Estupendo! ¡Has sacado 3 estrellas!'
   ];
   const msg = mensajes[Math.min(attemptEstrellas - 1, mensajes.length - 1)];
