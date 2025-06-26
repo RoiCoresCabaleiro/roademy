@@ -11,13 +11,17 @@ module.exports = async function ensureNivelAccessible(req, res, next) {
     // 1) Nivel existe?
     const nivel = await Nivel.findByPk(nivelId);
     if (!nivel) {
-      return res.status(404).json({ success:false, message:'Nivel no encontrado' });
+      const err = new Error('Nivel no encontrado.');
+      err.status = 404;
+      return next(err);
     }
 
     // 2) Nivel desbloqueado?
     const accesibles = await progresoService.getAccessibleNiveles(usuarioId);
     if (!accesibles.has(nivelId)) {
-      return res.status(403).json({ success:false, message:'Nivel bloqueado' });
+      const err = new Error('Nivel bloqueado. Desbloquea el nivel anterior para acceder a este.');
+      err.status = 403;
+      return next(err);
     }
 
     // 3) Lo guardamos en req para que el controlador lo use si lo necesita

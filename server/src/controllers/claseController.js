@@ -16,10 +16,9 @@ async function crearClase(req, res, next) {
       where: { tutorId: req.user.id, nombre: req.body.nombre },
     });
     if (existente) {
-      return res.status(409).json({
-        success: false,
-        message: "Ya tienes otra clase con ese nombre.",
-      });
+      const err = new Error("Ya tienes otra clase con ese nombre.");
+      err.status = 409;
+      return next(err);
     }
 
     // Generar un código único
@@ -153,10 +152,9 @@ async function actualizarClase(req, res, next) {
         where: { tutorId: req.user.id, nombre: req.body.nombre },
       });
       if (dup) {
-        return res.status(409).json({
-          success: false,
-          message: "Ya tienes otra clase con ese nombre.",
-        });
+        const err = new Error("Ya tienes otra clase con ese nombre.");
+        err.status = 409;
+        return next(err);
       }
       clase.nombre = req.body.nombre;
       await clase.save();
@@ -184,10 +182,9 @@ async function eliminarEstudiante(req, res, next) {
   try {
     const alumno = await Usuario.findByPk(req.params.userId);
     if (!alumno || alumno.claseId !== req.clase.id) {
-      return res.status(400).json({
-        success: false,
-        message: "El alumno no pertenece a esta clase.",
-      });
+      const err = new Error("El alumno no pertenece a esta clase.");
+      err.status = 400;
+      return next(err);
     }
     await alumno.update({ claseId: null });
     return res.json({

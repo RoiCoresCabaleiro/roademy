@@ -59,10 +59,9 @@ async function answerPregunta(req, res, next) {
       where: { preguntaId, nivelId },
     });
     if (!sol) {
-      return res.status(400).json({
-        success: false,
-        message: "La pregunta no existe o no pertenece a este nivel",
-      });
+      const err = new Error("La pregunta no existe o no pertenece a este nivel");
+      err.status = 400;
+      return next(err);
     }
     const correcta = sol.respuestaCorrecta === seleccion;
 
@@ -79,10 +78,9 @@ async function answerPregunta(req, res, next) {
       where: { progresoId: prog.id, preguntaId },
     });
     if (exist) {
-      return res.status(400).json({
-        success: false,
-        message: "Ya has respondido esta pregunta en el intento actual",
-      });
+      const err = new Error("Ya has respondido esta pregunta en el intento actual");
+      err.status = 400;
+      return next(err);
     }
 
     // 4) Insertar o actualizar respuesta
@@ -139,11 +137,9 @@ async function completeNivel(req, res, next) {
       where: { progresoId: prog.id },
     });
     if (respuestas === 0) {
-      return res.status(400).json({
-        success: false,
-        message:
-          "Debes responder al menos una pregunta antes de completar el nivel.",
-      });
+      const err = new Error("Debes responder al menos una pregunta antes de completar el nivel.");
+      err.status = 400;
+      return next(err);
     }
     const aciertos = await ProgresoRespuesta.count({
       where: { progresoId: prog.id, correcta: true },

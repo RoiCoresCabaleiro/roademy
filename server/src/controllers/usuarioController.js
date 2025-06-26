@@ -313,9 +313,7 @@ async function unirseClase(req, res, next) {
     }
 
     if (usuario.claseId && usuario.claseId !== clase.id) {
-      const err = new Error(
-        "Ya perteneces a otra clase. Primero debes abandonarla para unirte a otra."
-      );
+      const err = new Error("Ya perteneces a otra clase. Primero debes abandonarla para unirte a otra.");
       err.status = 400;
       return next(err);
     }
@@ -370,12 +368,16 @@ async function eliminarCuenta(req, res, next) {
 
     const usuario = await Usuario.findByPk(userId);
     if (!usuario) {
-      return res.status(404).json({ msg: "Usuario no encontrado" });
+      const err = new Error("Usuario no encontrado");
+      err.status = 404;
+      return next(err);
     }
 
     const match = await bcrypt.compare(contraseña, usuario.contraseña);
     if (!match) {
-      return res.status(401).json({ msg: "Contraseña incorrecta" });
+      const err = new Error("Contraseña incorrecta");
+      err.status = 401;
+      return next(err);
     }
 
     // Borrado definitivo

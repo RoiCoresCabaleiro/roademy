@@ -9,25 +9,33 @@ module.exports = async function ensureClaseAccessible(req, res, next) {
 
     const clase = await Clase.findByPk(claseId);
     if (!clase) {
-      return res.status(404).json({ success: false, message: 'Clase no encontrada.' });
+      const err = new Error('Clase no encontrada.');
+      err.status = 404;
+      return next(err);
     }
 
     // Si es tutor, debe ser propietario
     if (userRol === 'tutor') {
       if (clase.tutorId !== userId) {
-        return res.status(403).json({ success: false, message: 'No tienes permiso sobre esta clase.' });
+        const err = new Error('No tienes permiso sobre esta clase.');
+        err.status = 403;
+        return next(err);
       }
     }
     // Si es estudiante, debe pertenecer a la clase
     else if (userRol === 'estudiante') {
       const usuario = await Usuario.findByPk(userId);
       if (usuario.claseId !== clase.id) {
-        return res.status(403).json({ success: false, message: 'No tienes permiso para ver esta clase.' });
+        const err = new Error('No tienes permiso para ver esta clase.');
+        err.status = 403;
+        return next(err);
       }
     }
     // Rol inesperado
     else {
-      return res.status(403).json({ success: false, message: 'Rol no autorizado.' });
+      const err = new Error('Rol no autorizado.');
+      err.status = 403;
+      return next(err);
     }
 
     // Guardamos la clase para el controller

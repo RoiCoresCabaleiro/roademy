@@ -2,10 +2,9 @@
 
 module.exports = function ensureTutor(req, res, next) {
   if (req.user.rol !== 'tutor') {
-    return res.status(403).json({
-      success: false,
-      message: 'Solo los tutores pueden acceder a este recurso'
-    });
+    const err = new Error('Acceso denegado: solo tutores pueden acceder a este recurso.');
+    err.status = 403;
+    return next(err);
   }
   next();
 };

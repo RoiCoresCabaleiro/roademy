@@ -2,10 +2,9 @@
 
 module.exports = function ensureEstudiante(req, res, next) {
   if (req.user.rol !== 'estudiante') {
-    return res.status(403).json({
-      success: false,
-      message: 'Solo los estudiantes pueden acceder a este recurso'
-    });
+    const err = new Error('Acceso denegado: solo estudiantes pueden acceder a este recurso.');
+    err.status = 403;
+    return next(err);
   }
   next();
 };
