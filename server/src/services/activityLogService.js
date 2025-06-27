@@ -36,14 +36,16 @@ async function getActivityLog({ usuarioIds, types=['nivel','tema'], invertOrder 
   if (types.includes("nivel")) {
     parts.push(`
       SELECT
-        usuario_id AS usuarioId,
-        'nivel'    AS logTipo,
-        nivel_id   AS referenciaId,
-        completado,
-        puntuacion,
-        intento,
-        created_at AS createdAt
-      FROM activity_log_nivel
+        a.usuario_id  AS usuarioId,
+        'nivel'       AS logTipo,
+        a.nivel_id    AS referenciaId,
+        n.tipo        AS nivelTipo,
+        a.completado,
+        a.puntuacion,
+        a.intento,
+        a.created_at AS createdAt
+      FROM activity_log_nivel a
+      JOIN niveles n ON a.nivel_id = n.id
       WHERE usuario_id IN (:usuarioIds)
     `);
   }
@@ -53,6 +55,7 @@ async function getActivityLog({ usuarioIds, types=['nivel','tema'], invertOrder 
         usuario_id AS usuarioId,
         'tema'     AS logTipo,
         tema_id    AS referenciaId,
+        NULL       AS nivelTipo,
         NULL       AS completado,
         NULL       AS puntuacion,
         NULL       AS intento,
@@ -85,6 +88,7 @@ async function getActivityLog({ usuarioIds, types=['nivel','tema'], invertOrder 
     logTipo: r.logTipo,
     referenciaId: r.referenciaId,
     ...(r.logTipo === "nivel" && {
+      nivelTipo:  r.nivelTipo,
       completado: Boolean(r.completado),
       puntuacion: r.puntuacion,
       intento: r.intento,
