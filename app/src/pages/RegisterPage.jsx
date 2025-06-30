@@ -41,7 +41,7 @@ export default function RegisterPage() {
             name="nombre"
             value={form.nombre}
             onChange={handleChange}
-            required
+            //required
             className="w-full px-4 py-2 border rounded focus:outline-none focus:ring"
           />
         </div>
@@ -52,7 +52,7 @@ export default function RegisterPage() {
             name="email"
             value={form.email}
             onChange={handleChange}
-            required
+            //required
             className="w-full px-4 py-2 border rounded focus:outline-none focus:ring"
           />
         </div>
@@ -63,7 +63,7 @@ export default function RegisterPage() {
             name="contraseña"
             value={form.contraseña}
             onChange={handleChange}
-            required
+            //required
             className="w-full px-4 py-2 border rounded focus:outline-none focus:ring"
           />
         </div>

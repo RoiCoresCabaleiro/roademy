@@ -6,7 +6,7 @@ import { AuthProvider } from './context/AuthContext';
 import App from './App';
 import './index.css';
 
-
+// eslint-disable-next-line react-refresh/only-export-components
 function ErrorFallback({ error, resetErrorBoundary }) {
   return (
     <div className="p-4 bg-red-100 text-red-800">

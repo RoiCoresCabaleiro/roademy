@@ -37,7 +37,7 @@ export default function LoginPage() {
             name="identifier"
             value={form.identifier}
             onChange={handleChange}
-            required
+            //required
             className="w-full px-4 py-2 border rounded focus:outline-none focus:ring"
           />
         </div>
@@ -48,7 +48,7 @@ export default function LoginPage() {
             name="contraseña"
             value={form.contraseña}
             onChange={handleChange}
-            required
+            //required
             className="w-full px-4 py-2 border rounded focus:outline-none focus:ring"
           />
         </div>

@@ -7,7 +7,7 @@ import { extractError } from '../utils/errorHandler';
  * y un array de dependencias (deps).
  * Devuelve { data, isLoading, error, refetch }.
  */
-export function useApi(fn, deps = []) {
+export function useApi(fn = []) {
   const [data, setData]         = useState(null);
   const [isLoading, setLoading] = useState(true);
   const [error, setError]       = useState(null);
@@ -23,7 +23,7 @@ export function useApi(fn, deps = []) {
     } finally {
       setLoading(false);
     }
-  }, deps);
+  }, [fn]);
 
   useEffect(() => {
     callApi();

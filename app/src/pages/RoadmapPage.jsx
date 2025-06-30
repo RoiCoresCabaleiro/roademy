@@ -12,10 +12,7 @@ export default function RoadmapPage() {
   const navigate = useNavigate();
 
   // 1) Llamada al endpoint
-  const { data, isLoading: loading, error } = useApi(
-    () => progresoService.getRoadmap(),
-    []
-  );
+  const { data, isLoading: loading, error } = useApi(progresoService.getRoadmap);
 
   if (loading) return <div className="p-4">Cargando RoadMap...</div>;
   if (error)   return <div className="p-4"><ErrorMessage error={error}/></div>;
@@ -72,6 +69,7 @@ export default function RoadmapPage() {
                 <LevelCard
                   key={n.nivelId}
                   nivel={n}
+                  nivelActual={nivelActual}
                   temaOrden={tema.orden}
                   nivelOrden={n.orden}
                   onClick={handleLevelClick}

@@ -28,12 +28,9 @@ export default function FooterNav() {
   const items = isTutor ? tutorItems : studentItems;
 
   return (
-    <nav className="fixed bottom-0 left-0 right-0 bg-white border-t flex justify-around py-2">
+    <nav className="flex justify-around">
       {items.map(({ to, icon: Icon, label }) => (
-        <NavLink
-          key={to}
-          to={to}
-          className="flex flex-col items-center text-gray-500 hover:text-blue-500"
+        <NavLink key={to} to={to} className="flex flex-col items-center px-4 py-2"
           style={({ isActive }) => ({
             color: isActive ? "#3b82f6" : undefined,
           })}

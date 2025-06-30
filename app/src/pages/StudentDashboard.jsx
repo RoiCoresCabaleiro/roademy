@@ -1,22 +1,17 @@
 import { useState } from 'react';
 import { useApi } from '../hooks/useApi';
-import { usuarioService } from '../services/usuarioService';
 import { useAuth } from '../hooks/useAuth';
+import { usuarioService } from '../services/usuarioService';
 import ErrorMessage from '../components/ErrorMessage';
 import { extractError } from '../utils/errorHandler';
+import { format, parseISO } from 'date-fns';
 
 export default function StudentDashboard() {
   const { logout } = useAuth();
 
   // Hooks de estado – siempre en el top, antes de cualquier return
   const [isEditing, setIsEditing] = useState(false);
-  const [form, setForm] = useState({
-    nombre: '',
-    email: '',
-    antiguaContraseña: '',
-    contraseña: '',
-    contraseña2: ''
-  });
+  const [form, setForm] = useState({ nombre: '', email: '', antiguaContraseña: '', contraseña: '' });
   const [errorEdit, setErrorEdit] = useState(null);
   const [isSaving, setIsSaving] = useState(false);
 
@@ -24,6 +19,7 @@ export default function StudentDashboard() {
   const [errorClass, setErrorClass] = useState(null);
   const [isJoining, setIsJoining] = useState(false);
   const [isLeaving, setIsLeaving] = useState(false);
+  const [confirmLeaving, setConfirmLeaving] = useState(false);
 
   const [confirmingDelete, setConfirmingDelete] = useState(false);
   const [delPassword, setDelPassword] = useState('');
@@ -36,14 +32,14 @@ export default function StudentDashboard() {
     isLoading: loadingProfile,
     error: errorProfile,
     refetch: refetchProfile
-  } = useApi(() => usuarioService.getProfile(), []);
+  } = useApi(usuarioService.getProfile);
 
   // 2. Dashboard (progreso + actividad)
   const {
     data: dashboard,
     isLoading: loadingDash,
     error: errorDash
-  } = useApi(() => usuarioService.getDashboard(), []);
+  } = useApi(usuarioService.getDashboard);
 
   // Mientras carga o hay error salimos antes de renderizar el resto
   if (loadingProfile || loadingDash) return <div className="p-4">Cargando datos...</div>;
@@ -54,12 +50,14 @@ export default function StudentDashboard() {
   const { user } = profileData;
   const { progresoTotalCurso, progresoTemaActual, actividadReciente } = dashboard;
 
-  // Al montar, rellenamos el form con nombre/email
-  if (!form.nombre) {
-    setForm(f => ({ ...f, nombre: user.nombre, email: user.email }));
-  }
+  // Agrupar actividad por día
+  const actividadesPorDia = actividadReciente.reduce((acc, log) => {
+    const dia = format(parseISO(log.createdAt), 'yyyy-MM-dd');
+    acc[dia] = acc[dia] || [];
+    acc[dia].push(log);
+    return acc;
+  }, {});
 
-  // Helpers
   const handleChange = e => {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
@@ -69,7 +67,13 @@ export default function StudentDashboard() {
     setErrorEdit(null);
     setIsSaving(true);
     try {
-      const payload = { nombre: form.nombre, email: form.email };
+      const payload = {};
+      if (form.nombre.trim()) {
+        payload.nombre = form.nombre.trim();
+      }
+      if (form.email.trim()) {
+        payload.email = form.email.trim();
+      }
       if (form.contraseña) {
         payload.antiguaContraseña = form.antiguaContraseña;
         payload.contraseña = form.contraseña;
@@ -77,8 +81,7 @@ export default function StudentDashboard() {
       await usuarioService.updateProfile(payload);
       await refetchProfile();
       setIsEditing(false);
-      // limpia campos de contraseña
-      setForm(f => ({ ...f, antiguaContraseña: '', contraseña: '', contraseña2: '' }));
+      setForm(f => ({ ...f, antiguaContraseña: '', contraseña: '' }));
     } catch (err) {
       setErrorEdit(extractError(err));
     } finally {
@@ -120,7 +123,6 @@ export default function StudentDashboard() {
     setIsDeleting(true);
     try {
       await usuarioService.deleteAccount(delPassword);
-      localStorage.removeItem('accessToken');
       logout();
     } catch (err) {
       setErrorDel(extractError(err));
@@ -130,19 +132,30 @@ export default function StudentDashboard() {
 
   return (
     <div className="pb-16 p-4 space-y-6">
+      <section className="md:hidden relative p-4 ">
+        <button
+          onClick={logout}
+          className="absolute top-2 right-0 px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600"
+          title="Cerrar sesión"
+        >
+          Cerrar sesión
+        </button>
+      </section>
       {/* TARJETA 1: PERFIL */}
-      <section className="p-4 space-y-2 bg-white shadow rounded">
-        <div className="flex justify-between">
+      <section className="relative p-4 space-y-2 bg-white shadow rounded">
+        <div className="flex justify-between items-center">
           <h2 className="font-semibold">Mi Perfil</h2>
           <button
             className="text-blue-500"
             onClick={() => {
-              // Al cancelar, limpiamos campos de contraseña
-              if (isEditing) {
-                setForm(f => ({ ...f, antiguaContraseña: '', contraseña: '', contraseña2: '' }));
+              if (!isEditing) {
+                setForm({ nombre: '', email: '', antiguaContraseña: '', contraseña: '' });
+                setErrorEdit(null);
+              } else {
+                setForm(f => ({ ...f, antiguaContraseña: '', contraseña: '' }));
                 setErrorEdit(null);
               }
-              setIsEditing(!isEditing);
+              setIsEditing(prev => !prev);
             }}
           >
             {isEditing ? 'Cancelar' : 'Editar'}
@@ -152,55 +165,73 @@ export default function StudentDashboard() {
         {errorEdit && <ErrorMessage error={errorEdit} />}
 
         {isEditing ? (
-          <div className="space-y-2">
-            <input
-              name="nombre"
-              value={form.nombre}
-              onChange={handleChange}
-              placeholder="Nombre"
-              className="w-full border px-2 py-1 rounded"
-            />
-            <input
-              name="email"
-              value={form.email}
-              onChange={handleChange}
-              placeholder="Email"
-              className="w-full border px-2 py-1 rounded"
-            />
+          <div className="space-y-4">
+            {/* Nombre */}
+            <div className="flex flex-col">
+              <label htmlFor="nombre" className="text-sm font-medium">Nombre</label>
+              <input
+                id="nombre"
+                name="nombre"
+                value={form.nombre}
+                onChange={handleChange}
+                placeholder={user.nombre}
+                className="w-full border px-2 py-1 rounded"
+              />
+            </div>
+
+            {/* Email */}
+            <div className="flex flex-col">
+              <label htmlFor="email" className="text-sm font-medium">Email</label>
+              <input
+                id="email"
+                name="email"
+                value={form.email}
+                onChange={handleChange}
+                placeholder={user.email}
+                className="w-full border px-2 py-1 rounded"
+              />
+            </div>
+
             <hr className="my-2" />
-            <input
-              type="password"
-              name="antiguaContraseña"
-              value={form.antiguaContraseña}
-              onChange={handleChange}
-              placeholder="Contraseña actual"
-              className="w-full border px-2 py-1 rounded"
-            />
-            <input
-              type="password"
-              name="contraseña"
-              value={form.contraseña}
-              onChange={handleChange}
-              placeholder="Contraseña nueva"
-              className="w-full border px-2 py-1 rounded"
-            />
-            <input
-              type="password"
-              name="contraseña2"
-              value={form.contraseña2}
-              onChange={handleChange}
-              placeholder="Repite contraseña nueva"
-              className="w-full border px-2 py-1 rounded"
-            />
+
+            {/* Contraseña actual */}
+            <div className="flex flex-col">
+              <label htmlFor="antiguaContraseña" className="text-sm font-medium">
+                Contraseña actual
+              </label>
+              <input
+                id="antiguaContraseña"
+                type="password"
+                name="antiguaContraseña"
+                value={form.antiguaContraseña}
+                onChange={handleChange}
+                placeholder=""
+                className="w-full border px-2 py-1 rounded"
+              />
+            </div>
+
+            {/* Contraseña nueva */}
+            <div className="flex flex-col">
+              <label htmlFor="contraseña" className="text-sm font-medium">
+                Contraseña nueva
+              </label>
+              <input
+                id="contraseña"
+                type="password"
+                name="contraseña"
+                value={form.contraseña}
+                onChange={handleChange}
+                placeholder=""
+                className="w-full border px-2 py-1 rounded"
+              />
+            </div>
+
             <button
               onClick={handleSaveProfile}
-              disabled={
-                isSaving ||
-                (form.contraseña && form.contraseña !== form.contraseña2)
-              }
+              disabled={isSaving || (form.contraseña && !form.antiguaContraseña)}
               className="mt-2 px-4 py-2 bg-green-500 text-white rounded disabled:opacity-50"
             >
-              Guardar
+              Guardar cambios
             </button>
           </div>
         ) : (
@@ -223,13 +254,26 @@ export default function StudentDashboard() {
             <p>
               <strong>Tutor:</strong> {user.clase.tutor.nombre} ({user.clase.tutor.email})
             </p>
-            <button
-              onClick={handleLeave}
-              disabled={isLeaving}
-              className="mt-2 px-4 py-2 bg-red-500 text-white rounded disabled:opacity-50"
-            >
-              Abandonar Clase
-            </button>
+            {!confirmLeaving ? (
+              <button
+                onClick={() => {
+                  setErrorClass(null);
+                  setConfirmLeaving(true);
+                  setTimeout(() => setConfirmLeaving(false), 2000);
+                }}
+                className="mt-2 px-4 py-2 bg-red-500 text-white rounded"
+              >
+                Abandonar Clase
+              </button>
+            ) : (
+              <button
+                onClick={handleLeave}
+                disabled={isLeaving}
+                className="mt-2 px-4 py-2 bg-red-800 text-white rounded disabled:opacity-50"
+              >
+                Confirmar
+              </button>
+            )}
           </div>
         ) : (
           <div className="space-y-1">
@@ -310,44 +354,61 @@ export default function StudentDashboard() {
           {actividadReciente.length === 0 ? (
             <p className="text-sm text-gray-500">Sin actividad reciente</p>
           ) : (
-            <ul className="space-y-1 text-sm">
-              {actividadReciente.map((log, i) => {
-                const fecha = new Date(log.createdAt).toLocaleString();
-                if (log.logTipo === 'nivel') {
-                  return (
-                    <li key={i}>
-                      Nivel {log.referenciaId}{' '}
-                      {log.completado ? 'completado' : 'no completado'}.{' '}
-                      Puntuación: {log.puntuacion} – {fecha}
+            Object.entries(actividadesPorDia).map(([dia, logs]) => (
+              <div key={dia} className="mb-4">
+                {/* Fecha agrupada */}
+                <h4 className="text-lg font-medium">
+                  {format(parseISO(dia), 'dd/MM/yyyy')}
+                </h4>
+                <ul className="space-y-1 mt-2">
+                  {logs.map((log, i) => {
+                    // Determina estilo
+                    let bg = 'bg-red-100';
+                    if (log.logTipo === 'tema') bg = 'bg-yellow-100';
+                    if (log.logTipo === 'nivel' && log.completado) {
+                      bg = log.nivelTipo === 'leccion' ? 'bg-green-100' : 'bg-blue-100';
+                    }
+                    // Crear mensaje
+                    const action = log.logTipo === 'tema'
+                        ? `Tema ${log.referenciaId} completado`
+                        : `Nivel ${log.referenciaId}`;
+                    const score = log.puntuacion != null
+                      ? log.logTipo === 'nivel'
+                        ? `${log.nivelTipo === 'leccion' ? `Estrellas: ${log.puntuacion}★ - ` : `Nota: ${log.puntuacion}/100 - `}`
+                        : ''
+                      : '';
+                    const intento = log.intento != null
+                      ? `Intento: ${log.intento} - `
+                      : '';
+                    return (
+                    <li
+                      key={i}
+                      className={`${bg} p-2 rounded flex justify-between items-center`}
+                    >
+                      <span className="text-sm">
+                        {action}
+                      </span>
+                      <span className="text-sm font-mono">
+                        {score} {intento} {format(parseISO(log.createdAt), '[HH:mm]')}
+                      </span>
                     </li>
                   );
-                }
-                if (log.logTipo === 'tema') {
-                  return (
-                    <li key={i}>
-                      Tema {log.referenciaId} completado – {fecha}
-                    </li>
-                  );
-                }
-                return (
-                  <li key={i}>
-                    {log.logTipo} {log.referenciaId} – {fecha}
-                  </li>
-                );
-              })}
-            </ul>
+                  })}
+                </ul>
+              </div>
+            ))
           )}
         </div>
       </section>
 
       {/* TARJETA 4: ELIMINAR CUENTA */}
-      <section className="p-4 bg-white shadow rounded">
+      <section className="p-4 bg-white shadow rounded space-y-2">
         <h2 className="font-semibold">Eliminar Cuenta</h2>
         {!confirmingDelete ? (
           <button
             onClick={() => {
-              setConfirmingDelete(true);
               setErrorDel(null);
+              setConfirmingDelete(true);
             }}
             className="mt-2 px-4 py-2 bg-red-600 text-white rounded"
           >
@@ -369,7 +430,7 @@ export default function StudentDashboard() {
                 disabled={isDeleting}
                 className="px-4 py-2 bg-red-600 text-white rounded disabled:opacity-50"
               >
-                Confirmar Baja
+                Confirmar
               </button>
               <button
                 onClick={() => setConfirmingDelete(false)}

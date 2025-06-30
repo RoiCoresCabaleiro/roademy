@@ -1,10 +1,11 @@
 // src/context/AuthContext.jsx
 
-import { createContext, useState, useEffect } from 'react';
+import { createContext, useState, useEffect, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import api from '../services/api';         // nuestra instancia con interceptors
 import { authService } from '../services/authService';
 
+// eslint-disable-next-line react-refresh/only-export-components
 export const AuthContext = createContext();
 
 export function AuthProvider({ children }) {
@@ -13,11 +14,14 @@ export function AuthProvider({ children }) {
   const [loading, setLoading] = useState(true);
 
   // Limpia sesión y redirige
-  const logout = () => {
-    localStorage.removeItem('accessToken');
-    setUser(null);
-    navigate('/login', { replace: true });
-  };
+  const logout = useCallback(async () => {
+    try {
+      await authService.logout(); // Revoca tokens en el backend
+    } catch {/**/}
+      localStorage.removeItem('accessToken');
+      setUser(null);
+      navigate('/login', { replace: true });
+  }, [navigate]);
 
   // Al arrancar la app, si hay token, cargamos perfil una sola vez
   useEffect(() => {
@@ -29,11 +33,10 @@ export function AuthProvider({ children }) {
     api.get('/usuarios/me')
       .then(res => setUser(res.data.user))
       .catch(() => {
-        // token inválido → logout
         logout();
       })
       .finally(() => setLoading(false));
-  }, []);
+  }, [logout]);
 
   // Login
   const login = async credentials => {

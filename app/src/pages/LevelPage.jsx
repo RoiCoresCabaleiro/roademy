@@ -1,11 +1,11 @@
 // src/pages/LevelPage.jsx
 
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useCallback } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { progresoService }        from '../services/progresoService';
-import { useApi }            from '../hooks/useApi';
-import { getNivelData }           from '../data/temarioService';
-import ErrorMessage               from '../components/ErrorMessage';
+import { progresoService } from '../services/progresoService';
+import { useApi } from '../hooks/useApi';
+import { getNivelData } from '../data/temarioService';
+import ErrorMessage from '../components/ErrorMessage';
 
 export default function LevelPage() {
   const { nivelId } = useParams();
@@ -38,10 +38,11 @@ export default function LevelPage() {
   const [answers, setAnswers] = useState([]);
 
   // 3) Refresca respuestas parciales si existieran en backend
-  const { data: initData, loading, error } = useApi(
+  const initFn = useCallback(
     () => progresoService.initNivel(nivelId),
     [nivelId]
   );
+  const { data: initData, loading, error } = useApi(initFn);
 
   useEffect(() => {
     if (initData?.respuestas) {
