@@ -60,7 +60,7 @@ async function answerPregunta(req, res, next) {
     });
     if (!sol) {
       const err = new Error("La pregunta no existe o no pertenece a este nivel");
-      err.status = 400;
+      err.status = 404;
       return next(err);
     }
     const correcta = sol.respuestaCorrecta === seleccion;

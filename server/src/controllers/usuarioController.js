@@ -2,7 +2,7 @@
 
 const bcrypt = require("bcryptjs");
 const { Op } = require("sequelize");
-const { Clase, Usuario } = require("../models");
+const { Clase, Usuario, RefreshToken } = require("../models");
 const progresoService = require('../services/progresoService');
 const activityLogService = require("../services/activityLogService");
 const generateUniqueCode = require('../utils/generateUniqueCode');
@@ -101,7 +101,7 @@ async function login(req, res, next) {
     const match = await bcrypt.compare(contraseña, user.contraseña);
     if (!match) {
       const err = new Error("Contraseña incorrecta.");
-      err.status = 401;
+      err.status = 400;
       return next(err);
     }
 
@@ -229,7 +229,7 @@ async function editarPerfil(req, res, next) {
       const match = await bcrypt.compare(antiguaContraseña, usuario.contraseña);
       if (!match) {
         const err = new Error("La contraseña actual no es correcta.");
-        err.status = 401;
+        err.status = 400;
         return next(err);
       }
       updates.contraseña = contraseña;
@@ -376,9 +376,21 @@ async function eliminarCuenta(req, res, next) {
     const match = await bcrypt.compare(contraseña, usuario.contraseña);
     if (!match) {
       const err = new Error("Contraseña incorrecta");
-      err.status = 401;
+      err.status = 400;
       return next(err);
     }
+
+    const token = req.cookies.refreshToken;
+    if (token) {
+      await RefreshToken.update({ revoked: true }, { where: { token } });
+    }
+
+    res.clearCookie("refreshToken", {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === "production",
+      sameSite: "strict",
+      path: "/",
+    });
 
     // Borrado definitivo
     await Usuario.destroy({ where: { id: userId } });

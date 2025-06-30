@@ -12,7 +12,6 @@ async function refresh(req, res, next) {
   try {
     const token = req.cookies.refreshToken;
     if (!token) {
-      //return res.status(401).json({ msg: "Falta refresh token en cookie" });
       const err = new Error("Falta refresh token en cookie");
       err.status = 401;
       return next(err);
@@ -21,7 +20,6 @@ async function refresh(req, res, next) {
     // Buscar el token en la BD
     const dbToken = await RefreshToken.findOne({ where: { token } });
     if (!dbToken || dbToken.revoked || dbToken.expiresAt < new Date()) {
-      //return res.status(401).json({ msg: "Refresh token inválido o expirado" });
       const err = new Error("Refresh token inválido o expirado");
       err.status = 401;
       return next(err);
@@ -57,6 +55,7 @@ async function logout(req, res, next) {
       httpOnly: true,
       secure: process.env.NODE_ENV === "production",
       sameSite: "strict",
+      path: "/",
     });
     return res.status(204).send();
   } catch (err) {

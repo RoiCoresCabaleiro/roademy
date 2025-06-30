@@ -183,7 +183,7 @@ async function eliminarEstudiante(req, res, next) {
     const alumno = await Usuario.findByPk(req.params.userId);
     if (!alumno || alumno.claseId !== req.clase.id) {
       const err = new Error("El alumno no pertenece a esta clase.");
-      err.status = 400;
+      err.status = 403;
       return next(err);
     }
     await alumno.update({ claseId: null });

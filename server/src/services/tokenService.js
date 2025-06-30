@@ -3,6 +3,7 @@
 const jwt = require("jsonwebtoken");
 const crypto = require("crypto");
 const { RefreshToken } = require("../models");
+const path = require("path");
 
 /**
  * Genera y envía al cliente accessToken + refreshToken.
@@ -39,6 +40,7 @@ async function generateTokensForUser(user, res) {
     secure: process.env.NODE_ENV === "production",
     sameSite: "strict",
     expires: expiresAt,
+    path: "/",
   });
 
   // 5) Devolver sólo el accessToken para el body JSON
