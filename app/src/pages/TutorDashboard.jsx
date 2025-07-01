@@ -7,6 +7,9 @@ import { useAuth } from '../hooks/useAuth';
 import ErrorMessage from '../components/ErrorMessage';
 import { extractError } from '../utils/errorHandler';
 
+import { ArrowRightOnRectangleIcon } from '@heroicons/react/24/outline';
+
+
 export default function TutorDashboard() {
   const { logout } = useAuth();
 
@@ -87,6 +90,7 @@ export default function TutorDashboard() {
           className="absolute top-2 right-0 px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600"
           title="Cerrar sesión"
         >
+          <ArrowRightOnRectangleIcon className="w-4 h-4 mr-2" />
           Cerrar sesión
         </button>
       </section>

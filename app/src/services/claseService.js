@@ -10,7 +10,7 @@ export const claseService = {
   listarClases: () => api.get('/clases'),
 
   // Ver detalles de una clase concreta
-  verClase: id => api.get(`/clases/${id}`),
+  verClase: (id, limitLogs = 30) => api.get(`/clases/${id}`, { params: { limitLogs } }),
 
   // Actualizar el nombre de una clase
   actualizarClase: (id, nombre) => api.put(`/clases/${id}`, { nombre }),

@@ -28,7 +28,7 @@ export default function App() {
       <Route element={<Layout />}>
         {/* Rutas Estudiante */}
         <Route element={<RoleRoute role="estudiante" />}>
-          <Route index element={<Navigate to="dashboard" replace />} />
+          <Route index element={<Navigate to="/dashboard" replace />} />
           <Route path="dashboard" element={<StudentDashboard />} />
           <Route path="roadmap" element={<RoadmapPage />} />
           <Route path="levels/:nivelId" element={<LevelPage />} />
@@ -36,16 +36,16 @@ export default function App() {
           {/*
           <Route path="/minigames" element={<MinigamesPage />} />
           */}
-          <Route path="*" element={<Navigate to="dashboard" replace />} />
+          <Route path="*" element={<Navigate to="/dashboard" replace />} />
         </Route>
 
         {/* Rutas de tutor */}
         <Route element={<RoleRoute role="tutor" />}>
-            <Route index element={<TutorDashboard />} />
+            <Route index element={<Navigate to="/tutor/dashboard" replace />} />
             <Route path="tutor/dashboard" element={<TutorDashboard />} />
             <Route path="tutor/classes" element={<ClassesPage />} />
             <Route path="tutor/classes/:id" element={<ClassDetailPage />} />
-            <Route path="*" element={<Navigate to="tutor/dashboard" replace />} />
+            <Route path="*" element={<Navigate to="/tutor/dashboard" replace />} />
         </Route>
       </Route>
 

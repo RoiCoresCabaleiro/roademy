@@ -19,6 +19,7 @@ export function AuthProvider({ children }) {
       await authService.logout(); // Revoca tokens en el backend
     } catch {/**/}
       localStorage.removeItem('accessToken');
+      sessionStorage.clear();
       setUser(null);
       navigate('/login', { replace: true });
   }, [navigate]);

@@ -11,12 +11,11 @@ export default function ClassDetailPage() {
   const { id } = useParams();
   const navigate = useNavigate();
 
-  // 1) Memoizar la fetch
-  const fetchClass = useCallback(
-    () => claseService.verClase(id),
-    [id]
-  );
-  const { data, isLoading, error, refetch } = useApi(fetchClass);
+  const STORAGE_KEY = `class-${id}-limitLogs`;
+  const [limitLogs, setLimitLogs] = useState(() => {
+    const stored = sessionStorage.getItem(STORAGE_KEY);
+    return stored != null ? Number(stored) : 50;
+  });
 
   // Estados de la UI
   const [editing, setEditing] = useState(false);
@@ -30,6 +29,13 @@ export default function ClassDetailPage() {
   const [confirmDelete, setConfirmDelete] = useState(false);
 
   const [confirmingExpel, setConfirmingExpel] = useState(null);
+
+  // Llamada a la API
+  const fetchClass = useCallback(
+    () => claseService.verClase(id, limitLogs),
+    [id, limitLogs]
+  );
+  const { data, isLoading, error, refetch } = useApi(fetchClass);
 
   // Inicializar nombre al cargar
   useEffect(() => {
@@ -249,6 +255,27 @@ export default function ClassDetailPage() {
       <section>
         <div className="flex items-center justify-between mb-2">
           <h3 className="font-semibold">Actividad reciente</h3>
+
+          <div className="flex items-center justify-end space-x-2 mb-2">
+            <label htmlFor="limitLogs" className="text-sm">Nº de registros:</label>
+            <select
+              id="limitLogs"
+              value={limitLogs}
+              onChange={e => {
+                const v = Number(e.target.value);
+                setLimitLogs(v);
+                sessionStorage.setItem(STORAGE_KEY, v);
+              }}
+              className="border px-2 py-1 rounded text-sm"
+            >
+              <option value={10}>10</option>
+              <option value={30}>30</option>
+              <option value={50}>50</option>
+              <option value={100}>100</option>
+              <option value={0}>Todos</option>
+            </select>
+          </div>
+
           <button
             onClick={() => refetch()}
             className="text-sm text-blue-600 hover:underline"
@@ -257,7 +284,7 @@ export default function ClassDetailPage() {
           </button>
         </div>
         {actividadReciente.length === 0 ? (
-          <p>No hay actividad.</p>
+          <p className="text-sm text-gray-500">Sin actividad reciente</p>
         ) : (
           Object.entries(actividadesPorDia).map(([dia, logs]) => (
             <div key={dia} className="mb-4">

@@ -14,7 +14,7 @@ export default function RoadmapPage() {
   // 1) Llamada al endpoint
   const { data, isLoading: loading, error } = useApi(progresoService.getRoadmap);
 
-  if (loading) return <div className="p-4">Cargando RoadMap...</div>;
+  if (loading || !data) return <div className="p-4">Cargando RoadMap...</div>;
   if (error)   return <div className="p-4"><ErrorMessage error={error}/></div>;
 
   // 2) Extraemos del data

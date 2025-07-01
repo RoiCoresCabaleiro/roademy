@@ -7,7 +7,7 @@ export const usuarioService = {
   getProfile: () => api.get('/usuarios/me'),
 
   // Datos del dashboard (estudiante)
-  getDashboard: () => api.get('/usuarios/me/dashboard'),
+  getDashboard: (limitLogs = 5) => api.get('/usuarios/me/dashboard', { params: { limitLogs } }),
 
   // Actualiza el perfil del usuario
   updateProfile: data => api.put('/usuarios/me', data),

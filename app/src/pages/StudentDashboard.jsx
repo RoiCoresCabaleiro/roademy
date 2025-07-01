@@ -1,10 +1,15 @@
-import { useState } from 'react';
+// src/pages/StudentDashboard.jsx
+
+import { useState, useCallback } from 'react';
 import { useApi } from '../hooks/useApi';
 import { useAuth } from '../hooks/useAuth';
 import { usuarioService } from '../services/usuarioService';
 import ErrorMessage from '../components/ErrorMessage';
 import { extractError } from '../utils/errorHandler';
 import { format, parseISO } from 'date-fns';
+
+import { ArrowRightOnRectangleIcon } from '@heroicons/react/24/outline';
+
 
 export default function StudentDashboard() {
   const { logout } = useAuth();
@@ -26,6 +31,8 @@ export default function StudentDashboard() {
   const [errorDel, setErrorDel] = useState(null);
   const [isDeleting, setIsDeleting] = useState(false);
 
+  const [limitLogs, setLimitLogs] = useState(5);
+
   // 1. Perfil básico
   const {
     data: profileData,
@@ -35,14 +42,18 @@ export default function StudentDashboard() {
   } = useApi(usuarioService.getProfile);
 
   // 2. Dashboard (progreso + actividad)
+  const fetchDashboard = useCallback(
+    () => usuarioService.getDashboard(limitLogs),
+    [limitLogs]
+  );
   const {
     data: dashboard,
     isLoading: loadingDash,
-    error: errorDash
-  } = useApi(usuarioService.getDashboard);
+    error: errorDash,
+  } = useApi(fetchDashboard);
 
   // Mientras carga o hay error salimos antes de renderizar el resto
-  if (loadingProfile || loadingDash) return <div className="p-4">Cargando datos...</div>;
+  if (loadingProfile || (loadingDash && !dashboard)) return <div className="p-4">Cargando datos...</div>;
   if (errorProfile) return <ErrorMessage error={errorProfile} />;
   if (errorDash) return <ErrorMessage error={errorDash} />;
 
@@ -131,13 +142,14 @@ export default function StudentDashboard() {
   };
 
   return (
-    <div className="pb-16 p-4 space-y-6">
+    <div className="pb-8 p-4 space-y-6">
       <section className="md:hidden relative p-4 ">
         <button
           onClick={logout}
-          className="absolute top-2 right-0 px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600"
+          className="absolute top-2 right-0 inline-flex items-center px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600"
           title="Cerrar sesión"
         >
+          <ArrowRightOnRectangleIcon className="w-4 h-4 mr-2" />
           Cerrar sesión
         </button>
       </section>
@@ -278,19 +290,21 @@ export default function StudentDashboard() {
         ) : (
           <div className="space-y-1">
             <p className="text-gray-500">No perteneces a ninguna clase</p>
-            <input
-              value={joinCode}
-              onChange={e => setJoinCode(e.target.value)}
-              placeholder="Código de la clase"
-              className="w-full border px-2 py-1 rounded"
-            />
-            <button
-              onClick={handleJoin}
-              disabled={isJoining}
-              className="mt-2 px-4 py-2 bg-blue-500 text-white rounded disabled:opacity-50"
-            >
-              Unirse a Clase
-            </button>
+            <div className="flex inline-flex items-center space-x-2 pt-2">
+              <input
+                value={joinCode}
+                onChange={e => setJoinCode(e.target.value)}
+                placeholder="Código de la clase"
+                className="border px-2 py-1 rounded"
+              />
+              <button
+                onClick={handleJoin}
+                disabled={isJoining}
+                className="px-4 py-2 bg-blue-500 text-white rounded disabled:opacity-50"
+              >
+                Unirse
+              </button>
+            </div>
           </div>
         )}
       </section>
@@ -318,28 +332,30 @@ export default function StudentDashboard() {
           <h2 className="font-semibold mb-2">
             Tema Actual: {progresoTemaActual.titulo}
           </h2>
+          <p>
+            {progresoTemaActual.porcentaje}% — ⭐{' '}
+            {progresoTemaActual.estrellasObtenidas}/
+            {progresoTemaActual.estrellasPosibles}
+          </p>
           <div className="relative w-full bg-gray-200 rounded-full h-4 mb-2">
             <div
               className="bg-blue-500 h-4 rounded-full"
-              style={{
-                width: `${
-                  (progresoTemaActual.estrellasObtenidas /
-                    progresoTemaActual.estrellasPosibles) *
-                  100
-                }%`
-              }}
+              style={{ width: `${ (progresoTemaActual.estrellasObtenidas / progresoTemaActual.estrellasPosibles) * 100 }%` }}
             />
             <div
-              className="absolute top-0 h-4 w-1 bg-red-500"
-              style={{
-                left: `${
-                  (progresoTemaActual.estrellasNecesarias /
-                    progresoTemaActual.estrellasPosibles) *
-                  100
-                }%`
-              }}
+              className={progresoTemaActual.estrellasObtenidas < progresoTemaActual.estrellasNecesarias ? "absolute top-0 h-4 w-2 bg-red-500" : "absolute top-0 h-4 w-2 bg-green-500"}
+              style={{ left: `${ (progresoTemaActual.estrellasNecesarias / progresoTemaActual.estrellasPosibles) * 100 }%` }}
             />
           </div>
+          <h2 className="font-semibold mb-2">
+            Requisitos para completar el tema:
+          </h2>
+          <p>
+            Estrellas:&nbsp;
+            <span className={progresoTemaActual.estrellasObtenidas < progresoTemaActual.estrellasNecesarias ? 'text-red-500' : 'text-green-500'}>
+              {progresoTemaActual.estrellasObtenidas}/{progresoTemaActual.estrellasNecesarias}
+            </span>
+          </p>
           <p>
               Niveles completados:{' '}
               <span className={progresoTemaActual.completados < progresoTemaActual.totalNiveles ? 'text-red-500' : 'text-green-500'}>
@@ -350,7 +366,24 @@ export default function StudentDashboard() {
 
         {/* Actividad Reciente */}
         <div className="bg-white shadow rounded p-4">
-          <h2 className="font-semibold mb-2">Actividad Reciente</h2>
+          <div className="flex items-center justify-between mb-2">
+            <h2 className="font-semibold">Actividad Reciente</h2>
+          
+            <div className="flex items-center justify-end space-x-2 mb-2">
+              <label htmlFor="limitLogs" className="text-sm">Nº de registros:</label>
+              <select
+                id="limitLogs"
+                value={limitLogs}
+                onChange={e => setLimitLogs(Number(e.target.value))}
+                className="border px-2 py-1 rounded text-sm"
+              >
+                <option value={5}>5</option>
+                <option value={25}>25</option>
+                <option value={50}>50</option>
+                <option value={0}>Todos</option>
+              </select>
+            </div>
+          </div>
           {actividadReciente.length === 0 ? (
             <p className="text-sm text-gray-500">Sin actividad reciente</p>
           ) : (
@@ -408,6 +441,7 @@ export default function StudentDashboard() {
           <button
             onClick={() => {
               setErrorDel(null);
+              setDelPassword('');
               setConfirmingDelete(true);
             }}
             className="mt-2 px-4 py-2 bg-red-600 text-white rounded"
@@ -433,7 +467,10 @@ export default function StudentDashboard() {
                 Confirmar
               </button>
               <button
-                onClick={() => setConfirmingDelete(false)}
+                onClick={() => {
+                  setConfirmingDelete(false)
+                  setDelPassword('');
+                }}
                 className="px-4 py-2 bg-gray-300 rounded"
               >
                 Cancelar
