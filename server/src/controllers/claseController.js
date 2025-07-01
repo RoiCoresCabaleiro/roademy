@@ -111,14 +111,16 @@ async function verClase(req, res, next) {
     );
 
     // Solo si el que llama es tutor, añadimos log de actividad
+    
     let actividadReciente = [];
     if (req.user.rol === "tutor") {
       const usuarioIds = clase.estudiantes.map((u) => u.id);
+      const limitLogs = parseInt(req.query.limitLogs, 10);
       actividadReciente = await activityLogService.getActivityLog({
         usuarioIds,
         types: ['nivel','tema'],
         invertOrder: false,
-        limit: 50
+        limit: Number.isNaN(limitLogs) ? 50 : limitLogs,
       });
     }
 

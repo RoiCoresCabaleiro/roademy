@@ -141,11 +141,12 @@ async function dashboard(req, res, next) {
     const porcentajeProgresoTotal = estrellasPosiblesCurso ? Math.round((estrellasObtenidasCurso / estrellasPosiblesCurso) * 100) : 0;
 
     // 5) Actividad reciente
+    const limitLogs = parseInt(req.query.limitLogs, 10);
     const actividadReciente = await activityLogService.getActivityLog({
       usuarioIds: [userId],
       types: ["nivel", "tema"],
       invertOrder: false,
-      limit: 5,
+      limit: Number.isNaN(limitLogs) ? 5 : limitLogs,
     });
 
     return res.json({
