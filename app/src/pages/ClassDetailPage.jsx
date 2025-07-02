@@ -1,11 +1,14 @@
 // src/pages/ClassDetailPage.jsx
 import { useState, useEffect, useCallback } from 'react';
-import { useParams, useNavigate, Link } from 'react-router-dom';
+import { useParams, useNavigate} from 'react-router-dom';
 import { useApi } from '../hooks/useApi';
 import { claseService } from '../services/claseService';
 import ErrorMessage from '../components/ErrorMessage';
 import { extractError } from '../utils/errorHandler';
+import { formatNivelId } from '../utils/formatters';
+
 import { format, parseISO } from 'date-fns';
+
 
 export default function ClassDetailPage() {
   const { id } = useParams();
@@ -14,7 +17,7 @@ export default function ClassDetailPage() {
   const STORAGE_KEY = `class-${id}-limitLogs`;
   const [limitLogs, setLimitLogs] = useState(() => {
     const stored = sessionStorage.getItem(STORAGE_KEY);
-    return stored != null ? Number(stored) : 50;
+    return stored != null ? Number(stored) : 30;
   });
 
   // Estados de la UI
@@ -29,6 +32,9 @@ export default function ClassDetailPage() {
   const [confirmDelete, setConfirmDelete] = useState(false);
 
   const [confirmingExpel, setConfirmingExpel] = useState(null);
+
+  const [showStudentsModal, setShowStudentsModal] = useState(false);
+
 
   // Llamada a la API
   const fetchClass = useCallback(
@@ -57,6 +63,8 @@ export default function ClassDetailPage() {
   if (error) return <ErrorMessage error={error} />;
 
   const { clase, estudiantes = [], actividadReciente = [] } = data;
+
+  const previewStudents = estudiantes.slice(0, 3);
 
   // Agrupar actividad por día
   const actividadesPorDia = actividadReciente.reduce((acc, log) => {
@@ -211,43 +219,53 @@ export default function ClassDetailPage() {
       </section>
 
       {/* Estudiantes */}
-      <section>
+      <section className='mb-10'>
         <h3 className="font-semibold mb-2">Estudiantes</h3>
         {estudiantes.length === 0 ? (
           <p>No hay estudiantes.</p>
         ) : (
-          <ul className="space-y-2">
-            {estudiantes.map(u => (
-              <li
-                key={u.id}
-                className="flex justify-between items-center border rounded p-2"
+          <>
+            <ul className="space-y-2">
+              {previewStudents.map(u => (
+                <li
+                  key={u.id}
+                  className="flex justify-between items-center border rounded p-2"
+                >
+                  <div>
+                    <p className="font-medium">{u.nombre}</p>
+                    <p className="text-sm text-gray-600">{u.email}</p>
+                    <p className="text-sm text-gray-600">
+                      ⭐ {u.estrellasObtenidasCurso}/{u.estrellasPosiblesCurso} ·{' '}
+                      {u.porcentajeProgresoTotal}%
+                    </p>
+                  </div>
+                  {confirmingExpel === u.id ? (
+                    <button
+                      onClick={() => handleConfirmExpel(u.id)}
+                      className="px-2 py-1 bg-red-800 text-white rounded"
+                    >
+                      Confirmar
+                    </button>
+                  ) : (
+                    <button
+                      onClick={() => handleRequestExpel(u.id)}
+                      className="px-2 py-1 bg-red-500 text-white rounded"
+                    >
+                      Expulsar
+                    </button>
+                  )}
+                </li>
+              ))}
+            </ul>
+            {estudiantes.length > 3 && (
+              <button
+                onClick={() => setShowStudentsModal(true)}
+                className="mt-2 text-blue-600 hover:underline"
               >
-                <div>
-                  <p className="font-medium">{u.nombre}</p>
-                  <p className="text-sm text-gray-600">{u.email}</p>
-                  <p className="text-sm text-gray-600">
-                    ⭐ {u.estrellasObtenidasCurso}/{u.estrellasPosiblesCurso} ·{' '}
-                    {u.porcentajeProgresoTotal}%
-                  </p>
-                </div>
-                {confirmingExpel === u.id ? (
-                  <button
-                    onClick={() => handleConfirmExpel(u.id)}
-                    className="px-2 py-1 bg-red-800 text-white rounded"
-                  >
-                    Confirmar
-                  </button>
-                ) : (
-                  <button
-                    onClick={() => handleRequestExpel(u.id)}
-                    className="px-2 py-1 bg-red-500 text-white rounded"
-                  >
-                    Expulsar
-                  </button>
-                )}
-              </li>
-            ))}
-          </ul>
+                Mostrar todos ({estudiantes.length})
+              </button>
+            )}
+          </>
         )}
       </section>
 
@@ -304,7 +322,7 @@ export default function ClassDetailPage() {
                   // Mensaje
                   const action = log.logTipo === 'tema'
                     ? `${user?.nombre || 'Alumno'} completó el tema ${log.referenciaId}`
-                    : `${user?.nombre || 'Alumno'} : Nivel ${log.referenciaId}`;
+                    : `${user?.nombre || 'Alumno'} : Nivel ${formatNivelId(log.referenciaId)}`;
                   const score = log.puntuacion != null
                     ? log.logTipo === 'nivel'
                       ? `${log.nivelTipo === 'leccion' ? `Estrellas: ${log.puntuacion}★ - ` : `Nota: ${log.puntuacion}/100 - `}`
@@ -332,6 +350,61 @@ export default function ClassDetailPage() {
           ))
         )}
       </section>
+
+      {/* MODAL DE ESTUDIANTES */}
+      {showStudentsModal && (
+        <div
+          className="fixed inset-0 bg-black/60 flex items-center justify-center z-50"
+          onClick={() => setShowStudentsModal(false)}  /* click fuera cierra */
+        >
+          <div
+            className="bg-white w-11/12 max-w-lg max-h-[80vh] p-4 rounded overflow-y-auto no-scrollbar"
+            onClick={e => e.stopPropagation()} /* click dentro no cierra */
+          >
+            <div className="flex justify-between items-center mb-4">
+              <h4 className="text-xl font-semibold">Todos los estudiantes</h4>
+              <button
+                onClick={() => setShowStudentsModal(false)}
+                className="text-gray-500 hover:text-gray-700 text-2xl leading-none"
+              >
+                &times;
+              </button>
+            </div>
+            <ul className="space-y-2">
+              {estudiantes.map(u => (
+                <li
+                  key={u.id}
+                  className="flex justify-between items-center border rounded p-2"
+                >
+                  <div>
+                    <p className="font-medium">{u.nombre}</p>
+                    <p className="text-sm text-gray-600">{u.email}</p>
+                    <p className="text-sm text-gray-600">
+                      ⭐ {u.estrellasObtenidasCurso}/{u.estrellasPosiblesCurso} · {u.porcentajeProgresoTotal}%
+                    </p>
+                  </div>
+                  {/* Botón expulsar con confirmación */}
+                  {confirmingExpel === u.id ? (
+                    <button
+                      onClick={() => handleConfirmExpel(u.id)}
+                      className="px-2 py-1 bg-red-800 text-white rounded"
+                    >
+                      Confirmar
+                    </button>
+                  ) : (
+                    <button
+                      onClick={() => handleRequestExpel(u.id)}
+                      className="px-2 py-1 bg-red-500 text-white rounded"
+                    >
+                      Expulsar
+                    </button>
+                  )}
+                </li>
+              ))}
+            </ul>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

@@ -6,8 +6,9 @@ import { useAuth } from '../hooks/useAuth';
 import { usuarioService } from '../services/usuarioService';
 import ErrorMessage from '../components/ErrorMessage';
 import { extractError } from '../utils/errorHandler';
-import { format, parseISO } from 'date-fns';
+import { formatNivelId } from '../utils/formatters';
 
+import { format, parseISO } from 'date-fns';
 import { ArrowRightOnRectangleIcon } from '@heroicons/react/24/outline';
 
 
@@ -404,7 +405,7 @@ export default function StudentDashboard() {
                     // Crear mensaje
                     const action = log.logTipo === 'tema'
                         ? `Tema ${log.referenciaId} completado`
-                        : `Nivel ${log.referenciaId}`;
+                        : `Nivel ${formatNivelId(log.referenciaId)}`;
                     const score = log.puntuacion != null
                       ? log.logTipo === 'nivel'
                         ? `${log.nivelTipo === 'leccion' ? `Estrellas: ${log.puntuacion}★ - ` : `Nota: ${log.puntuacion}/100 - `}`

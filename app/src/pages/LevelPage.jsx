@@ -2,42 +2,42 @@
 
 import { useEffect, useState, useCallback } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { progresoService } from '../services/progresoService';
 import { useApi } from '../hooks/useApi';
-import { getNivelData } from '../data/temarioService';
+import { progresoService } from '../services/progresoService';
 import ErrorMessage from '../components/ErrorMessage';
+import { extractError } from '../utils/errorHandler';
+import { getNivelData } from '../data/temarioService';
+
 
 export default function LevelPage() {
   const { nivelId } = useParams();
   const navigate    = useNavigate();
 
-  // 1) Carga metadata del JSON para este nivel
+  // 1) Metadata del nivel (teoría + preguntas)
   const nivelInfo = getNivelData(nivelId);
 
-  // 2) Construye las "diapositivas":
+  // 2) Construir slides agrupando teoría + pregunta
   const slides = nivelInfo
-  ? nivelInfo.nivel.tipo === 'leccion'
-    ? nivelInfo.nivel.teoria.flatMap((t, i) => [
-        { type: 'text', content: t.texto },
-        {
-          type: 'question',
+    ? nivelInfo.nivel.tipo === 'leccion'
+      ? nivelInfo.nivel.teoria.map((t, i) => ({
           preguntaId: nivelInfo.nivel.preguntas[i].preguntaId,
+          content: t.texto,
           question: nivelInfo.nivel.preguntas[i].texto,
           options: nivelInfo.nivel.preguntas[i].opciones
-        }
-      ])
-    : nivelInfo.nivel.preguntas.map(p => ({
-        type: 'question',
-        preguntaId: p.preguntaId,
-        question: p.texto,
-        options: p.opciones
-      }))
-  : [];
+        }))
+      : nivelInfo.nivel.preguntas.map(p => ({
+          preguntaId: p.preguntaId,
+          content: null,
+          question: p.texto,
+          options: p.opciones
+        }))
+    : [];
 
   const [slideIndex, setSlideIndex] = useState(0);
   const [answers, setAnswers] = useState([]);
+  const [completeError, setCompleteError] = useState(null);
 
-  // 3) Refresca respuestas parciales si existieran en backend
+  // 3) Cargar respuestas parciales existentes
   const initFn = useCallback(
     () => progresoService.initNivel(nivelId),
     [nivelId]
@@ -49,8 +49,8 @@ export default function LevelPage() {
       setAnswers(
         initData.respuestas.map(r => ({
           preguntaId: r.preguntaId,
-          seleccion: r.seleccion,
-          correcta: r.correcta
+          seleccion:  r.seleccion,
+          correcta:   r.correcta
         }))
       );
     }
@@ -60,101 +60,141 @@ export default function LevelPage() {
   if (error)   return <div className="p-4"><ErrorMessage error={error}/></div>;
 
   const slide  = slides[slideIndex] || {};
-  const isLast = slideIndex === slides.length - 1;
+  const isFirst = slideIndex === 0;
+  const isLast  = slideIndex === slides.length - 1;
 
-  // 4) Al responder, envía a la API y avanza
+  // 4) Al responder, enviamos al backend y guardamos la respuesta
   const handleAnswer = async seleccion => {
-    // 1) Llamada al backend
-    const res = await progresoService.answer(nivelId, {
-      preguntaId: slide.preguntaId,
-      seleccion
-    });
-    // 2) Añadimos la respuesta con el booleano correcta
-    setAnswers(prev => [
-      ...prev,
-      {
+    try {
+      const res = await progresoService.answer(nivelId, {
         preguntaId: slide.preguntaId,
-        seleccion,
-        correcta: res.data.correcta
-      }
-    ]);
+        seleccion
+      });
+      setAnswers(prev => [
+        ...prev.filter(a => a.preguntaId !== slide.preguntaId),
+        {
+          preguntaId: slide.preguntaId,
+          seleccion,
+          correcta: res.data.correcta
+        }
+      ]);
+    } catch (err) {
+      console.error(err);
+    }
   };
 
-  const handlePrev     = () => setSlideIndex(i => Math.max(i - 1, 0));
-  const handleNext     = () => setSlideIndex(i => Math.min(i + 1, slides.length - 1));
+  // 5) Navegación entre slides
+  const goTo = idx => setSlideIndex(Math.min(Math.max(idx, 0), slides.length - 1));
+  const handlePrev = () => goTo(slideIndex - 1);
+  const handleNext = () => goTo(slideIndex + 1);
   const handleComplete = async () => {
-    const res = await progresoService.complete(nivelId);
-    navigate(`/levels/${nivelId}/completed`, { state: res.data });
+    setCompleteError(null);
+    try {
+      const res = await progresoService.complete(nivelId);
+      navigate(`/levels/${nivelId}/completed`, { state: res.data });
+    } catch (err) {
+      const msg = extractError(err);
+      setCompleteError(msg);
+    }
   };
 
   return (
-    <div className="pb-16 p-4 flex flex-col h-full">
+    <div className="pb-8 p-4 flex flex-col h-full">
+      {/* Contenido de la slide */}
       <div className="flex-1">
-        {slide.type === 'text' && (
-          <div className="prose">
+        {slide.content && (
+          <div className="prose mb-6">
             <p>{slide.content}</p>
           </div>
         )}
-        {slide.type === 'question' && (
-          <div className="space-y-4">
-            <p className="font-medium">{slide.question}</p>
-            {slide.options.map((opt, idx) => {
-              // Busca si ya respondieron esta pregunta
-              const ans = answers.find(a => a.preguntaId === slide.preguntaId);
-              // Determina estilos
-              let classes = 'block w-full text-left px-4 py-2 border rounded mb-2';
-              if (ans) {
-                // Si esta es la opción seleccionada, coloreamos
-                if (ans.seleccion === idx) {
-                  classes += ans.correcta
-                    ? ' bg-green-100 border-green-500'
-                    : ' bg-red-100 border-red-500';
-                }
-                // Todas deshabilitadas tras responder
-                return (
-                  <button key={idx} className={classes} disabled>
-                    {opt}
-                  </button>
-                );
+        <div className="space-y-4">
+          <p className="font-medium">{slide.question}</p>
+          {slide.options.map((opt, idx) => {
+            const ans = answers.find(a => a.preguntaId === slide.preguntaId);
+            let classes = 'block w-full text-left px-4 py-2 border rounded mb-2';
+            if (ans) {
+              if (ans.seleccion === idx) {
+                classes += ans.correcta
+                  ? ' bg-green-100 border-green-500'
+                  : ' bg-red-100 border-red-500';
               }
-              // Si no han respondido todavía, botón activo
+              return (
+                <button key={idx} className={classes} disabled>
+                  {opt}
+                </button>
+              );
+            }
+            return (
+              <button
+                key={idx}
+                onClick={() => handleAnswer(idx)}
+                className={classes}
+              >
+                {opt}
+              </button>
+            );
+          })}
+        </div>
+      </div>
+
+      {/* Controles de navegación */}
+      <div className="flex flex-col items-center mt-4 space-y-2">
+        {/* Error al terminar nivel */}
+        <ErrorMessage error={completeError} />
+        <div className="flex items-center space-x-6">
+          {/* Flecha Anterior */}
+          <button
+            onClick={handlePrev}
+            disabled={isFirst}
+            className={`p-3 text-3xl bg-gray-100 rounded-full ${isFirst ? 'opacity-50' : 'hover:bg-gray-200'}`}
+          >
+            ←
+          </button>
+
+          {/* Botones circulares de paginación */}
+          <div className="flex space-x-2">
+            {slides.map((s, i) => {
+              const ans = answers.find(a => a.preguntaId === s.preguntaId);
+              let circleCls = 'w-8 h-8 rounded-full flex items-center justify-center text-sm cursor-pointer';
+              if (ans) {
+                circleCls += ans.correcta
+                  ? ' bg-green-500 text-white'
+                  : ' bg-red-500 text-white';
+              } else {
+                circleCls += ' bg-gray-200 text-gray-600';
+              }
+              if (i === slideIndex) {
+                circleCls += ' ring-2 ring-blue-500';
+              }
               return (
                 <button
-                  key={idx}
-                  onClick={() => handleAnswer(idx)}
-                  className={classes}
+                  key={s.preguntaId}
+                  className={circleCls}
+                  onClick={() => goTo(i)}
                 >
-                  {opt}
+                  {i + 1}
                 </button>
               );
             })}
           </div>
-        )}
-      </div>
 
-      <div className="flex justify-between mt-4">
-        <button
-          onClick={handlePrev}
-          disabled={slideIndex === 0}
-          className="px-4 py-2 border rounded"
-        >
-          Anterior
-        </button>
-        {isLast ? (
-          <button
-            onClick={handleComplete}
-            className="px-4 py-2 bg-green-500 text-white rounded"
-          >
-            Terminar
-          </button>
-        ) : (
+          {/* Flecha Siguiente */}
           <button
             onClick={handleNext}
-            className="px-4 py-2 bg-blue-500 text-white rounded"
+            disabled={isLast}
+            className={`p-3 text-3xl bg-gray-100 rounded-full ${isLast ? 'opacity-50' : 'hover:bg-gray-200'}`}
           >
-            Siguiente
+            →
           </button>
-        )}
+        </div>
+
+        {/* Botón Terminar */}
+        <button
+          onClick={handleComplete}
+          className="mt-4 px-6 py-2 bg-green-500 text-white rounded hover:bg-green-600"
+        >
+          Terminar
+        </button>
       </div>
     </div>
   );

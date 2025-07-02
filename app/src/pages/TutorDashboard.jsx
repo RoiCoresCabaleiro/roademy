@@ -2,8 +2,8 @@
 
 import { useState } from 'react';
 import { useApi } from '../hooks/useApi';
-import { usuarioService } from '../services/usuarioService';
 import { useAuth } from '../hooks/useAuth';
+import { usuarioService } from '../services/usuarioService';
 import ErrorMessage from '../components/ErrorMessage';
 import { extractError } from '../utils/errorHandler';
 
@@ -83,11 +83,11 @@ export default function TutorDashboard() {
   const { user } = profileData;
 
   return (
-    <div className="pb-16 p-4 space-y-6">
+    <div className="pb-8 p-4 space-y-6">
       <section className="md:hidden relative p-4 ">
         <button
           onClick={logout}
-          className="absolute top-2 right-0 px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600"
+          className="absolute top-2 right-0 inline-flex items-center px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600"
           title="Cerrar sesión"
         >
           <ArrowRightOnRectangleIcon className="w-4 h-4 mr-2" />
