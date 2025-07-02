@@ -5,15 +5,16 @@ const router = express.Router();
 
 const usuarioController = require('../controllers/usuarioController');
 const authenticateToken = require('../middleware/authToken');
-const ensureEstudiante   = require('../middleware/ensureEstudiante');
+const ensureEstudiante = require('../middleware/ensureEstudiante');
+const { loginLimiter, registerLimiter } = require('../middleware/rateLimit');
 
 const { validateRegister, validateLogin, validateEditarPerfil, validateUnirseClase } = require('../middleware/validators');
 
 
 // Rutas públicas (no requieren token)
-router.post('/register', validateRegister, usuarioController.register);
+router.post('/register', registerLimiter, validateRegister, usuarioController.register);
 
-router.post('/login', validateLogin, usuarioController.login);
+router.post('/login', loginLimiter, validateLogin, usuarioController.login);
 
 
 // Rutas protegidas (requieren token)

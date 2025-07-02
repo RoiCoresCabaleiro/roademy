@@ -215,10 +215,28 @@ async function completeNivel(req, res, next) {
     } else {
       payload.attemptNota = attemptNota;
       payload.bestNota = prog.nota ?? 0;
+      payload.notaMinima = req.nivel.puntuacionMinima;
     }
     if (mejorado && prog.intentos > 1) {
       payload.mejorado = true;
     }
+    if (payload.completado) {
+      const idx = nivelesEstado.findIndex(n => n.nivelId === nivelId);
+      if (idx >= 0 && idx + 1 < nivelesEstado.length) {
+        // Siguiente nivel
+        const siguiente = nivelesEstado[idx + 1];
+        payload.nivelSiguienteId = siguiente.nivelId;
+        // Siguiente nivel es de un tema diferente?
+        const nuevoTema = siguiente.temaId !== req.nivel.temaId;
+        payload.nuevoTema = nuevoTema;
+        if (nuevoTema) {
+          // Siguiente tema está desbloqueado?
+          const temaInfo = temasEstado.find(t => t.temaId === siguiente.temaId);
+          payload.temaSiguienteDesbloqueado = Boolean(temaInfo?.desbloqueado);
+        }
+      }
+    }
+
     return res.json(payload);
   } catch (err) {
     next(err);

@@ -5,7 +5,6 @@ const express = require("express");
 const cors = require("cors");
 const helmet = require("helmet");
 const cookieParser = require('cookie-parser');
-const rateLimit = require("express-rate-limit");
 
 const errorHandler = require("./middleware/errorHandler");
 
@@ -27,10 +26,7 @@ app.use(cors({
   credentials: true,
 }));
 
-
-
 // Rutas de la API
-app.use("/api/v1/auth", rateLimit({ windowMs: 15 * 60 * 1000, max: 100 })); //
 app.use("/api/v1/auth", authRoutes);
 app.use("/api/v1/usuarios", usuarioRoutes);
 app.use("/api/v1/clases", claseRoutes);
