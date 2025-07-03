@@ -1,17 +1,22 @@
 export default function TemaBanner({ titulo, desbloqueado, estrellas, estrellasNec, estrellasTot, completados, total }) {
-  const temaAcabado = desbloqueado && completados >= total && estrellas >= estrellasTot;
+  const temaAcabado = completados >= total && estrellas >= estrellasTot;
   return (
     <div className="sticky top-0 bg-white p-4 border-b z-10">
       <div className="flex items-center space-x-4">
         <h2 className="text-lg font-bold">{titulo}</h2>
-        {(desbloqueado && !temaAcabado) ? (
-          <p className={completados < total ? 'text-sm text-red-500' : 'text-sm text-green-500'}>
-            📖 {completados}/{total}
-          </p>
-        ) : (
-          <p className="text-sm">✅</p>
+        {desbloqueado && (
+          <>
+            {!temaAcabado ? (
+              <p className={completados < total ? 'text-sm text-red-500' : 'text-sm text-green-500'}>
+                📖 {completados}/{total}
+              </p>
+            ) : (
+              <p className="text-sm text-green-500">✅ Tema Completado</p>
+            )}
+          </>
         )}
       </div>
+
       {(desbloqueado && !temaAcabado) && (
         <div className="relative w-full bg-gray-200 rounded-full h-4 mt-2 overflow-hidden">
             {(estrellas < estrellasTot) ? (
@@ -30,7 +35,6 @@ export default function TemaBanner({ titulo, desbloqueado, estrellas, estrellasN
                 className="bg-yellow-500 h-4"
               />
             )}
-              
         </div>
       )}
     </div>

@@ -142,6 +142,7 @@ export default function StudentDashboard() {
     }
   };
 
+  const cursoCompletado = progresoTemaActual.completados >= progresoTemaActual.totalNiveles && progresoTotalCurso.estrellasObtenidasCurso >= progresoTotalCurso.estrellasPosiblesCurso
   return (
     <div className="pb-8 p-4 space-y-6">
       <section className="md:hidden relative p-4 ">
@@ -315,9 +316,14 @@ export default function StudentDashboard() {
         {/* Progreso Total */}
         <div className="bg-white shadow rounded p-4">
           <h2 className="font-semibold mb-2">Progreso Total</h2>
-          <p>
-            {progresoTotalCurso.estrellasObtenidasCurso}/{progresoTotalCurso.estrellasPosiblesCurso} ⭐{' '} ({progresoTotalCurso.porcentajeProgresoTotal}%)
-          </p>
+          <div className="flex items-center justify-between">
+            <p>
+              {progresoTotalCurso.estrellasObtenidasCurso}/{progresoTotalCurso.estrellasPosiblesCurso} ⭐ {' '} ({progresoTotalCurso.porcentajeProgresoTotal}%)
+              {(cursoCompletado) && (
+                <span className="text-green-500 ml-4">¡Curso completado!</span>
+              )}
+            </p>
+          </div>
           <div className="w-full bg-gray-200 rounded-full h-4 mt-2 overflow-hidden">
             {progresoTotalCurso.estrellasObtenidasCurso < progresoTotalCurso.estrellasPosiblesCurso ? (
               <div
@@ -333,47 +339,49 @@ export default function StudentDashboard() {
         </div>
 
         {/* Tema Actual */}
-        <div className="bg-white shadow rounded p-4">
-          <h2 className="font-semibold mb-2">
-            Tema Actual: {progresoTemaActual.titulo}
-          </h2>
-          <p>
-            {progresoTemaActual.estrellasObtenidas}/{progresoTemaActual.estrellasPosibles} ⭐ {' '} ({progresoTemaActual.porcentaje}%)
-          </p>
-          <div className="relative w-full bg-gray-200 rounded-full h-4 mb-2 mt-2 overflow-hidden">
-            {progresoTemaActual.estrellasObtenidas < progresoTemaActual.estrellasPosibles ? (
-              <>
+        {!cursoCompletado && (
+          <div className="bg-white shadow rounded p-4">
+            <h2 className="font-semibold mb-2">
+              Tema Actual: {progresoTemaActual.titulo}
+            </h2>
+            <p>
+              {progresoTemaActual.estrellasObtenidas}/{progresoTemaActual.estrellasPosibles} ⭐ {' '} ({progresoTemaActual.porcentaje}%)
+            </p>
+            <div className="relative w-full bg-gray-200 rounded-full h-4 mb-2 mt-2 overflow-hidden">
+              {progresoTemaActual.estrellasObtenidas < progresoTemaActual.estrellasPosibles ? (
+                <>
+                  <div
+                    className="bg-blue-500 h-4"
+                    style={{ width: `${ (progresoTemaActual.estrellasObtenidas / progresoTemaActual.estrellasPosibles) * 100 }%` }}
+                  />
+                  <div
+                    className={progresoTemaActual.estrellasObtenidas < progresoTemaActual.estrellasNecesarias ? "absolute top-0 h-4 w-2 bg-red-500" : "absolute top-0 h-4 w-2 bg-green-500"}
+                    style={{ left: `${ (progresoTemaActual.estrellasNecesarias / progresoTemaActual.estrellasPosibles) * 100 }%` }}
+                  />
+                </>
+              ) : (
                 <div
-                  className="bg-blue-500 h-4"
-                  style={{ width: `${ (progresoTemaActual.estrellasObtenidas / progresoTemaActual.estrellasPosibles) * 100 }%` }}
+                  className="bg-yellow-500 h-4"
                 />
-                <div
-                  className={progresoTemaActual.estrellasObtenidas < progresoTemaActual.estrellasNecesarias ? "absolute top-0 h-4 w-2 bg-red-500" : "absolute top-0 h-4 w-2 bg-green-500"}
-                  style={{ left: `${ (progresoTemaActual.estrellasNecesarias / progresoTemaActual.estrellasPosibles) * 100 }%` }}
-                />
-              </>
-            ) : (
-              <div
-                className="bg-yellow-500 h-4"
-              />
-            )}
-          </div>
-          <h2 className="font-semibold mb-2">
-            Requisitos para completar el tema:
-          </h2>
-          <p>
-            Estrellas:{' '}
-            <span className={progresoTemaActual.estrellasObtenidas < progresoTemaActual.estrellasNecesarias ? 'text-red-500' : 'text-green-500'}>
-              {progresoTemaActual.estrellasObtenidas}/{progresoTemaActual.estrellasNecesarias}
-            </span>
-          </p>
-          <p>
-              Niveles completados:{' '}
-              <span className={progresoTemaActual.completados < progresoTemaActual.totalNiveles ? 'text-red-500' : 'text-green-500'}>
-                {progresoTemaActual.completados}/{progresoTemaActual.totalNiveles}
+              )}
+            </div>
+            <h2 className="font-semibold mb-2">
+              Requisitos para completar el tema:
+            </h2>
+            <p>
+              Estrellas:{' '}
+              <span className={progresoTemaActual.estrellasObtenidas < progresoTemaActual.estrellasNecesarias ? 'text-red-500' : 'text-green-500'}>
+                {progresoTemaActual.estrellasObtenidas}/{progresoTemaActual.estrellasNecesarias}
               </span>
-          </p>
-        </div>
+            </p>
+            <p>
+                Niveles completados:{' '}
+                <span className={progresoTemaActual.completados < progresoTemaActual.totalNiveles ? 'text-red-500' : 'text-green-500'}>
+                  {progresoTemaActual.completados}/{progresoTemaActual.totalNiveles}
+                </span>
+            </p>
+          </div>
+        )}
 
         {/* Actividad Reciente */}
         <div className="bg-white shadow rounded p-4">
@@ -399,7 +407,7 @@ export default function StudentDashboard() {
             <p className="text-sm text-gray-500">Sin actividad reciente</p>
           ) : (
             Object.entries(actividadesPorDia).map(([dia, logs]) => (
-              <div key={dia} className="mb-4">
+              <div key={dia} className="mt-2">
                 {/* Fecha agrupada */}
                 <h4 className="text-lg font-medium">
                   {format(parseISO(dia), 'dd/MM/yyyy')}
