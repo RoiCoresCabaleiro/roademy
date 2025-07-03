@@ -5,6 +5,7 @@ import { useApi } from '../hooks/useApi';
 import { claseService } from '../services/claseService';
 import ErrorMessage from '../components/ErrorMessage';
 import { extractError } from '../utils/errorHandler';
+import { copyToClipboard } from '../utils/clipboard';
 
 export default function ClassesPage() {
   const { data, isLoading, error, refetch } =
@@ -71,16 +72,6 @@ export default function ClassesPage() {
     }
   };
 
-  const handleCopyCode = async (code) => {
-    try {
-      await navigator.clipboard.writeText(code);
-      setCopiedId(code);
-      setTimeout(() => setCopiedId(null), 2000);
-    } catch {
-      // ignore
-    }
-  };
-
   if (isLoading) return <div className="p-4">Cargando clases…</div>;
   if (error) return <ErrorMessage error={error} />;
 
@@ -124,7 +115,7 @@ export default function ClassesPage() {
           {clases.map(c => (
             <div
               key={c.id}
-              className="relative border rounded-lg p-6 shadow hover:shadow-md transition"
+              className="relative border rounded-lg shadow hover:bg-gray-200 transition"
             >
               {/* Inline edit */}
               {editingId === c.id ? (
@@ -156,44 +147,46 @@ export default function ClassesPage() {
                   {/* Botón Editar */}
                   <button
                     onClick={() => startEdit(c)}
-                    className="absolute top-2 right-2 text-yellow-600 hover:text-yellow-800"
+                    className="absolute top-4 right-4 text-yellow-600 hover:text-yellow-800"
                     title="Editar clase"
                   >
                     ✏️
                   </button>
 
-                  {/* Enlazamos el resto de la tarjeta */}
+                  {/* Tarjeta completa (nombre, alumnos, código y copiar) */}
                   <Link
                     to={`/tutor/classes/${c.id}`}
-                    className="block space-y-4"
+                    className="block space-y-4 p-4"
                   >
                     <h2 className="text-xl font-semibold">{c.nombre}</h2>
-
-                    <div className="flex items-center">
-                      <span className="font-mono font-medium bg-gray-100 px-2 py-1 rounded">
-                        {c.codigo}
-                      </span>
-                      <button
-                        onClick={e => {
-                          e.preventDefault();
-                          handleCopyCode(c.codigo);
-                        }}
-                        className="ml-2 text-sm text-gray-500 hover:text-gray-700"
-                        title="Copiar código"
-                      >
-                        📋
-                      </button>
-                      {copiedId === c.codigo && (
-                        <span className="ml-2 text-green-600 text-sm">
-                          Copiado
-                        </span>
-                      )}
-                    </div>
-
                     <p className="text-gray-700">
                       {c.numEstudiantes}{' '}
                       {c.numEstudiantes === 1 ? 'alumno' : 'alumnos'}
                     </p>
+
+                    {/* Aquí metemos el código y el botón de copiar */}
+                    <div className="flex items-center mt-2">
+                      <button
+                        onClick={async e => {
+                          e.preventDefault();    // evita navegación
+                          e.stopPropagation();   // evita bubbling
+                          const ok = await copyToClipboard(c.codigo);
+                          if (ok) {
+                            setCopiedId(c.codigo);
+                            setTimeout(() => setCopiedId(null), 2000);
+                          } else {
+                            setOpError('No se pudo copiar el código');
+                          }
+                        }}
+                        className="ml-2 text-sm text-gray-500 hover:text-gray-700"
+                        title="Copiar código"
+                      >
+                        <span className="font-mono font-medium bg-gray-100 px-2 py-1 rounded">{c.codigo}</span> 📋
+                      </button>
+                      {copiedId === c.codigo && (
+                        <span className="ml-2 text-green-600 text-sm">Copiado</span>
+                      )}
+                    </div>
                   </Link>
                 </>
               )}

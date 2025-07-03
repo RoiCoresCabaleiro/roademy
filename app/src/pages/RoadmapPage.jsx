@@ -109,7 +109,8 @@ export default function RoadmapPage() {
                 titulo={tema.titulo}
                 desbloqueado={apiTema.desbloqueado}
                 estrellas={apiTema.estrellasObtenidas}
-                totEstrellas={apiTema.estrellasNecesarias}
+                estrellasNec={apiTema.estrellasNecesarias}
+                estrellasTot={apiTema.estrellasPosibles}
                 completados={apiTema.completados}
                 total={apiTema.totalNiveles}
               />

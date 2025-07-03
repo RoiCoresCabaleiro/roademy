@@ -6,6 +6,7 @@ import { claseService } from '../services/claseService';
 import ErrorMessage from '../components/ErrorMessage';
 import { extractError } from '../utils/errorHandler';
 import { formatNivelId } from '../utils/formatters';
+import { copyToClipboard } from '../utils/clipboard';
 
 import { format, parseISO } from 'date-fns';
 
@@ -90,16 +91,6 @@ export default function ClassDetailPage() {
     }
   };
 
-  const handleCopy = async () => {
-    try {
-      await navigator.clipboard.writeText(clase.codigo);
-      setCopied(true);
-      setTimeout(() => setCopied(false), 2000);
-    } catch {
-      // ignore
-    }
-  };
-
   const startDelete = () => setConfirmDelete(true);
   const cancelDelete = () => setConfirmDelete(false);
   const handleDeleteClass = async () => {
@@ -181,10 +172,18 @@ export default function ClassDetailPage() {
                 Editar
               </button>
               <button
-                onClick={handleCopy}
+                onClick={async () => {
+                  const ok = await copyToClipboard(clase.codigo);
+                  if (ok) {
+                    setCopied(true);
+                    setTimeout(() => setCopied(false), 2000);
+                  } else {
+                    setErrorOp('No se pudo copiar el código');
+                  }
+                }}
                 className="px-2 py-1 bg-gray-100 rounded hover:bg-gray-200 mr-2"
               >
-                Código: <span className="font-mono">{clase.codigo}</span>
+                <span className="font-mono font-medium bg-gray-100 px-2 py-1 rounded">{clase.codigo}</span> 📋
               </button>
               {copied && (
                 <span className="text-green-600 ml-2">Copiado</span>

@@ -316,15 +316,19 @@ export default function StudentDashboard() {
         <div className="bg-white shadow rounded p-4">
           <h2 className="font-semibold mb-2">Progreso Total</h2>
           <p>
-            {progresoTotalCurso.porcentajeProgresoTotal}% — ⭐{' '}
-            {progresoTotalCurso.estrellasObtenidasCurso}/
-            {progresoTotalCurso.estrellasPosiblesCurso}
+            {progresoTotalCurso.estrellasObtenidasCurso}/{progresoTotalCurso.estrellasPosiblesCurso} ⭐{' '} ({progresoTotalCurso.porcentajeProgresoTotal}%)
           </p>
-          <div className="w-full bg-gray-200 rounded-full h-4 mt-2">
-            <div
-              className="bg-green-500 h-4 rounded-full"
-              style={{ width: `${progresoTotalCurso.porcentajeProgresoTotal}%` }}
-            />
+          <div className="w-full bg-gray-200 rounded-full h-4 mt-2 overflow-hidden">
+            {progresoTotalCurso.estrellasObtenidasCurso < progresoTotalCurso.estrellasPosiblesCurso ? (
+              <div
+                className="bg-green-500 h-4"
+                style={{ width: `${progresoTotalCurso.porcentajeProgresoTotal}%` }}
+              />
+            ) : (
+              <div
+                className="bg-yellow-500 h-4"
+              />
+            )}
           </div>
         </div>
 
@@ -334,25 +338,31 @@ export default function StudentDashboard() {
             Tema Actual: {progresoTemaActual.titulo}
           </h2>
           <p>
-            {progresoTemaActual.porcentaje}% — ⭐{' '}
-            {progresoTemaActual.estrellasObtenidas}/
-            {progresoTemaActual.estrellasPosibles}
+            {progresoTemaActual.estrellasObtenidas}/{progresoTemaActual.estrellasPosibles} ⭐ {' '} ({progresoTemaActual.porcentaje}%)
           </p>
-          <div className="relative w-full bg-gray-200 rounded-full h-4 mb-2">
-            <div
-              className="bg-blue-500 h-4 rounded-full"
-              style={{ width: `${ (progresoTemaActual.estrellasObtenidas / progresoTemaActual.estrellasPosibles) * 100 }%` }}
-            />
-            <div
-              className={progresoTemaActual.estrellasObtenidas < progresoTemaActual.estrellasNecesarias ? "absolute top-0 h-4 w-2 bg-red-500" : "absolute top-0 h-4 w-2 bg-green-500"}
-              style={{ left: `${ (progresoTemaActual.estrellasNecesarias / progresoTemaActual.estrellasPosibles) * 100 }%` }}
-            />
+          <div className="relative w-full bg-gray-200 rounded-full h-4 mb-2 mt-2 overflow-hidden">
+            {progresoTemaActual.estrellasObtenidas < progresoTemaActual.estrellasPosibles ? (
+              <>
+                <div
+                  className="bg-blue-500 h-4"
+                  style={{ width: `${ (progresoTemaActual.estrellasObtenidas / progresoTemaActual.estrellasPosibles) * 100 }%` }}
+                />
+                <div
+                  className={progresoTemaActual.estrellasObtenidas < progresoTemaActual.estrellasNecesarias ? "absolute top-0 h-4 w-2 bg-red-500" : "absolute top-0 h-4 w-2 bg-green-500"}
+                  style={{ left: `${ (progresoTemaActual.estrellasNecesarias / progresoTemaActual.estrellasPosibles) * 100 }%` }}
+                />
+              </>
+            ) : (
+              <div
+                className="bg-yellow-500 h-4"
+              />
+            )}
           </div>
           <h2 className="font-semibold mb-2">
             Requisitos para completar el tema:
           </h2>
           <p>
-            Estrellas:&nbsp;
+            Estrellas:{' '}
             <span className={progresoTemaActual.estrellasObtenidas < progresoTemaActual.estrellasNecesarias ? 'text-red-500' : 'text-green-500'}>
               {progresoTemaActual.estrellasObtenidas}/{progresoTemaActual.estrellasNecesarias}
             </span>

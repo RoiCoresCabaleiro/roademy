@@ -137,11 +137,9 @@ export default function LevelCompletePage() {
         {nextAvailable && (
           <button
             onClick={handleNext}
-            className="px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600"
+            className={!nuevoTema ? "px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600" : "px-4 py-2 bg-yellow-500 text-white rounded hover:bg-yellow-600"}
           >
-            {nuevoTema
-              ? `Ir a ${formatNivelId(nivelSiguienteId)}`
-              : "Siguiente nivel"}
+            Siguiente: {formatNivelId(nivelSiguienteId)}
           </button>
         )}
         {nextLocked && (
@@ -149,7 +147,7 @@ export default function LevelCompletePage() {
             disabled
             className="px-4 py-2 bg-gray-400 text-white rounded cursor-not-allowed"
           >
-            Siguiente nivel
+            Siguiente: {formatNivelId(nivelSiguienteId)}
           </button>
         )}
       </div>
@@ -157,7 +155,7 @@ export default function LevelCompletePage() {
       {/* Mensaje si tema bloqueado */}
       {nextLocked && (
         <p className="text-center text-sm text-gray-600 max-w-sm">
-          Te hacen falta más estrellas en las lecciones de este tema para
+          Necesitas conseguir más estrellas en las lecciones de este tema para
           desbloquear el siguiente.
         </p>
       )}
