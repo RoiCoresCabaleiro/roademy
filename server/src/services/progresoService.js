@@ -1,6 +1,13 @@
 // server/src/services/progresoService.js
 
-const { Nivel, Tema, ProgresoUsuarioNivel, ProgresoRespuesta } = require('../models');
+const {
+  Nivel,
+  Tema,
+  ProgresoUsuarioNivel,
+  ProgresoRespuesta,
+} = require("../models");
+const sequelize = require("../config/sequelize");
+const { QueryTypes } = require("sequelize");
 
 /**
  * 1) Obtiene el estado de cada nivel para un usuario:
@@ -12,14 +19,21 @@ async function getNivelesEstado(usuarioId) {
     attributes: ["id", "temaId", "tipo", "orden"],
     order: [
       ["temaId", "ASC"],
-      ["orden", "ASC"]
-    ]
+      ["orden", "ASC"],
+    ],
   });
 
   // 1b) Cargar progresos del usuario
   const progresos = await ProgresoUsuarioNivel.findAll({
     where: { usuarioId },
-    attributes: ["id", "nivelId", "completado", "estrellas", "nota", "intentos"]
+    attributes: [
+      "id",
+      "nivelId",
+      "completado",
+      "estrellas",
+      "nota",
+      "intentos",
+    ],
   });
 
   // Mapear progresos por nivelId
@@ -100,8 +114,8 @@ async function computeTemasEstado(nivelesEstado) {
  */
 function computeNivelActualYAccesibles(nivelesEstado, temasEstado) {
   // 3a) Nivel actual: el primero no completado si perteneciente a un tema desbloqueado (si no, null)
-  const nivelActualEntry = nivelesEstado.find(n => {
-    const tema = temasEstado.find(t => t.temaId === n.temaId);
+  const nivelActualEntry = nivelesEstado.find((n) => {
+    const tema = temasEstado.find((t) => t.temaId === n.temaId);
     return !n.completado && tema.desbloqueado;
   });
   const nivelActual = nivelActualEntry ? nivelActualEntry.nivelId : null;
@@ -158,9 +172,40 @@ async function getContext(usuarioId) {
  */
 async function getAccessibleNiveles(usuarioId) {
   const nivelesEstado = await getNivelesEstado(usuarioId);
-  const temasEstado   = await computeTemasEstado(nivelesEstado);
+  const temasEstado = await computeTemasEstado(nivelesEstado);
   const { accesibles } = computeNivelActualYAccesibles(nivelesEstado, temasEstado);
   return accesibles;
+}
+
+/**
+ * Devuelve para un tutor la lista de sus clases
+ * con el total de ESTRELLAS de todos sus alumnos.
+ */
+async function getEstrellasClase(tutorId) {
+  const sql = `
+    SELECT
+      c.id           AS claseId,
+      c.nombre       AS nombre,
+      COUNT(DISTINCT u.id) AS numEstudiantes,
+      SUM(COALESCE(p.estrellas, 0)) AS totalEstrellas
+    FROM clases c
+    LEFT JOIN usuarios u ON u.clase_id = c.id
+    LEFT JOIN progreso_usuario_nivel p
+      ON p.usuario_id = u.id AND p.completado = TRUE
+    WHERE c.tutor_id = :tutorId
+    GROUP BY c.id, c.nombre
+    ORDER BY totalEstrellas DESC
+  `;
+  const rows = await sequelize.query(sql, {
+    replacements: { tutorId },
+    type: QueryTypes.SELECT,
+  });
+  return rows.map((r) => ({
+    claseId: r.claseId,
+    nombre: r.nombre,
+    numEstudiantes: r.numEstudiantes,
+    totalEstrellas: parseInt(r.totalEstrellas, 10),
+  }));
 }
 
 module.exports = {
@@ -170,4 +215,5 @@ module.exports = {
   getTotalCourseStars,
   getContext,
   getAccessibleNiveles,
+  getEstrellasClase,
 };

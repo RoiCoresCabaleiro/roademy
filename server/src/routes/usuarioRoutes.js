@@ -6,6 +6,7 @@ const router = express.Router();
 const usuarioController = require('../controllers/usuarioController');
 const authenticateToken = require('../middleware/authToken');
 const ensureEstudiante = require('../middleware/ensureEstudiante');
+const ensureTutor = require('../middleware/ensureTutor');
 const { loginLimiter, registerLimiter } = require('../middleware/rateLimit');
 
 const { validateRegister, validateLogin, validateEditarPerfil, validateUnirseClase } = require('../middleware/validators');
@@ -21,6 +22,8 @@ router.post('/login', loginLimiter, validateLogin, usuarioController.login);
 router.use(authenticateToken);
 
 router.get('/me/dashboard', ensureEstudiante, usuarioController.dashboard);
+
+router.get('/me/dashboard-tutor', ensureTutor, usuarioController.dashboardTutor);
 
 router.get('/me', usuarioController.verPerfil);
 

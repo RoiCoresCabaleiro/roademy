@@ -176,6 +176,31 @@ async function dashboard(req, res, next) {
 
 
 /**
+ * Devuelve la informacion para el dashboard del tutor
+ */
+// GET  /api/v1/usuarios/dashboard-tutor
+async function dashboardTutor(req, res, next) {
+  try {
+    const clases  = await progresoService.getEstrellasClase(req.user.id);
+    const { estrellasPosiblesCurso } = await progresoService.getTotalCourseStars();
+
+    return res.json({
+      success: true,
+      clases: clases.map(c => ({
+        id:               c.claseId,
+        nombre:           c.nombre,
+        numEstudiantes:   c.numEstudiantes,
+        totalEstrellas:   c.totalEstrellas,
+        mediaProgresoTotal: c.numEstudiantes > 0 ? Math.round(((c.totalEstrellas / c.numEstudiantes) / estrellasPosiblesCurso) * 100) : 0,
+      }))
+    });
+  } catch (err) {
+    next(err);
+  }
+}
+
+
+/**
  * Devuelve los datos del perfil (id, nombre, email, rol, claseId y, si tiene, la clase).
  */
 // GET  /api/v1/usuarios/me
@@ -406,6 +431,7 @@ module.exports = {
   register,
   login,
   dashboard,
+  dashboardTutor,
   verPerfil,
   editarPerfil,
   unirseClase,
