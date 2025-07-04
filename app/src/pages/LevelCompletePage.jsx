@@ -41,7 +41,7 @@ export default function LevelCompletePage() {
     "¡Muy bien!",
     "¡Perfecto!",
   ];
-  // Mensajes motivacionales para quizzes ([0,20),[20,40),[40,60),[60,80),[80,100],100)
+  // Mensajes motivacionales para quizzes ([0,20),[20,40),[40,60),[60,80),[80,100),100)
   const mensajesQuiz = [
     "No te rindas, ¡sigue practicando!",
     "Buen comienzo, pero puedes mejorar.",

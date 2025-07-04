@@ -15,7 +15,7 @@ import { ArrowRightOnRectangleIcon } from '@heroicons/react/24/outline';
 export default function StudentDashboard() {
   const { logout } = useAuth();
 
-  // Hooks de estado – siempre en el top, antes de cualquier return
+  // Estados de la UI
   const [isEditing, setIsEditing] = useState(false);
   const [form, setForm] = useState({ nombre: '', email: '', antiguaContraseña: '', contraseña: '' });
   const [errorEdit, setErrorEdit] = useState(null);
@@ -53,7 +53,7 @@ export default function StudentDashboard() {
     error: errorDash,
   } = useApi(fetchDashboard);
 
-  // Mientras carga o hay error salimos antes de renderizar el resto
+  // Mientras carga o hay error salir antes de renderizar el resto
   if (loadingProfile || (loadingDash && !dashboard)) return <div className="p-4">Cargando datos...</div>;
   if (errorProfile) return <ErrorMessage error={errorProfile} />;
   if (errorDash) return <ErrorMessage error={errorDash} />;
@@ -155,106 +155,104 @@ export default function StudentDashboard() {
           Cerrar sesión
         </button>
       </section>
+
       {/* TARJETA 1: PERFIL */}
       <section className="relative p-4 space-y-2 bg-white shadow rounded">
         <div className="flex justify-between items-center">
           <h2 className="font-semibold">Mi Perfil</h2>
           <button
-            className="text-blue-500"
+            className="px-1 py-1 bg-yellow-500 rounded hover:bg-yellow-600"
             onClick={() => {
-              if (!isEditing) {
-                setForm({ nombre: '', email: '', antiguaContraseña: '', contraseña: '' });
-                setErrorEdit(null);
-              } else {
-                setForm(f => ({ ...f, antiguaContraseña: '', contraseña: '' }));
-                setErrorEdit(null);
-              }
-              setIsEditing(prev => !prev);
+              setErrorEdit(null);
+              setForm({ nombre:'', email:'', antiguaContraseña:'', contraseña:'' });
+              setIsEditing(true);
             }}
           >
-            {isEditing ? 'Cancelar' : 'Editar'}
+            ✏️
           </button>
         </div>
 
-        {errorEdit && <ErrorMessage error={errorEdit} />}
-
-        {isEditing ? (
-          <div className="space-y-4">
-            {/* Nombre */}
-            <div className="flex flex-col">
-              <label htmlFor="nombre" className="text-sm font-medium">Nombre</label>
-              <input
-                id="nombre"
-                name="nombre"
-                value={form.nombre}
-                onChange={handleChange}
-                placeholder={user.nombre}
-                className="w-full border px-2 py-1 rounded"
-              />
-            </div>
-
-            {/* Email */}
-            <div className="flex flex-col">
-              <label htmlFor="email" className="text-sm font-medium">Email</label>
-              <input
-                id="email"
-                name="email"
-                value={form.email}
-                onChange={handleChange}
-                placeholder={user.email}
-                className="w-full border px-2 py-1 rounded"
-              />
-            </div>
-
-            <hr className="my-2" />
-
-            {/* Contraseña actual */}
-            <div className="flex flex-col">
-              <label htmlFor="antiguaContraseña" className="text-sm font-medium">
-                Contraseña actual
-              </label>
-              <input
-                id="antiguaContraseña"
-                type="password"
-                name="antiguaContraseña"
-                value={form.antiguaContraseña}
-                onChange={handleChange}
-                placeholder=""
-                className="w-full border px-2 py-1 rounded"
-              />
-            </div>
-
-            {/* Contraseña nueva */}
-            <div className="flex flex-col">
-              <label htmlFor="contraseña" className="text-sm font-medium">
-                Contraseña nueva
-              </label>
-              <input
-                id="contraseña"
-                type="password"
-                name="contraseña"
-                value={form.contraseña}
-                onChange={handleChange}
-                placeholder=""
-                className="w-full border px-2 py-1 rounded"
-              />
-            </div>
-
-            <button
-              onClick={handleSaveProfile}
-              disabled={isSaving || (form.contraseña && !form.antiguaContraseña)}
-              className="mt-2 px-4 py-2 bg-green-500 text-white rounded disabled:opacity-50"
-            >
-              Guardar cambios
-            </button>
-          </div>
-        ) : (
-          <div className="space-y-1">
-            <p><strong>Nombre:</strong> {user.nombre}</p>
-            <p><strong>Email:</strong> {user.email}</p>
-          </div>
-        )}
+        <div className="space-y-1">
+          <p><strong>Nombre:</strong> {user.nombre}</p>
+          <p><strong>Email:</strong> {user.email}</p>
+        </div>
       </section>
+
+      {/* MODAL DE EDICIÓN DE PERFIL */}
+      {isEditing && (
+        <div
+          className="fixed inset-0 bg-black/40 flex items-center justify-center z-50"
+          onClick={() => { setIsEditing(false); setErrorEdit(null); }}
+        >
+          <div
+            className="bg-white p-6 rounded shadow-lg w-11/12 max-w-md no-scrollbar"
+            onClick={e => e.stopPropagation()}
+          >
+            <h3 className="text-lg font-semibold mb-4">Editar perfil</h3>
+            {errorEdit && <ErrorMessage error={errorEdit} />}
+            {/* Formulario */}
+            <div className="space-y-4">
+              <div className="flex flex-col">
+                <label className="text-sm font-medium">Nombre</label>
+                <input
+                  name="nombre"
+                  value={form.nombre}
+                  onChange={handleChange}
+                  placeholder={user.nombre}
+                  className="w-full border px-2 py-1 rounded"
+                />
+              </div>
+              <div className="flex flex-col">
+                <label className="text-sm font-medium">Email</label>
+                <input
+                  name="email"
+                  value={form.email}
+                  onChange={handleChange}
+                  placeholder={user.email}
+                  className="w-full border px-2 py-1 rounded"
+                />
+              </div>
+              <hr />
+              <div className="flex flex-col">
+                <label className="text-sm font-medium">Contraseña actual</label>
+                <input
+                  type="password"
+                  name="antiguaContraseña"
+                  value={form.antiguaContraseña}
+                  onChange={handleChange}
+                  className="w-full border px-2 py-1 rounded"
+                />
+              </div>
+              <div className="flex flex-col">
+                <label className="text-sm font-medium">Nueva contraseña</label>
+                <input
+                  type="password"
+                  name="contraseña"
+                  value={form.contraseña}
+                  onChange={handleChange}
+                  className="w-full border px-2 py-1 rounded"
+                />
+              </div>
+              <div className="flex justify-end space-x-2">
+                <button
+                  onClick={() => { setIsEditing(false); setErrorEdit(null); }}
+                  className="px-4 py-2 bg-gray-200 rounded hover:bg-gray-300"
+                  disabled={isSaving}
+                >
+                  Cancelar
+                </button>
+                <button
+                  onClick={handleSaveProfile}
+                  className="px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600 disabled:opacity-50"
+                  disabled={isSaving || (form.contraseña && !form.antiguaContraseña)}
+                >
+                  Guardar
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* TARJETA 2: CLASE */}
       <section className="p-4 space-y-2 bg-white shadow rounded">

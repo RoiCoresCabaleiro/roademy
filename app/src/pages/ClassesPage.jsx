@@ -8,31 +8,41 @@ import { extractError } from '../utils/errorHandler';
 import { copyToClipboard } from '../utils/clipboard';
 
 export default function ClassesPage() {
-  const { data, isLoading, error, refetch } =
-    useApi(claseService.listarClases);
+  const { data, isLoading, error, refetch } = useApi(claseService.listarClases);
   const clases = data?.clases || [];
 
+  // Estados de la UI
+  const [globalError,  setGlobalError]  = useState(null);
+  const [createError,  setCreateError]  = useState(null);
+  const [editError,    setEditError]    = useState(null);
   // Crear
   const [creating, setCreating] = useState(false);
   const [newName, setNewName] = useState('');
-  const [opError, setOpError] = useState(null);
   const [isCreating, setIsCreating] = useState(false);
-
-  // Editar inline
+  // Editar
   const [editingId, setEditingId] = useState(null);
   const [editName, setEditName] = useState('');
   const [isSaving, setIsSaving] = useState(false);
-
   // Copiar feedback
   const [copiedId, setCopiedId] = useState(null);
 
-  useEffect(() => {
-    refetch();
-  }, [refetch]);
+  useEffect(() => { refetch(); }, [refetch]);
+
+  const startCreate = () => {
+    setCreating(true);
+    setGlobalError(null);
+    setCreateError(null);
+    setNewName('');
+  };
+
+  const cancelCreate = () => {
+    setCreating(false);
+    setCreateError(null);
+  };
 
   const handleCreate = async () => {
     if (!newName.trim()) return;
-    setOpError(null);
+    setCreateError(null)
     setIsCreating(true);
     try {
       await claseService.crearClase(newName.trim());
@@ -40,7 +50,7 @@ export default function ClassesPage() {
       setCreating(false);
       await refetch();
     } catch (err) {
-      setOpError(extractError(err));
+      setCreateError(extractError(err));
     } finally {
       setIsCreating(false);
     }
@@ -49,24 +59,23 @@ export default function ClassesPage() {
   const startEdit = (c) => {
     setEditingId(c.id);
     setEditName(c.nombre);
-    setOpError(null);
   };
 
   const cancelEdit = () => {
     setEditingId(null);
-    setEditName('');
+    setEditError(null);
   };
 
-  const saveEdit = async (id) => {
+  const saveEdit = async () => {
     if (!editName.trim()) return;
-    setOpError(null);
+    setEditError(null)
     setIsSaving(true);
     try {
-      await claseService.actualizarClase(id, editName.trim());
+      await claseService.actualizarClase(editingId, editName.trim());
       setEditingId(null);
       await refetch();
     } catch (err) {
-      setOpError(extractError(err));
+      setEditError((extractError(err)));
     } finally {
       setIsSaving(false);
     }
@@ -80,33 +89,14 @@ export default function ClassesPage() {
       <header className="flex justify-between items-center">
         <h1 className="text-3xl font-bold">Mis clases</h1>
         <button
-          onClick={() => setCreating(c => !c)}
+          onClick={startCreate}
           className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
         >
-          {creating ? 'Cancelar' : '+ Crear clase'}
+          + Crear clase
         </button>
       </header>
 
-      {opError && <ErrorMessage error={opError} />}
-
-      {creating && (
-        <div className="flex space-x-2">
-          <input
-            type="text"
-            value={newName}
-            onChange={e => setNewName(e.target.value)}
-            placeholder="Nombre de nueva clase"
-            className="flex-1 border px-3 py-2 rounded"
-          />
-          <button
-            onClick={handleCreate}
-            disabled={isCreating}
-            className="px-4 py-2 bg-green-500 text-white rounded disabled:opacity-50"
-          >
-            Guardar
-          </button>
-        </div>
-      )}
+      {globalError && !creating && editingId === null && <ErrorMessage error={globalError} />}
 
       {clases.length === 0 ? (
         <p className="text-gray-600">No hay clases creadas.</p>
@@ -117,81 +107,129 @@ export default function ClassesPage() {
               key={c.id}
               className="relative border rounded-lg shadow hover:bg-gray-200 transition"
             >
-              {/* Inline edit */}
-              {editingId === c.id ? (
-                <div className="space-y-2">
-                  <input
-                    type="text"
-                    value={editName}
-                    onChange={e => setEditName(e.target.value)}
-                    className="w-full border px-2 py-1 rounded"
-                  />
-                  <div className="flex space-x-2">
-                    <button
-                      onClick={() => saveEdit(c.id)}
-                      disabled={isSaving}
-                      className="px-3 py-1 bg-green-500 text-white rounded disabled:opacity-50"
-                    >
-                      Guardar
-                    </button>
-                    <button
-                      onClick={cancelEdit}
-                      className="px-3 py-1 bg-gray-300 rounded"
-                    >
-                      Cancelar
-                    </button>
-                  </div>
-                </div>
-              ) : (
-                <>
-                  {/* Botón Editar */}
+              {/* Botón Editar abre modal */}
+              <button
+                onClick={() => startEdit(c)}
+                className="absolute top-4 right-4 px-2 py-1 bg-yellow-500 rounded hover:bg-yellow-600"
+                title="Editar clase"
+              >
+                ✏️
+              </button>
+
+              {/* Tarjeta completa (nombre, alumnos, código y copiar) */}
+              <Link
+                to={`/tutor/classes/${c.id}`}
+                className="block space-y-4 p-4"
+              >
+                <h2 className="text-xl font-semibold">{c.nombre}</h2>
+                <p className="text-gray-700">
+                  {c.numEstudiantes}{' '}
+                  {c.numEstudiantes === 1 ? 'alumno' : 'alumnos'}
+                </p>
+
+                {/* Aquí metemos el código y el botón de copiar */}
+                <div className="flex items-center mt-2">
                   <button
-                    onClick={() => startEdit(c)}
-                    className="absolute top-4 right-4 text-yellow-600 hover:text-yellow-800"
-                    title="Editar clase"
+                    onClick={async e => {
+                      e.preventDefault();    // evita navegación
+                      e.stopPropagation();   // evita bubbling
+                      const ok = await copyToClipboard(c.codigo);
+                      if (ok) {
+                        setCopiedId(c.codigo);
+                        setTimeout(() => setCopiedId(null), 2000);
+                      } else {
+                        setGlobalError('No se pudo copiar el código');
+                      }
+                    }}
+                    className="text-sm text-gray-500 hover:text-gray-700"
+                    title="Copiar código"
                   >
-                    ✏️
+                    <span className="font-mono font-medium bg-gray-100 px-2 py-1 rounded">{c.codigo}</span> 📋
                   </button>
-
-                  {/* Tarjeta completa (nombre, alumnos, código y copiar) */}
-                  <Link
-                    to={`/tutor/classes/${c.id}`}
-                    className="block space-y-4 p-4"
-                  >
-                    <h2 className="text-xl font-semibold">{c.nombre}</h2>
-                    <p className="text-gray-700">
-                      {c.numEstudiantes}{' '}
-                      {c.numEstudiantes === 1 ? 'alumno' : 'alumnos'}
-                    </p>
-
-                    {/* Aquí metemos el código y el botón de copiar */}
-                    <div className="flex items-center mt-2">
-                      <button
-                        onClick={async e => {
-                          e.preventDefault();    // evita navegación
-                          e.stopPropagation();   // evita bubbling
-                          const ok = await copyToClipboard(c.codigo);
-                          if (ok) {
-                            setCopiedId(c.codigo);
-                            setTimeout(() => setCopiedId(null), 2000);
-                          } else {
-                            setOpError('No se pudo copiar el código');
-                          }
-                        }}
-                        className="ml-2 text-sm text-gray-500 hover:text-gray-700"
-                        title="Copiar código"
-                      >
-                        <span className="font-mono font-medium bg-gray-100 px-2 py-1 rounded">{c.codigo}</span> 📋
-                      </button>
-                      {copiedId === c.codigo && (
-                        <span className="ml-2 text-green-600 text-sm">Copiado</span>
-                      )}
-                    </div>
-                  </Link>
-                </>
-              )}
+                  {copiedId === c.codigo && (
+                    <span className="ml-2 text-green-600 text-sm">Copiado</span>
+                  )}
+                </div>
+              </Link>
             </div>
           ))}
+        </div>
+      )}
+
+      {/* MODAL DE CREACIÓN */}
+      {creating && (
+        <div
+          className="fixed inset-0 bg-black/40 flex items-center justify-center z-50"
+          onClick={cancelCreate}
+        >
+          <div
+            className="bg-white p-6 rounded shadow-lg w-11/12 max-w-md"
+            onClick={e => e.stopPropagation()}
+          >
+            <h3 className="text-lg font-semibold mb-4">Crear nueva clase</h3>
+            {createError && <ErrorMessage error={createError} />}
+            <input
+              type="text"
+              value={newName}
+              onChange={e => setNewName(e.target.value)}
+              placeholder="Nombre de la clase"
+              className="w-full border px-3 py-2 rounded mb-4"
+            />
+            <div className="flex justify-end space-x-2">
+              <button
+                onClick={cancelCreate}
+                className="px-4 py-2 bg-gray-200 rounded hover:bg-gray-300"
+                disabled={isCreating}
+              >
+                Cancelar
+              </button>
+              <button
+                onClick={handleCreate}
+                className="px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600 disabled:opacity-50"
+                disabled={isCreating}
+              >
+                Guardar
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* --- MODAL DE EDICIÓN --- */}
+      {editingId !== null && (
+        <div
+          className="fixed inset-0 bg-black/40 flex items-center justify-center z-50"
+          onClick={cancelEdit}
+        >
+          <div
+            className="bg-white p-6 rounded shadow-lg w-11/12 max-w-md"
+            onClick={e => e.stopPropagation()}
+          >
+            <h3 className="text-lg font-semibold mb-4">Renombrar clase</h3>
+            {editError && <ErrorMessage error={editError} />}
+            <input
+              type="text"
+              value={editName}
+              onChange={e => setEditName(e.target.value)}
+              className="w-full border px-3 py-2 rounded mb-4"
+            />
+            <div className="flex justify-end space-x-2">
+              <button
+                onClick={cancelEdit}
+                className="px-4 py-2 bg-gray-200 rounded hover:bg-gray-300"
+                disabled={isSaving}
+              >
+                Cancelar
+              </button>
+              <button
+                onClick={saveEdit}
+                className="px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600 disabled:opacity-50"
+                disabled={isSaving}
+              >
+                Guardar
+              </button>
+            </div>
+          </div>
         </div>
       )}
     </div>

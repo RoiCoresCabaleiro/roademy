@@ -35,7 +35,9 @@ export default function LevelPage() {
 
   const [slideIndex, setSlideIndex] = useState(0);
   const [answers, setAnswers] = useState([]);
-  const [completeError, setCompleteError] = useState(null);
+  const [globalError, setGlobalError] = useState(null);
+  //const [answerError, setAnswerError] = useState(null);
+  //const [completeError, setCompleteError] = useState(null);
 
   // 3) Cargar respuestas parciales existentes
   const initFn = useCallback(
@@ -66,6 +68,8 @@ export default function LevelPage() {
   // 4) Al responder, enviamos al backend y guardamos la respuesta
   const handleAnswer = async seleccion => {
     try {
+      setGlobalError(null);
+      //setAnswerError(null);
       const res = await progresoService.answer(nivelId, {
         preguntaId: slide.preguntaId,
         seleccion
@@ -79,22 +83,39 @@ export default function LevelPage() {
         }
       ]);
     } catch (err) {
-      console.error(err);
+      setGlobalError(extractError(err));
+      //setAnswerError(extractError(err));
     }
   };
 
   // 5) Navegación entre slides
-  const goTo = idx => setSlideIndex(Math.min(Math.max(idx, 0), slides.length - 1));
-  const handlePrev = () => goTo(slideIndex - 1);
-  const handleNext = () => goTo(slideIndex + 1);
+  const goTo = idx => {
+    setGlobalError(null);
+    //setAnswerError(null);
+    //setCompleteError(null);
+    setSlideIndex(Math.min(Math.max(idx, 0), slides.length - 1));
+  };
+  const handlePrev = () => {
+    setGlobalError(null);
+    //setAnswerError(null);
+    //setCompleteError(null);
+    goTo(slideIndex - 1);
+  };
+  const handleNext = () => {
+    setGlobalError(null);
+    //setAnswerError(null);
+    //setCompleteError(null);
+    goTo(slideIndex + 1);
+  };
   const handleComplete = async () => {
-    setCompleteError(null);
+    setGlobalError(null);
+    //setCompleteError(null);
     try {
       const res = await progresoService.complete(nivelId);
       navigate(`/levels/${nivelId}/completed`, { state: res.data });
     } catch (err) {
-      const msg = extractError(err);
-      setCompleteError(msg);
+      setGlobalError(extractError(err));
+      //setCompleteError(extractError(err));
     }
   };
 
@@ -139,8 +160,11 @@ export default function LevelPage() {
 
       {/* Controles de navegación */}
       <div className="flex flex-col items-center mt-4 space-y-2">
-        {/* Error al terminar nivel */}
-        <ErrorMessage error={completeError} />
+        {globalError && <ErrorMessage error={globalError} />}
+        {/*  
+        {completeError && <ErrorMessage error={completeError} />}
+        {answerError && <ErrorMessage error={answerError} />}
+        */}
         <div className="flex items-center space-x-6">
           {/* Flecha Anterior */}
           <button

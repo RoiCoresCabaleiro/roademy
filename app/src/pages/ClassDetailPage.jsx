@@ -22,18 +22,21 @@ export default function ClassDetailPage() {
   });
 
   // Estados de la UI
+  const [globalError, setGlobalError] = useState(null);
+  const [editError, setEditError] = useState(null);
+  const [studentModalError, setStudentModalError] = useState(null); 
+  // Editar clase (nombre)
   const [editing, setEditing] = useState(false);
   const [name, setName] = useState('');
   const [isSaving, setIsSaving] = useState(false);
-  const [errorOp, setErrorOp] = useState(null);
-
+  // Copiar código
   const [copied, setCopied] = useState(false);
-
+  // Borrar clase
   const [deleting, setDeleting] = useState(false);
   const [confirmDelete, setConfirmDelete] = useState(false);
-
+  // Expulsar estudiante
   const [confirmingExpel, setConfirmingExpel] = useState(null);
-
+  // Modal para mostrar todos los estudiantes
   const [showStudentsModal, setShowStudentsModal] = useState(false);
 
 
@@ -45,11 +48,9 @@ export default function ClassDetailPage() {
   const { data, isLoading, error, refetch } = useApi(fetchClass);
 
   // Inicializar nombre al cargar
-  useEffect(() => {
-    if (data?.clase && !editing) {
-      setName(data.clase.nombre);
-    }
-  }, [data, editing]);
+  //useEffect(() => {
+  //  if (data?.clase && !editing) setName(data.clase.nombre);
+  //}, [data, editing]);
 
   // Polling cada 10 s para recargar TODO el data (cabecera, estudiantes y actividad)
   useEffect(() => {
@@ -76,16 +77,27 @@ export default function ClassDetailPage() {
   }, {});
 
   // Handlers
+   const startEdit = () => {
+    setEditing(true);
+    setEditError(null);
+    if (data?.clase) setName(data.clase.nombre);
+  };
+  const cancelEdit = () => {
+    setEditing(false);
+    setEditError(null);
+    if (data?.clase) setName(data.clase.nombre);
+  };
+
   const handleSave = async () => {
     if (!name.trim()) return;
-    setErrorOp(null);
+    setEditError(null);
     setIsSaving(true);
     try {
       await claseService.actualizarClase(id, name.trim());
       setEditing(false);
       await refetch();
     } catch (err) {
-      setErrorOp(extractError(err));
+      setEditError(extractError(err));
     } finally {
       setIsSaving(false);
     }
@@ -94,13 +106,13 @@ export default function ClassDetailPage() {
   const startDelete = () => setConfirmDelete(true);
   const cancelDelete = () => setConfirmDelete(false);
   const handleDeleteClass = async () => {
-    setErrorOp(null);
+    setGlobalError(null);
     setDeleting(true);
     try {
       await claseService.eliminarClase(id);
       navigate('/tutor/classes');
     } catch (err) {
-      setErrorOp(extractError(err));
+      setGlobalError(extractError(err));
       setDeleting(false);
       setConfirmDelete(false);
     }
@@ -114,12 +126,12 @@ export default function ClassDetailPage() {
   };
 
   const handleConfirmExpel = async (studentId) => {
-    setErrorOp(null);
+    setStudentModalError(null);
     try {
       await claseService.eliminarEstudiante(id, studentId);
       await refetch();
     } catch (err) {
-      setErrorOp(extractError(err));
+      setStudentModalError(extractError(err));
     } finally {
       setConfirmingExpel(null);
     }
@@ -127,95 +139,107 @@ export default function ClassDetailPage() {
 
   return (
     <div className="p-4 space-y-6">
-      {errorOp && <ErrorMessage error={errorOp} />}
+      {globalError && !editing && !showStudentsModal && <ErrorMessage error={globalError} />}
 
       {/* Navegación atrás */}
       <button
         onClick={() => navigate(-1)}
         className="text-gray-600 hover:text-gray-800 mb-2"
       >
-        ← Volver a clases
+        ← 
       </button>
 
       {/* Cabecera con editar, copiar código y eliminar */}
       <section className="space-y-2">
         <div className="flex items-center justify-between">
-          {editing ? (
-            <div className="flex space-x-2 flex-1">
-              <input
-                type="text"
-                value={name}
-                onChange={e => setName(e.target.value)}
-                className="border px-2 py-1 rounded flex-1"
-              />
-              <button
-                onClick={handleSave}
-                disabled={isSaving}
-                className="px-3 py-1 bg-green-500 text-white rounded disabled:opacity-50"
-              >
-                Guardar
-              </button>
-              <button
-                onClick={() => setEditing(false)}
-                className="px-3 py-1 bg-gray-300 rounded"
-              >
-                Cancelar
-              </button>
-            </div>
+          <h2 className="text-2xl font-bold flex-1">{clase.nombre}</h2>
+          <button
+            onClick={startEdit}
+            className="px-2 py-1 bg-yellow-500 rounded hover:bg-yellow-600 mr-2"
+          >
+            ✏️
+          </button>
+          <button
+            onClick={async () => {
+              const ok = await copyToClipboard(clase.codigo);
+              if (ok) {
+                setCopied(true);
+                setTimeout(() => setCopied(false), 2000);
+              } else {
+                setGlobalError('No se pudo copiar el código');
+              }
+            }}
+            className="px-2 py-1 bg-gray-100 rounded hover:bg-gray-200 mr-2"
+          >
+            <span className="font-mono font-medium bg-gray-100 px-2 py-1 rounded">{clase.codigo}</span> 📋
+          </button>
+          {copied && (
+            <span className="text-green-600 ml-2">Copiado</span>
+          )}
+          {!confirmDelete ? (
+            <button
+              onClick={startDelete}
+              className="px-3 py-1 bg-red-600 text-white rounded"
+            >
+              Borrar clase
+            </button>
           ) : (
-            <>
-              <h2 className="text-2xl font-bold flex-1">{clase.nombre}</h2>
-              <button
-                onClick={() => setEditing(true)}
-                className="px-3 py-1 bg-yellow-500 text-white rounded mr-2"
-              >
-                Editar
-              </button>
-              <button
-                onClick={async () => {
-                  const ok = await copyToClipboard(clase.codigo);
-                  if (ok) {
-                    setCopied(true);
-                    setTimeout(() => setCopied(false), 2000);
-                  } else {
-                    setErrorOp('No se pudo copiar el código');
-                  }
-                }}
-                className="px-2 py-1 bg-gray-100 rounded hover:bg-gray-200 mr-2"
-              >
-                <span className="font-mono font-medium bg-gray-100 px-2 py-1 rounded">{clase.codigo}</span> 📋
-              </button>
-              {copied && (
-                <span className="text-green-600 ml-2">Copiado</span>
-              )}
-              {!confirmDelete ? (
-                <button
-                  onClick={startDelete}
-                  className="px-3 py-1 bg-red-600 text-white rounded"
-                >
-                  Borrar clase
-                </button>
-              ) : (
-                <button
-                  onClick={handleDeleteClass}
-                  disabled={deleting}
-                  className="px-3 py-1 bg-red-800 text-white rounded mr-2 disabled:opacity-50"
-                >
-                  Confirmar borrado
-                </button>
-              )}
-              {confirmDelete && (
-                <button
-                  onClick={cancelDelete}
-                  className="px-3 py-1 bg-gray-300 rounded"
-                >
-                  Cancelar
-                </button>
-              )}
-            </>
+            <button
+              onClick={handleDeleteClass}
+              disabled={deleting}
+              className="px-3 py-1 bg-red-800 text-white rounded mr-2 disabled:opacity-50"
+            >
+              Confirmar borrado
+            </button>
+          )}
+          {confirmDelete && (
+            <button
+              onClick={cancelDelete}
+              className="px-3 py-1 bg-gray-300 rounded"
+            >
+              Cancelar
+            </button>
           )}
         </div>
       </section>
+
+      {/* --- MODAL DE EDICIÓN --- */}
+      {editing && (
+        <div
+          className="fixed inset-0 bg-black/40 flex items-center justify-center z-50"
+          onClick={cancelEdit}
+        >
+          <div
+            className="bg-white p-6 rounded shadow-lg w-11/12 max-w-sm no-scrollbar"
+            onClick={e => e.stopPropagation()}
+          >
+            <h3 className="text-lg font-semibold mb-4">Renombrar clase</h3>
+            {editError && <ErrorMessage error={editError} />}
+            <input
+              type="text"
+              value={name}
+              onChange={e => setName(e.target.value)}
+              className="w-full border px-3 py-2 rounded mb-4"
+            />
+            <div className="flex justify-end space-x-2">
+              <button
+                onClick={cancelEdit}
+                className="px-4 py-2 bg-gray-200 rounded hover:bg-gray-300"
+                disabled={isSaving}
+              >
+                Cancelar
+              </button>
+              <button
+                onClick={handleSave}
+                className="px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600 disabled:opacity-50"
+                disabled={isSaving}
+              >
+                Guardar
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* Estudiantes */}
       <section className='mb-10'>
@@ -353,22 +377,23 @@ export default function ClassDetailPage() {
       {/* MODAL DE ESTUDIANTES */}
       {showStudentsModal && (
         <div
-          className="fixed inset-0 bg-black/60 flex items-center justify-center z-50"
-          onClick={() => setShowStudentsModal(false)}  /* click fuera cierra */
+          className="fixed inset-0 bg-black/40 flex items-center justify-center z-50"
+          onClick={() => {setShowStudentsModal(false); setStudentModalError(null);}}  /* click fuera cierra */
         >
           <div
-            className="bg-white w-11/12 max-w-lg max-h-[80vh] p-4 rounded overflow-y-auto no-scrollbar"
+            className="bg-white w-11/12 max-w-lg max-h-[80vh] p-6 rounded overflow-y-auto no-scrollbar"
             onClick={e => e.stopPropagation()} /* click dentro no cierra */
           >
             <div className="flex justify-between items-center mb-4">
               <h4 className="text-xl font-semibold">Todos los estudiantes</h4>
               <button
-                onClick={() => setShowStudentsModal(false)}
+                onClick={() => {setShowStudentsModal(false); setStudentModalError(null);}}
                 className="text-gray-500 hover:text-gray-700 text-2xl leading-none"
               >
                 &times;
               </button>
             </div>
+            {studentModalError && <ErrorMessage error={studentModalError} />}
             <ul className="space-y-2">
               {estudiantes.map(u => (
                 <li
