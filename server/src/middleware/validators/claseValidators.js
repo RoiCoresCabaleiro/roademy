@@ -25,7 +25,8 @@ const validateCrearClase = [
 
 const validateIdParam = [
   param('id')
-    .isInt({ gt: 0 }).withMessage('El parámetro id debe ser un entero positivo.'),
+    .isInt({ gt: 0 }).withMessage('El parámetro id debe ser un entero positivo.')
+    .toInt(),
   (req, res, next) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
@@ -44,9 +45,11 @@ const validateIdParam = [
 
 const validateEliminarEstudiante = [
   param("claseId")
-    .isInt({ gt: 0 }).withMessage("El parámetro claseId debe ser un entero positivo."),
+    .isInt({ gt: 0 }).withMessage("El parámetro claseId debe ser un entero positivo.")
+    .toInt(),
   param("userId")
-    .isInt({ gt: 0 }).withMessage("El parámetro userId debe ser un entero positivo."),
+    .isInt({ gt: 0 }).withMessage("El parámetro userId debe ser un entero positivo.")
+    .toInt(),
   (req, res, next) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {

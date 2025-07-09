@@ -7,7 +7,8 @@ const validateCompleteMinijuego = [
     .isInt({ gt: 0 }).withMessage("El ID del minijuego debe ser un entero positivo.")
     .toInt(),
   body("puntuacion")
-    .isInt({ min: 0 }).withMessage("La puntuación debe ser un número entero positivo."),
+    .isInt({ min: 0 }).withMessage("La puntuación debe ser un número entero positivo.")
+    .toInt(),
   (req, res, next) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {

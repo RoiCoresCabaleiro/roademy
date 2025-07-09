@@ -4,7 +4,8 @@ const { param, body, validationResult } = require('express-validator');
 
 const validateNivelId = [
   param('nivelId')
-    .isInt({ gt: 0 }).withMessage('nivelId debe ser un entero positivo.'),
+    .isInt({ gt: 0 }).withMessage('nivelId debe ser un entero positivo.')
+    .toInt(),
   (req, res, next) => {
     const errs = validationResult(req);
     if (!errs.isEmpty()) {
@@ -19,9 +20,11 @@ const validateNivelId = [
 
 const validateAnswer = [
   body('preguntaId')
-    .isInt({ gt: 0 }).withMessage('preguntaId debe ser un entero positivo.'),
+    .isInt({ gt: 0 }).withMessage('preguntaId debe ser un entero positivo.')
+    .toInt(),
   body('seleccion')
-    .isInt({ min: 0 }).withMessage('seleccion debe ser un índice numérico.'),
+    .isInt({ min: 0 }).withMessage('seleccion debe ser un índice numérico.')
+    .toInt(),
   (req, res, next) => {
     const errs = validationResult(req);
     if (!errs.isEmpty()) {
