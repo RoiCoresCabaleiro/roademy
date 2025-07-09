@@ -1,6 +1,6 @@
 // server/src/seed.js
 
-const { Tema, Nivel, PreguntaSolucion } = require("./models");
+const { Tema, Nivel, PreguntaSolucion, Minijuego } = require("./models");
 const temario = require("./data/temario.json");
 
 async function seedData() {
@@ -38,6 +38,14 @@ async function seedData() {
     )
   );
   await PreguntaSolucion.bulkCreate(soluciones, { validate: true });
+
+  // 4) Sembrar Minijuegos
+  const minijuegos = [
+    { nombre: "Cruce Peligroso", nivelDesbloqueo: 102 },
+    { nombre: "Semáforo Loco", nivelDesbloqueo: 202 },
+    { nombre: "Cebra Rápida", nivelDesbloqueo: 302 },
+  ];
+  await Minijuego.bulkCreate(minijuegos, { validate: true });
 
   console.log("✅ Seed completado");
 }

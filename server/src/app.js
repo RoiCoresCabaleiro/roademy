@@ -12,6 +12,7 @@ const authRoutes   = require("./routes/authRoutes");
 const usuarioRoutes = require("./routes/usuarioRoutes");
 const claseRoutes = require("./routes/claseRoutes");
 const progresoRoutes = require('./routes/progresoRoutes');
+const minijuegoRoutes = require("./routes/minijuegoRoutes");
 
 const FRONTEND = process.env.FRONTEND_URL || 'http://localhost:5173';
 
@@ -31,11 +32,7 @@ app.use("/api/v1/auth", authRoutes);
 app.use("/api/v1/usuarios", usuarioRoutes);
 app.use("/api/v1/clases", claseRoutes);
 app.use('/api/v1/progresos', progresoRoutes);
-
-// Ruta pública de prueba
-app.get("/", (req, res) => {
-  res.json({ success: true, message: "API up and running" });
-});
+app.use("/api/v1/minijuegos", minijuegoRoutes);
 
 // Captura centralizada de errores
 app.use(errorHandler);

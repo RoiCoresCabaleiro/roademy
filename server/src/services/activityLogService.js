@@ -1,6 +1,6 @@
 // src/services/activityLogService.js
 
-const { ActivityLogNivel, ActivityLogTemaComplete } = require("../models");
+const { ActivityLogNivel, ActivityLogTemaComplete, ActivityLogMinijuego } = require("../models");
 const sequelize = require("../config/sequelize");
 const { QueryTypes } = require("sequelize");
 
@@ -23,6 +23,14 @@ async function logTemaCompletion(usuarioId, temaId) {
   });
 }
 
+async function logMinijuegoAttempt(usuarioId, minijuegoId, puntuacion) {
+  return ActivityLogMinijuego.create({
+    usuarioId,
+    minijuegoId,
+    puntuacion
+  });
+}
+
 // Devuelve un log de actividad para una lista de usuarios.
 async function getActivityLog({ usuarioIds, types=['nivel','tema'], invertOrder = false, limit = 50 }) {
   // Si no hay alumnos, no hacemos ninguna consulta
@@ -39,6 +47,7 @@ async function getActivityLog({ usuarioIds, types=['nivel','tema'], invertOrder 
         a.usuario_id  AS usuarioId,
         'nivel'       AS logTipo,
         a.nivel_id    AS referenciaId,
+        NULL          AS minijuegoNombre,
         n.tipo        AS nivelTipo,
         a.completado,
         a.puntuacion,
@@ -55,6 +64,7 @@ async function getActivityLog({ usuarioIds, types=['nivel','tema'], invertOrder 
         usuario_id AS usuarioId,
         'tema'     AS logTipo,
         tema_id    AS referenciaId,
+        NULL       AS minijuegoNombre,
         NULL       AS nivelTipo,
         NULL       AS completado,
         NULL       AS puntuacion,
@@ -62,6 +72,23 @@ async function getActivityLog({ usuarioIds, types=['nivel','tema'], invertOrder 
         created_at AS createdAt
       FROM activity_log_tema_complete
       WHERE usuario_id IN (:usuarioIds)
+    `);
+  }
+  if (types.includes("minijuego")) {
+    parts.push(`
+      SELECT
+      m.usuario_id     AS usuarioId,
+      'minijuego'      AS logTipo,
+      m.minijuego_id   AS referenciaId,
+      j.nombre         AS minijuegoNombre,
+      NULL             AS nivelTipo,
+      NULL             AS completado,
+      m.puntuacion     AS puntuacion,
+      NULL             AS intento,
+      m.created_at     AS createdAt
+    FROM activity_log_minijuego m
+    JOIN minijuegos j ON m.minijuego_id = j.id
+    WHERE m.usuario_id IN (:usuarioIds)
     `);
   }
 
@@ -93,6 +120,10 @@ async function getActivityLog({ usuarioIds, types=['nivel','tema'], invertOrder 
       puntuacion: r.puntuacion,
       intento: r.intento,
     }),
+    ...(r.logTipo === "minijuego" && {
+      nombre: r.minijuegoNombre,
+      puntuacion: r.puntuacion,
+    }),
     createdAt: r.createdAt,
   }));
 
@@ -101,4 +132,4 @@ async function getActivityLog({ usuarioIds, types=['nivel','tema'], invertOrder 
   return logs;
 }
 
-module.exports = { getActivityLog, logNivelAttempt, logTemaCompletion };
+module.exports = { getActivityLog, logNivelAttempt, logTemaCompletion, logMinijuegoAttempt };

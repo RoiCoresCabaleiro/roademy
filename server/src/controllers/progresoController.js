@@ -3,6 +3,7 @@
 const { PreguntaSolucion, ProgresoUsuarioNivel, ProgresoRespuesta, ActivityLogTemaComplete } = require("../models");
 const progresoService = require("../services/progresoService");
 const activityLogService = require("../services/activityLogService");
+const minijuegoService = require('../services/minijuegoService');
 const { fn, col, literal } = require("sequelize");
 
 /**
@@ -267,11 +268,14 @@ async function getRoadmap(req, res, next) {
       enCurso: n.enCurso,
     }));
 
+    const minijuegos = await minijuegoService.getMinijuegosBasicosDesdeEstado(nivelesEstado);
+
     return res.json({
       success: true,
       nivelActual,
       niveles,
       temas: temasEstado,
+      minijuegos,
     });
   } catch (err) {
     next(err);

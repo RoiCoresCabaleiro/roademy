@@ -118,7 +118,7 @@ async function verClase(req, res, next) {
       const limitLogs = parseInt(req.query.limitLogs, 10);
       actividadReciente = await activityLogService.getActivityLog({
         usuarioIds,
-        types: ['nivel','tema'],
+        types: ["nivel", "tema", "minijuego"],
         invertOrder: false,
         limit: Number.isNaN(limitLogs) ? 50 : limitLogs,
       });

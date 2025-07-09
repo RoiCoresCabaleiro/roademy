@@ -144,7 +144,7 @@ async function dashboard(req, res, next) {
     const limitLogs = parseInt(req.query.limitLogs, 10);
     const actividadReciente = await activityLogService.getActivityLog({
       usuarioIds: [userId],
-      types: ["nivel", "tema"],
+      types: ["nivel", "tema", "minijuego"],
       invertOrder: false,
       limit: Number.isNaN(limitLogs) ? 5 : limitLogs,
     });
