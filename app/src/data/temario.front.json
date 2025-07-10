@@ -12,15 +12,15 @@
           "teoria": [
             {
               "subId": 1,
-              "texto": "Teoría de ejemplo nivel 1.1 - contexto de Pregunta 1001"
+              "texto": "# Este es un ejemplo de texto en **Markdown**.\n\nTambién podemos tener listas:\n\n*   Elemento 1\n*   Elemento 2\n\nY enlaces:"
             },
             {
               "subId": 2,
-              "texto": "Teoría de ejemplo nivel 1.1 - contexto de Pregunta 1002"
+              "texto": "# Este es un ejemplo de texto en **Markdown**.\n\nTambién podemos tener listas:\n\n*   Elemento 1\n*   Elemento 2\n\nY enlaces:"
             },
             {
               "subId": 3,
-              "texto": "Teoría de ejemplo nivel 1.1 - contexto de Pregunta 1003"
+              "texto": "# Este es un ejemplo de texto en **Markdown**.\n\nTambién podemos tener listas:\n\n*   Elemento 1\n*   Elemento 2\n\nY enlaces:"
             }
           ],
           "preguntas": [

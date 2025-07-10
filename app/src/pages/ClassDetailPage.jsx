@@ -103,8 +103,10 @@ export default function ClassDetailPage() {
     }
   };
 
-  const startDelete = () => setConfirmDelete(true);
-  const cancelDelete = () => setConfirmDelete(false);
+  const startDelete = () => {
+    setConfirmDelete(true);
+    setTimeout(() => setConfirmDelete(false), 2000);
+  }
   const handleDeleteClass = async () => {
     setGlobalError(null);
     setDeleting(true);
@@ -139,69 +141,64 @@ export default function ClassDetailPage() {
 
   return (
     <div className="p-4 space-y-6">
-      {globalError && !editing && !showStudentsModal && <ErrorMessage error={globalError} />}
+      {/* Navegación atrás, nombreclase y editar*/}
+      <div className='flex items-center gap-4 mb-4'>
+        <button
+          onClick={() => navigate(-1)}
+          className="px-3 py-1 bg-gray-200 rounded hover:bg-gray-300"
+        >
+          &larr;
+        </button>
+        <h2 className="text-2xl font-bold flex-1 flex justify-center">{clase.nombre}</h2>
+        <button
+          onClick={startEdit}
+          className="px-2 py-1 bg-yellow-500 rounded hover:bg-yellow-600"
+          title="Editar clase"
+        >
+          ✏️
+        </button>
+      </div>
 
-      {/* Navegación atrás */}
-      <button
-        onClick={() => navigate(-1)}
-        className="text-gray-600 hover:text-gray-800 mb-2"
-      >
-        ← 
-      </button>
-
-      {/* Cabecera con editar, copiar código y eliminar */}
-      <section className="space-y-2">
-        <div className="flex items-center justify-between">
-          <h2 className="text-2xl font-bold flex-1">{clase.nombre}</h2>
-          <button
-            onClick={startEdit}
-            className="px-2 py-1 bg-yellow-500 rounded hover:bg-yellow-600 mr-2"
-          >
-            ✏️
-          </button>
+      {/* copiar código y eliminar */}
+      <div className="flex items-center justify-between">
+        <div className="flex-1 flex justify-center ml-6">
           <button
             onClick={async () => {
               const ok = await copyToClipboard(clase.codigo);
               if (ok) {
                 setCopied(true);
-                setTimeout(() => setCopied(false), 2000);
+                setTimeout(() => setCopied(false), 3000);
               } else {
                 setGlobalError('No se pudo copiar el código');
               }
             }}
-            className="px-2 py-1 bg-gray-100 rounded hover:bg-gray-200 mr-2"
+            className={`px-2 py-1 rounded ${copied ? 'bg-green-100 hover:bg-green-200' : 'bg-gray-200 hover:bg-gray-300'}`}
+            title="Copiar código"
           >
-            <span className="font-mono font-medium bg-gray-100 px-2 py-1 rounded">{clase.codigo}</span> 📋
+            {clase.codigo} 📋
           </button>
-          {copied && (
-            <span className="text-green-600 ml-2">Copiado</span>
-          )}
+        </div>
+        <div className="flex items-center gap-2">
           {!confirmDelete ? (
             <button
               onClick={startDelete}
-              className="px-3 py-1 bg-red-600 text-white rounded"
+              className="px-2 py-1 bg-red-500 hover:bg-red-600 text-white rounded"
+              title="Eliminar clase"
             >
-              Borrar clase
+              🗑️
             </button>
           ) : (
             <button
               onClick={handleDeleteClass}
               disabled={deleting}
-              className="px-3 py-1 bg-red-800 text-white rounded mr-2 disabled:opacity-50"
+              className="px-3 py-1 bg-red-500 hover:bg-red-600 text-white rounded disabled:opacity-50"
+              title="Confirmar eliminación"
             >
-              Confirmar borrado
-            </button>
-          )}
-          {confirmDelete && (
-            <button
-              onClick={cancelDelete}
-              className="px-3 py-1 bg-gray-300 rounded"
-            >
-              Cancelar
+              ✓
             </button>
           )}
         </div>
-      </section>
+      </div>
 
       {/* --- MODAL DE EDICIÓN --- */}
       {editing && (
@@ -240,6 +237,8 @@ export default function ClassDetailPage() {
           </div>
         </div>
       )}
+
+      {globalError && !editing && !showStudentsModal && <ErrorMessage error={globalError} />}
 
       {/* Estudiantes */}
       <section className='mb-10'>
@@ -334,37 +333,56 @@ export default function ClassDetailPage() {
               </h4>
               <ul className="space-y-1 mt-2">
                 {logs.map((log, i) => {
-                  // Encuentra nombre de usuario
                   const user = estudiantes.find(u => u.id === log.usuarioId);
-                  // Determina estilo
+
                   let bg = 'bg-red-100';
-                  if (log.logTipo === 'tema') bg = 'bg-yellow-100';
-                  if (log.logTipo === 'nivel' && log.completado) {
+                  if (log.logTipo === 'tema') {
+                    bg = 'bg-yellow-100';
+                  } else if (log.logTipo === 'nivel' && log.completado) {
                     bg = log.nivelTipo === 'leccion' ? 'bg-green-100' : 'bg-blue-100';
+                  } else if (log.logTipo === 'minijuego') {
+                    bg = 'bg-purple-100';
                   }
-                  // Mensaje
-                  const action = log.logTipo === 'tema'
-                    ? `${user?.nombre || 'Alumno'} completó el tema ${log.referenciaId}`
-                    : `${user?.nombre || 'Alumno'} : Nivel ${formatNivelId(log.referenciaId)}`;
-                  const score = log.puntuacion != null
-                    ? log.logTipo === 'nivel'
-                      ? `${log.nivelTipo === 'leccion' ? `Estrellas: ${log.puntuacion}★ - ` : `Nota: ${log.puntuacion}/100 - `}`
-                      : ''
-                    : '';
-                  const intento = log.intento != null
-                    ? `Intento: ${log.intento} - `
-                    : '';
+                  
+                  let left, right;
+                  if (log.logTipo === 'minijuego') {
+                    left = (
+                      <span className="text-sm">
+                        {user?.nombre || 'Alumno'} : {log.nombre}
+                      </span>
+                    );
+                    right = (
+                      <span className="text-sm">
+                        Puntuación: {log.puntuacion} - {format(parseISO(log.createdAt), '[HH:mm]')}
+                      </span>
+                    );
+                  } else {
+                    const action = log.logTipo === 'tema'
+                      ? `${user?.nombre || 'Alumno'} completó el tema ${log.referenciaId}`
+                      : `${user?.nombre || 'Alumno'} : Nivel ${formatNivelId(log.referenciaId)}`;
+
+                    const score = log.puntuacion != null
+                      ? log.nivelTipo === 'leccion'
+                        ? `Estrellas: ${log.puntuacion}★ - `
+                        : `Nota: ${log.puntuacion} - `
+                      : '';
+
+                    const intento = log.intento != null ? `Intento: ${log.intento} - ` : '';
+
+                    left = <span className="text-sm">{action}</span>;
+                    right = (
+                      <span className="text-sm">
+                        {score}{intento}{format(parseISO(log.createdAt), '[HH:mm]')}
+                      </span>
+                    );
+                  }
+
                   return (
                     <li
                       key={i}
                       className={`${bg} p-2 rounded flex justify-between items-center`}
                     >
-                      <span className="text-sm">
-                        {action}
-                      </span>
-                      <span className="text-sm font-mono">
-                        {score} {intento} {format(parseISO(log.createdAt), '[HH:mm]')}
-                      </span>
+                      {left} {right}
                     </li>
                   );
                 })}

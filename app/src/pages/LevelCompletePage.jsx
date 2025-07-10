@@ -32,7 +32,6 @@ export default function LevelCompletePage() {
   const isLeccion = typeof attemptEstrellas !== "undefined";
   const score = isLeccion ? attemptEstrellas : attemptNota;
   const bestScore = isLeccion ? bestEstrellas : bestNota;
-  const maxScore = isLeccion ? 3 : 100;
 
   // Mensajes motivacionales para lecciones (0–3 estrellas)
   const mensajesLeccion = [
@@ -99,22 +98,22 @@ export default function LevelCompletePage() {
       {/* Puntuaciones */}
       <div className="mb-4 text-lg">
         {isLeccion
-          ? `Estrellas: ${score} / ${maxScore}`
-          : `Puntuación: ${score} / ${maxScore}`}
+          ? `Estrellas: ${score}`
+          : `Puntuación: ${score}`}
       </div>
       {!attemptCompletado && (
         <div className="mb-4 text-sm text-red-700">
-          Necesario para superar el nivel:{" "}{isLeccion ? `1 estrella` : `${notaMinima} / ${maxScore}`}
+          Necesario para superar el nivel:{" "}{isLeccion ? `1 estrella` : `${notaMinima}`}
         </div>
       )}
       {intentos > 1 && (
         <div className="mb-4 text-sm text-gray-700">
-          Mejor puntuación:{" "}{isLeccion ? `${bestScore} / ${maxScore} estrellas` : `${bestScore} / ${maxScore}`}
+          Mejor puntuación:{" "}{isLeccion ? `${bestScore === 1 ? '1 estrella' : `${bestScore} estrellas`}` : `${bestScore}`}
         </div>
       )}
       {/* Mejora histórica */}
       {mejorado && (
-        <div className="text-green-600 mb-4">¡Has superado tu mejor marca!</div>
+        <div className="text-green-600 mb-4">¡Has superado tu mejor puntuación!</div>
       )}
 
       {/* Mensaje motivacional */}
@@ -132,7 +131,7 @@ export default function LevelCompletePage() {
           onClick={() => navigate(`/levels/${nivelId}`)}
           className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
         >
-          Repetir
+          Reintentar
         </button>
         {nextAvailable && (
           <button

@@ -1,43 +1,42 @@
 // src/pages/LevelPage.jsx
 
-import { useEffect, useState, useCallback } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
-import { useApi } from '../hooks/useApi';
-import { progresoService } from '../services/progresoService';
-import ErrorMessage from '../components/ErrorMessage';
-import { extractError } from '../utils/errorHandler';
-import { getNivelData } from '../data/temarioService';
-
+import { useEffect, useState, useCallback } from "react";
+import { useParams, useNavigate } from "react-router-dom";
+import ReactMarkdown from 'react-markdown';
+import remarkGfm from 'remark-gfm';
+import { useApi } from "../hooks/useApi";
+import { progresoService } from "../services/progresoService";
+import ErrorMessage from "../components/ErrorMessage";
+import { extractError } from "../utils/errorHandler";
+import { getNivelData } from "../data/temarioService";
 
 export default function LevelPage() {
   const { nivelId } = useParams();
-  const navigate    = useNavigate();
+  const navigate = useNavigate();
 
   // 1) Metadata del nivel (teoría + preguntas)
   const nivelInfo = getNivelData(nivelId);
 
   // 2) Construir slides agrupando teoría + pregunta
   const slides = nivelInfo
-    ? nivelInfo.nivel.tipo === 'leccion'
+    ? nivelInfo.nivel.tipo === "leccion"
       ? nivelInfo.nivel.teoria.map((t, i) => ({
           preguntaId: nivelInfo.nivel.preguntas[i].preguntaId,
           content: t.texto,
           question: nivelInfo.nivel.preguntas[i].texto,
-          options: nivelInfo.nivel.preguntas[i].opciones
+          options: nivelInfo.nivel.preguntas[i].opciones,
         }))
-      : nivelInfo.nivel.preguntas.map(p => ({
+      : nivelInfo.nivel.preguntas.map((p) => ({
           preguntaId: p.preguntaId,
           content: null,
           question: p.texto,
-          options: p.opciones
+          options: p.opciones,
         }))
     : [];
 
   const [slideIndex, setSlideIndex] = useState(0);
   const [answers, setAnswers] = useState([]);
   const [globalError, setGlobalError] = useState(null);
-  //const [answerError, setAnswerError] = useState(null);
-  //const [completeError, setCompleteError] = useState(null);
 
   // 3) Cargar respuestas parciales existentes
   const initFn = useCallback(
@@ -49,95 +48,94 @@ export default function LevelPage() {
   useEffect(() => {
     if (initData?.respuestas) {
       setAnswers(
-        initData.respuestas.map(r => ({
+        initData.respuestas.map((r) => ({
           preguntaId: r.preguntaId,
-          seleccion:  r.seleccion,
-          correcta:   r.correcta
+          seleccion: r.seleccion,
+          correcta: r.correcta,
         }))
       );
     }
   }, [initData]);
 
   if (loading) return <div className="p-4">Cargando nivel...</div>;
-  if (error)   return <div className="p-4"><ErrorMessage error={error}/></div>;
+  if (error)
+    return (
+      <div className="p-4">
+        <ErrorMessage error={error} />
+      </div>
+    );
 
-  const slide  = slides[slideIndex] || {};
+  const slide = slides[slideIndex] || {};
   const isFirst = slideIndex === 0;
-  const isLast  = slideIndex === slides.length - 1;
+  const isLast = slideIndex === slides.length - 1;
 
   // 4) Al responder, enviamos al backend y guardamos la respuesta
-  const handleAnswer = async seleccion => {
+  const handleAnswer = async (seleccion) => {
     try {
       setGlobalError(null);
-      //setAnswerError(null);
       const res = await progresoService.answer(nivelId, {
         preguntaId: slide.preguntaId,
-        seleccion
+        seleccion,
       });
-      setAnswers(prev => [
-        ...prev.filter(a => a.preguntaId !== slide.preguntaId),
+      setAnswers((prev) => [
+        ...prev.filter((a) => a.preguntaId !== slide.preguntaId),
         {
           preguntaId: slide.preguntaId,
           seleccion,
-          correcta: res.data.correcta
-        }
+          correcta: res.data.correcta,
+        },
       ]);
     } catch (err) {
       setGlobalError(extractError(err));
-      //setAnswerError(extractError(err));
     }
   };
 
   // 5) Navegación entre slides
-  const goTo = idx => {
+  const goTo = (idx) => {
     setGlobalError(null);
-    //setAnswerError(null);
-    //setCompleteError(null);
     setSlideIndex(Math.min(Math.max(idx, 0), slides.length - 1));
   };
   const handlePrev = () => {
     setGlobalError(null);
-    //setAnswerError(null);
-    //setCompleteError(null);
     goTo(slideIndex - 1);
   };
   const handleNext = () => {
     setGlobalError(null);
-    //setAnswerError(null);
-    //setCompleteError(null);
     goTo(slideIndex + 1);
   };
   const handleComplete = async () => {
     setGlobalError(null);
-    //setCompleteError(null);
     try {
       const res = await progresoService.complete(nivelId);
       navigate(`/levels/${nivelId}/completed`, { state: res.data });
     } catch (err) {
       setGlobalError(extractError(err));
-      //setCompleteError(extractError(err));
     }
   };
 
   return (
-    <div className="pb-8 p-4 flex flex-col h-full">
-      {/* Contenido de la slide */}
-      <div className="flex-1">
+    <div className="flex flex-col h-full">
+      {/* Contenido scrollable */}
+      <div className="flex-1 overflow-y-auto p-4 pb-10 md:pb-20">
         {slide.content && (
-          <div className="prose mb-6">
-            <p>{slide.content}</p>
+          <div className="mb-6 prose">
+            <ReactMarkdown remarkPlugins={[remarkGfm]}>
+              {slide.content}
+            </ReactMarkdown>
           </div>
         )}
+
         <div className="space-y-4">
           <p className="font-medium">{slide.question}</p>
           {slide.options.map((opt, idx) => {
-            const ans = answers.find(a => a.preguntaId === slide.preguntaId);
-            let classes = 'block w-full text-left px-4 py-2 border rounded mb-2';
+            const ans = answers.find((a) => a.preguntaId === slide.preguntaId);
+            let classes =
+              "block w-full text-left px-4 py-2 border rounded mb-2";
             if (ans) {
               if (ans.seleccion === idx) {
                 classes += ans.correcta
-                  ? ' bg-green-100 border-green-500'
-                  : ' bg-red-100 border-red-500';
+                  ? " bg-green-100 border-green-500"
+                  : " bg-red-100 border-red-500";
               }
               return (
                 <button key={idx} className={classes} disabled>
@@ -158,67 +156,69 @@ export default function LevelPage() {
         </div>
       </div>
 
-      {/* Controles de navegación */}
-      <div className="flex flex-col items-center mt-4 space-y-2">
-        {globalError && <ErrorMessage error={globalError} />}
-        {/*  
-        {completeError && <ErrorMessage error={completeError} />}
-        {answerError && <ErrorMessage error={answerError} />}
-        */}
-        <div className="flex items-center space-x-6">
-          {/* Flecha Anterior */}
-          <button
-            onClick={handlePrev}
-            disabled={isFirst}
-            className={`p-3 text-3xl bg-gray-100 rounded-full ${isFirst ? 'opacity-50' : 'hover:bg-gray-200'}`}
-          >
-            ←
-          </button>
+      {/* Controles inferiores */}
+      <div className="sticky bottom-0 left-0 w-full bg-white border-t z-10">
+        <div className="flex flex-col items-center pt-3 pb-4 space-y-2 px-4">
+          {globalError && <ErrorMessage error={globalError} />}
 
-          {/* Botones circulares de paginación */}
-          <div className="flex space-x-2">
-            {slides.map((s, i) => {
-              const ans = answers.find(a => a.preguntaId === s.preguntaId);
-              let circleCls = 'w-8 h-8 rounded-full flex items-center justify-center text-sm cursor-pointer';
-              if (ans) {
-                circleCls += ans.correcta
-                  ? ' bg-green-500 text-white'
-                  : ' bg-red-500 text-white';
-              } else {
-                circleCls += ' bg-gray-200 text-gray-600';
-              }
-              if (i === slideIndex) {
-                circleCls += ' ring-2 ring-blue-500';
-              }
-              return (
-                <button
-                  key={s.preguntaId}
-                  className={circleCls}
-                  onClick={() => goTo(i)}
-                >
-                  {i + 1}
-                </button>
-              );
-            })}
+          {/* Flechas y paginación */}
+          <div className="flex items-center space-x-6">
+            <button
+              onClick={handlePrev}
+              disabled={isFirst}
+              className={`px-3 py-2 text-2xl bg-blue-300 rounded-full ${
+                isFirst ? "opacity-30" : "hover:bg-blue-400"
+              }`}
+            >
+              ←
+            </button>
+
+            <div className="flex space-x-2">
+              {slides.map((s, i) => {
+                const ans = answers.find((a) => a.preguntaId === s.preguntaId);
+                let circleCls =
+                  "w-8 h-8 rounded-full flex items-center justify-center text-sm cursor-pointer";
+                if (ans) {
+                  circleCls += ans.correcta
+                    ? " bg-green-500 text-white"
+                    : " bg-red-500 text-white";
+                } else {
+                  circleCls += " bg-gray-200 text-gray-600";
+                }
+                if (i === slideIndex) {
+                  circleCls += " ring-2 ring-blue-500";
+                }
+                return (
+                  <button
+                    key={s.preguntaId}
+                    className={circleCls}
+                    onClick={() => goTo(i)}
+                  >
+                    {i + 1}
+                  </button>
+                );
+              })}
+            </div>
+
+            <button
+              onClick={handleNext}
+              disabled={isLast}
+              className={`px-3 py-2 text-2xl bg-blue-300 rounded-full ${
+                isLast ? "opacity-30" : "hover:bg-blue-400"
+              }`}
+            >
+              →
+            </button>
           </div>
 
-          {/* Flecha Siguiente */}
+          {/* Botón Terminar */}
           <button
-            onClick={handleNext}
-            disabled={isLast}
-            className={`p-3 text-3xl bg-gray-100 rounded-full ${isLast ? 'opacity-50' : 'hover:bg-gray-200'}`}
+            onClick={handleComplete}
+            className="px-6 py-2 bg-green-500 text-white rounded hover:bg-green-600"
           >
-            →
+            Terminar
           </button>
         </div>
-
-        {/* Botón Terminar */}
-        <button
-          onClick={handleComplete}
-          className="mt-4 px-6 py-2 bg-green-500 text-white rounded hover:bg-green-600"
-        >
-          Terminar
-        </button>
       </div>
     </div>
   );

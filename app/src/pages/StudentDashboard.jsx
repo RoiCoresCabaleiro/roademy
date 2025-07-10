@@ -412,37 +412,49 @@ export default function StudentDashboard() {
                 </h4>
                 <ul className="space-y-1 mt-2">
                   {logs.map((log, i) => {
-                    // Determina estilo
                     let bg = 'bg-red-100';
-                    if (log.logTipo === 'tema') bg = 'bg-yellow-100';
-                    if (log.logTipo === 'nivel' && log.completado) {
+                    if (log.logTipo === 'tema') {
+                      bg = 'bg-yellow-100';
+                    } else if (log.logTipo === 'nivel' && log.completado) {
                       bg = log.nivelTipo === 'leccion' ? 'bg-green-100' : 'bg-blue-100';
+                    } else if (log.logTipo === 'minijuego') {
+                      bg = 'bg-purple-100';
                     }
-                    // Crear mensaje
-                    const action = log.logTipo === 'tema'
+
+                    let left, right;
+                    if (log.logTipo === 'minijuego') {
+                      left = <span className="text-sm">{log.nombre}</span>;
+                      right = (
+                        <span className="text-sm">
+                          Puntuación: {log.puntuacion} - {format(parseISO(log.createdAt), '[HH:mm]')}
+                        </span>
+                      );
+                    } else {
+                      const action = log.logTipo === 'tema'
                         ? `Tema ${log.referenciaId} completado`
                         : `Nivel ${formatNivelId(log.referenciaId)}`;
-                    const score = log.puntuacion != null
-                      ? log.logTipo === 'nivel'
-                        ? `${log.nivelTipo === 'leccion' ? `Estrellas: ${log.puntuacion}★ - ` : `Nota: ${log.puntuacion}/100 - `}`
-                        : ''
-                      : '';
-                    const intento = log.intento != null
-                      ? `Intento: ${log.intento} - `
-                      : '';
+                      const score = log.puntuacion != null
+                        ? log.logTipo === 'nivel'
+                          ? `${log.nivelTipo === 'leccion' ? `Estrellas: ${log.puntuacion}★ - ` : `Nota: ${log.puntuacion} - `}`
+                          : ''
+                        : '';
+                      const intento = log.intento != null ? `Intento: ${log.intento} - ` : '';
+                      left = <span className="text-sm">{action}</span>;
+                      right = (
+                        <span className="text-sm">
+                          {score}{intento}{format(parseISO(log.createdAt), '[HH:mm]')}
+                        </span>
+                      );
+                    }
+
                     return (
-                    <li
-                      key={i}
-                      className={`${bg} p-2 rounded flex justify-between items-center`}
-                    >
-                      <span className="text-sm">
-                        {action}
-                      </span>
-                      <span className="text-sm font-mono">
-                        {score} {intento} {format(parseISO(log.createdAt), '[HH:mm]')}
-                      </span>
-                    </li>
-                  );
+                      <li
+                        key={i}
+                        className={`${bg} p-2 rounded flex justify-between items-center`}
+                      >
+                        {left} {right}
+                      </li>
+                    );
                   })}
                 </ul>
               </div>

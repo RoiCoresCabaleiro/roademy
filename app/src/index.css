@@ -1,4 +1,5 @@
 @import "tailwindcss";
+@plugin "@tailwindcss/typography";
 
 .no-scrollbar {
   -ms-overflow-style: none;  /* IE y Edge */

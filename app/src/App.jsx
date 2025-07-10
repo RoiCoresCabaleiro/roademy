@@ -10,7 +10,7 @@ import StudentDashboard from './pages/StudentDashboard';
 import RoadmapPage from './pages/RoadmapPage';
 import LevelPage from './pages/LevelPage';
 import LevelCompletePage from './pages/LevelCompletePage';
-//import MinigamesPage from './pages/MinigamesPage';
+import MinigamesPage from './pages/MinigamesPage';
 
 import TutorDashboard from './pages/TutorDashboard';
 import ClassesPage from './pages/ClassesPage';
@@ -33,9 +33,7 @@ export default function App() {
           <Route path="roadmap" element={<RoadmapPage />} />
           <Route path="levels/:nivelId" element={<LevelPage />} />
           <Route path="levels/:nivelId/completed" element={<LevelCompletePage />} />
-          {/*
-          <Route path="/minigames" element={<MinigamesPage />} />
-          */}
+          <Route path="minigames" element={<MinigamesPage />} />
           <Route path="*" element={<Navigate to="/dashboard" replace />} />
         </Route>
 

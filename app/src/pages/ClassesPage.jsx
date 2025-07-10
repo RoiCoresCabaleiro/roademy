@@ -136,19 +136,16 @@ export default function ClassesPage() {
                       const ok = await copyToClipboard(c.codigo);
                       if (ok) {
                         setCopiedId(c.codigo);
-                        setTimeout(() => setCopiedId(null), 2000);
+                        setTimeout(() => setCopiedId(null), 3000);
                       } else {
                         setGlobalError('No se pudo copiar el código');
                       }
                     }}
-                    className="text-sm text-gray-500 hover:text-gray-700"
+                    className={`px-2 py-1 rounded ${copiedId === c.codigo ? 'bg-green-100 hover:bg-green-200' : 'bg-gray-200 hover:bg-gray-300'}`}
                     title="Copiar código"
                   >
-                    <span className="font-mono font-medium bg-gray-100 px-2 py-1 rounded">{c.codigo}</span> 📋
+                    {c.codigo} 📋
                   </button>
-                  {copiedId === c.codigo && (
-                    <span className="ml-2 text-green-600 text-sm">Copiado</span>
-                  )}
                 </div>
               </Link>
             </div>
