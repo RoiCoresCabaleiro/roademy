@@ -101,7 +101,7 @@ async function computeTemasEstado(nivelesEstado) {
     }
     const prev = temasParcial[idx - 1];
     const desbloqueado =
-      prev.estrellasObtenidas >= tp.estrellasNecesarias &&
+      prev.estrellasObtenidas >= prev.estrellasNecesarias &&
       prev.completados === prev.totalNiveles;
     return { ...tp, desbloqueado };
   });
