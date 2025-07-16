@@ -32,7 +32,7 @@ async function logMinijuegoAttempt(usuarioId, minijuegoId, puntuacion) {
 }
 
 // Devuelve un log de actividad para una lista de usuarios.
-async function getActivityLog({ usuarioIds, types=['nivel','tema'], invertOrder = false, limit = 50 }) {
+async function getActivityLog({ usuarioIds, types=['nivel','tema', "minijuego"], invertOrder = false, limit = 50 }) {
   // Si no hay alumnos, no hacemos ninguna consulta
   if (!Array.isArray(usuarioIds) || usuarioIds.length === 0) {
     return [];
