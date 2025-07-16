@@ -6,6 +6,11 @@ const sequelize = require("../config/sequelize");
 const RefreshToken = sequelize.define(
   "RefreshToken",
   {
+    usuarioId: {
+      type: DataTypes.INTEGER,
+      allowNull: true,
+      references: { model: "usuarios", key: "id" },
+    },
     token: {
       type: DataTypes.STRING,
       allowNull: false,

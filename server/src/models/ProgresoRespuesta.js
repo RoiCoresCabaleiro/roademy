@@ -14,10 +14,12 @@ const Respuesta = sequelize.define(
     progresoId: {
       type: DataTypes.INTEGER,
       allowNull: false,
+      references: { model: "progreso_usuario_nivel", key: "id" },
     },
     preguntaId: {
       type: DataTypes.INTEGER,
       allowNull: false,
+      references: { model: "pregunta_soluciones", key: "pregunta_id" },
     },
     seleccion: {
       type: DataTypes.INTEGER,
@@ -34,7 +36,7 @@ const Respuesta = sequelize.define(
   },
   {
     tableName: "progreso_respuesta",
-    indexes: [{ unique: true, fields: ["progreso_id", "pregunta_id"] }],
+    
   }
 );
 
@@ -42,6 +44,10 @@ Respuesta.associate = (models) => {
   Respuesta.belongsTo(models.ProgresoUsuarioNivel, {
     foreignKey: "progresoId",
     as: "progreso",
+  });
+  Respuesta.belongsTo(models.PreguntaSolucion, {
+    foreignKey: "preguntaId",
+    as: "pregunta",
   });
 };
 

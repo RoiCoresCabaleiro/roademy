@@ -14,10 +14,12 @@ const ProgresoUsuarioMinijuego = sequelize.define(
     usuarioId: {
       type: DataTypes.INTEGER,
       allowNull: false,
+      references: { model: "usuarios", key: "id" },
     },
     minijuegoId: {
       type: DataTypes.INTEGER,
       allowNull: false,
+      references: { model: "minijuegos", key: "id" },
     },
     puntuacion: {
       type: DataTypes.INTEGER,

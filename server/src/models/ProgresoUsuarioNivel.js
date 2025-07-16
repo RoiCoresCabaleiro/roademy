@@ -14,10 +14,12 @@ const Progreso = sequelize.define(
     usuarioId: {
       type: DataTypes.INTEGER,
       allowNull: false,
+      references: { model: "usuarios", key: "id" },
     },
     nivelId: {
       type: DataTypes.INTEGER,
       allowNull: false,
+      references: { model: "niveles", key: "id" },
     },
     completado: {
       type: DataTypes.BOOLEAN,

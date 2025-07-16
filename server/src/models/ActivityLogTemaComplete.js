@@ -14,10 +14,12 @@ const ActivityLogTemaComplete = sequelize.define(
     usuarioId: {
       type: DataTypes.INTEGER,
       allowNull: false,
+      references: { model: "usuarios", key: "id" },
     },
     temaId: {
       type: DataTypes.INTEGER,
       allowNull: false,
+      references: { model: "temas", key: "id" },
     },
   },
   {

@@ -58,6 +58,11 @@ Nivel.associate = (models) => {
     as: "nivelLogs",
     onDelete: "CASCADE",
   });
+  Nivel.hasMany(models.Minijuego, {
+    foreignKey: "nivelDesbloqueo",
+    as: "minijuegos",
+    onDelete: "SET NULL",
+  });
 };
 
 module.exports = Nivel;

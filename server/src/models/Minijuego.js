@@ -22,7 +22,7 @@ const Minijuego = sequelize.define(
     },
     nivelDesbloqueo: {
       type: DataTypes.INTEGER,
-      allowNull: false,
+      allowNull: true,
       references: {
         model: "niveles",
         key: "id",

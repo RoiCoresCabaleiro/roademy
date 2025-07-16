@@ -116,6 +116,16 @@ Usuario.associate = (models) => {
     as: "temaLogs",
     onDelete: "CASCADE",
   });
+  Usuario.hasMany(models.ActivityLogMinijuego, {
+    foreignKey: "usuarioId",
+    as: "minijuegoLogs",
+    onDelete: "CASCADE",
+  });
+  Usuario.hasMany(models.ProgresoUsuarioMinijuego, {
+    foreignKey: "usuarioId",
+    as: "progresoMinijuegos",
+    onDelete: "CASCADE",
+  });
 };
 
 module.exports = Usuario;

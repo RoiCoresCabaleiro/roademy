@@ -31,6 +31,11 @@ PreguntaSolucion.associate = (models) => {
     foreignKey: "nivelId",
     as: "nivel",
   });
+  PreguntaSolucion.hasMany(models.ProgresoRespuesta, {
+    foreignKey: "preguntaId",
+    as: "respuestas",
+    onDelete: "CASCADE",
+  });
 };
 
 module.exports = PreguntaSolucion;
