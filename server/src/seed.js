@@ -41,9 +41,9 @@ async function seedData() {
 
   // 4) Sembrar Minijuegos
   const minijuegos = [
-    { nombre: "Cruce Peligroso", nivelDesbloqueo: 102 },
-    { nombre: "Semáforo Loco", nivelDesbloqueo: 202 },
-    { nombre: "Cebra Rápida", nivelDesbloqueo: 302 },
+    { nombre: "Pasapalabra Vial", nivelDesbloqueo: 104 },
+    { nombre: "Conductas Correctas", nivelDesbloqueo: 205 },
+    { nombre: "Minijuego3", nivelDesbloqueo: 305 },
   ];
   await Minijuego.bulkCreate(minijuegos, { validate: true });
 

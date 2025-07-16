@@ -1,18 +1,18 @@
 [
   {
     "temaId": 1,
-    "titulo": "1.Señales de tráfico",
+    "titulo": "1. Introducción a la movilidad segura",
     "orden": 1,
-    "estrellasNecesarias": 4,
+    "estrellasNecesarias": 6,
     "niveles": [
       {
         "nivelId": 101,
         "orden": 1,
         "tipo": "leccion",
         "preguntas": [
-          { "preguntaId": 1001, "respuestaCorrecta": 2 },
+          { "preguntaId": 1001, "respuestaCorrecta": 1 },
           { "preguntaId": 1002, "respuestaCorrecta": 0 },
-          { "preguntaId": 1003, "respuestaCorrecta": 1 }
+          { "preguntaId": 1003, "respuestaCorrecta": 2 }
         ]
       },
       {
@@ -22,36 +22,48 @@
         "preguntas": [
           { "preguntaId": 1004, "respuestaCorrecta": 1 },
           { "preguntaId": 1005, "respuestaCorrecta": 2 },
-          { "preguntaId": 1006, "respuestaCorrecta": 0 }
+          { "preguntaId": 1006, "respuestaCorrecta": 1 }
         ]
       },
       {
         "nivelId": 103,
         "orden": 3,
-        "tipo": "quiz",
-        "puntuacionMinima": 50,
+        "tipo": "leccion",
         "preguntas": [
           { "preguntaId": 1007, "respuestaCorrecta": 0 },
           { "preguntaId": 1008, "respuestaCorrecta": 1 },
-          { "preguntaId": 1009, "respuestaCorrecta": 2 }
+          { "preguntaId": 1009, "respuestaCorrecta": 3 }
+        ]
+      },
+      {
+        "nivelId": 104,
+        "orden": 4,
+        "tipo": "quiz",
+        "puntuacionMinima": 50,
+        "preguntas": [
+          { "preguntaId": 1010, "respuestaCorrecta": 1 },
+          { "preguntaId": 1011, "respuestaCorrecta": 0 },
+          { "preguntaId": 1012, "respuestaCorrecta": 2 },
+          { "preguntaId": 1013, "respuestaCorrecta": 0 },
+          { "preguntaId": 1014, "respuestaCorrecta": 1 }
         ]
       }
     ]
   },
   {
     "temaId": 2,
-    "titulo": "2.Normas de prioridad",
+    "titulo": "2. Seguridad como peatón",
     "orden": 2,
-    "estrellasNecesarias": 4,
+    "estrellasNecesarias": 8,
     "niveles": [
       {
         "nivelId": 201,
         "orden": 1,
         "tipo": "leccion",
         "preguntas": [
-          { "preguntaId": 2001, "respuestaCorrecta": 1 },
-          { "preguntaId": 2002, "respuestaCorrecta": 2 },
-          { "preguntaId": 2003, "respuestaCorrecta": 0 }
+          { "preguntaId": 2001, "respuestaCorrecta": 2 },
+          { "preguntaId": 2002, "respuestaCorrecta": 0 },
+          { "preguntaId": 2003, "respuestaCorrecta": 1 }
         ]
       },
       {
@@ -60,37 +72,59 @@
         "tipo": "leccion",
         "preguntas": [
           { "preguntaId": 2004, "respuestaCorrecta": 2 },
-          { "preguntaId": 2005, "respuestaCorrecta": 0 },
-          { "preguntaId": 2006, "respuestaCorrecta": 1 }
+          { "preguntaId": 2005, "respuestaCorrecta": 2 },
+          { "preguntaId": 2006, "respuestaCorrecta": 0 }
         ]
       },
       {
         "nivelId": 203,
         "orden": 3,
+        "tipo": "leccion",
+        "preguntas": [
+          { "preguntaId": 2007, "respuestaCorrecta": 2 },
+          { "preguntaId": 2008, "respuestaCorrecta": 0 },
+          { "preguntaId": 2009, "respuestaCorrecta": 1 }
+        ]
+      },
+      {
+        "nivelId": 204,
+        "orden": 4,
+        "tipo": "leccion",
+        "preguntas": [
+          { "preguntaId": 2010, "respuestaCorrecta": 0 },
+          { "preguntaId": 2011, "respuestaCorrecta": 2 },
+          { "preguntaId": 2012, "respuestaCorrecta": 1 }
+        ]
+      },
+      {
+        "nivelId": 205,
+        "orden": 5,
         "tipo": "quiz",
         "puntuacionMinima": 50,
         "preguntas": [
-          { "preguntaId": 2007, "respuestaCorrecta": 1 },
-          { "preguntaId": 2008, "respuestaCorrecta": 0 },
-          { "preguntaId": 2009, "respuestaCorrecta": 2 }
+          { "preguntaId": 2013, "respuestaCorrecta": 1 },
+          { "preguntaId": 2014, "respuestaCorrecta": 1 },
+          { "preguntaId": 2015, "respuestaCorrecta": 0 },
+          { "preguntaId": 2016, "respuestaCorrecta": 1 },
+          { "preguntaId": 2017, "respuestaCorrecta": 2 }
         ]
       }
     ]
   },
   {
     "temaId": 3,
-    "titulo": "3.Tema de ejemplo",
+    "titulo": "3. Normas y señales básicas",
     "orden": 3,
-    "estrellasNecesarias": 4,
+    "estrellasNecesarias": 8,
     "niveles": [
       {
         "nivelId": 301,
         "orden": 1,
         "tipo": "leccion",
         "preguntas": [
-          { "preguntaId": 3001, "respuestaCorrecta": 1 },
-          { "preguntaId": 3002, "respuestaCorrecta": 2 },
-          { "preguntaId": 3003, "respuestaCorrecta": 0 }
+          { "preguntaId": 3001, "respuestaCorrecta": 2 },
+          { "preguntaId": 3002, "respuestaCorrecta": 0 },
+          { "preguntaId": 3003, "respuestaCorrecta": 1 }
         ]
       },
       {
@@ -98,20 +132,338 @@
         "orden": 2,
         "tipo": "leccion",
         "preguntas": [
-          { "preguntaId": 3004, "respuestaCorrecta": 2 },
+          { "preguntaId": 3004, "respuestaCorrecta": 1 },
           { "preguntaId": 3005, "respuestaCorrecta": 0 },
-          { "preguntaId": 3006, "respuestaCorrecta": 1 }
+          { "preguntaId": 3006, "respuestaCorrecta": 0 }
         ]
       },
       {
         "nivelId": 303,
         "orden": 3,
+        "tipo": "leccion",
+        "preguntas": [
+          { "preguntaId": 3007, "respuestaCorrecta": 0 },
+          { "preguntaId": 3008, "respuestaCorrecta": 0 },
+          { "preguntaId": 3009, "respuestaCorrecta": 1 }
+        ]
+      },
+      {
+        "nivelId": 304,
+        "orden": 4,
+        "tipo": "leccion",
+        "preguntas": [
+          { "preguntaId": 3010, "respuestaCorrecta": 0 },
+          { "preguntaId": 3011, "respuestaCorrecta": 2 },
+          { "preguntaId": 3012, "respuestaCorrecta": 1 }
+        ]
+      },
+      {
+        "nivelId": 305,
+        "orden": 5,
         "tipo": "quiz",
         "puntuacionMinima": 50,
         "preguntas": [
-          { "preguntaId": 3007, "respuestaCorrecta": 1 },
-          { "preguntaId": 3008, "respuestaCorrecta": 0 },
-          { "preguntaId": 3009, "respuestaCorrecta": 2 }
+          { "preguntaId": 3013, "respuestaCorrecta": 1 },
+          { "preguntaId": 3014, "respuestaCorrecta": 0 },
+          { "preguntaId": 3015, "respuestaCorrecta": 0 },
+          { "preguntaId": 3016, "respuestaCorrecta": 2 },
+          { "preguntaId": 3017, "respuestaCorrecta": 1 }
+        ]
+      }
+    ]
+  },
+  {
+    "temaId": 4,
+    "titulo": "4. Movilidad en bicicleta",
+    "orden": 4,
+    "estrellasNecesarias": 8,
+    "niveles": [
+      {
+        "nivelId": 401,
+        "orden": 1,
+        "tipo": "leccion",
+        "preguntas": [
+          { "preguntaId": 4001, "respuestaCorrecta": 1 },
+          { "preguntaId": 4002, "respuestaCorrecta": 1 },
+          { "preguntaId": 4003, "respuestaCorrecta": 1 }
+        ]
+      },
+      {
+        "nivelId": 402,
+        "orden": 2,
+        "tipo": "leccion",
+        "preguntas": [
+          { "preguntaId": 4004, "respuestaCorrecta": 1 },
+          { "preguntaId": 4005, "respuestaCorrecta": 0 },
+          { "preguntaId": 4006, "respuestaCorrecta": 1 }
+        ]
+      },
+      {
+        "nivelId": 403,
+        "orden": 3,
+        "tipo": "leccion",
+        "preguntas": [
+          { "preguntaId": 4007, "respuestaCorrecta": 1 },
+          { "preguntaId": 4008, "respuestaCorrecta": 0 },
+          { "preguntaId": 4009, "respuestaCorrecta": 1 }
+        ]
+      },
+      {
+        "nivelId": 404,
+        "orden": 4,
+        "tipo": "leccion",
+        "preguntas": [
+          { "preguntaId": 4010, "respuestaCorrecta": 1 },
+          { "preguntaId": 4011, "respuestaCorrecta": 1 },
+          { "preguntaId": 4012, "respuestaCorrecta": 2 }
+        ]
+      },
+      {
+        "nivelId": 405,
+        "orden": 5,
+        "tipo": "quiz",
+        "puntuacionMinima": 50,
+        "preguntas": [
+          { "preguntaId": 4013, "respuestaCorrecta": 0 },
+          { "preguntaId": 4014, "respuestaCorrecta": 0 },
+          { "preguntaId": 4015, "respuestaCorrecta": 1 },
+          { "preguntaId": 4016, "respuestaCorrecta": 1 },
+          { "preguntaId": 4017, "respuestaCorrecta": 1 }
+        ]
+      }
+    ]
+  },
+  {
+    "temaId": 5,
+    "titulo": "5. Seguridad como pasajero",
+    "orden": 5,
+    "estrellasNecesarias": 8,
+    "niveles": [
+      {
+        "nivelId": 501,
+        "orden": 1,
+        "tipo": "leccion",
+        "preguntas": [
+          { "preguntaId": 5001, "respuestaCorrecta": 2 },
+          { "preguntaId": 5002, "respuestaCorrecta": 1 },
+          { "preguntaId": 5003, "respuestaCorrecta": 0 }
+        ]
+      },
+      {
+        "nivelId": 502,
+        "orden": 2,
+        "tipo": "leccion",
+        "preguntas": [
+          { "preguntaId": 5004, "respuestaCorrecta": 1 },
+          { "preguntaId": 5005, "respuestaCorrecta": 1 },
+          { "preguntaId": 5006, "respuestaCorrecta": 0 }
+        ]
+      },
+      {
+        "nivelId": 503,
+        "orden": 3,
+        "tipo": "leccion",
+        "preguntas": [
+          { "preguntaId": 5007, "respuestaCorrecta": 0 },
+          { "preguntaId": 5008, "respuestaCorrecta": 1 },
+          { "preguntaId": 5009, "respuestaCorrecta": 0 }
+        ]
+      },
+      {
+        "nivelId": 504,
+        "orden": 4,
+        "tipo": "leccion",
+        "preguntas": [
+          { "preguntaId": 5010, "respuestaCorrecta": 0 },
+          { "preguntaId": 5011, "respuestaCorrecta": 1 },
+          { "preguntaId": 5012, "respuestaCorrecta": 0 }
+        ]
+      },
+      {
+        "nivelId": 505,
+        "orden": 5,
+        "tipo": "quiz",
+        "puntuacionMinima": 50,
+        "preguntas": [
+          { "preguntaId": 5013, "respuestaCorrecta": 0 },
+          { "preguntaId": 5014, "respuestaCorrecta": 0 },
+          { "preguntaId": 5015, "respuestaCorrecta": 0 },
+          { "preguntaId": 5016, "respuestaCorrecta": 0 },
+          { "preguntaId": 5017, "respuestaCorrecta": 1 }
+        ]
+      }
+    ]
+  },
+  {
+    "temaId": 6,
+    "titulo": "6. Vehículos de movilidad personal (VMP)",
+    "orden": 6,
+    "estrellasNecesarias": 8,
+    "niveles": [
+      {
+        "nivelId": 601,
+        "orden": 1,
+        "tipo": "leccion",
+        "preguntas": [
+          { "preguntaId": 6001, "respuestaCorrecta": 0 },
+          { "preguntaId": 6002, "respuestaCorrecta": 1 },
+          { "preguntaId": 6003, "respuestaCorrecta": 0 }
+        ]
+      },
+      {
+        "nivelId": 602,
+        "orden": 2,
+        "tipo": "leccion",
+        "preguntas": [
+          { "preguntaId": 6004, "respuestaCorrecta": 0 },
+          { "preguntaId": 6005, "respuestaCorrecta": 1 },
+          { "preguntaId": 6006, "respuestaCorrecta": 0 }
+        ]
+      },
+      {
+        "nivelId": 603,
+        "orden": 3,
+        "tipo": "leccion",
+        "preguntas": [
+          { "preguntaId": 6007, "respuestaCorrecta": 0 },
+          { "preguntaId": 6008, "respuestaCorrecta": 1 },
+          { "preguntaId": 6009, "respuestaCorrecta": 0 }
+        ]
+      },
+      {
+        "nivelId": 604,
+        "orden": 4,
+        "tipo": "leccion",
+        "preguntas": [
+          { "preguntaId": 6010, "respuestaCorrecta": 0 },
+          { "preguntaId": 6011, "respuestaCorrecta": 1 },
+          { "preguntaId": 6012, "respuestaCorrecta": 0 }
+        ]
+      },
+      {
+        "nivelId": 605,
+        "orden": 5,
+        "tipo": "quiz",
+        "puntuacionMinima": 50,
+        "preguntas": [
+          { "preguntaId": 6013, "respuestaCorrecta": 0 },
+          { "preguntaId": 6014, "respuestaCorrecta": 0 },
+          { "preguntaId": 6015, "respuestaCorrecta": 0 },
+          { "preguntaId": 6016, "respuestaCorrecta": 0 },
+          { "preguntaId": 6017, "respuestaCorrecta": 0 },
+          { "preguntaId": 6018, "respuestaCorrecta": 0 }
+        ]
+      }
+    ]
+  },
+  {
+    "temaId": 7,
+    "titulo": "7. Planificación y prevención",
+    "orden": 7,
+    "estrellasNecesarias": 8,
+    "niveles": [
+      {
+        "nivelId": 701,
+        "orden": 1,
+        "tipo": "leccion",
+        "preguntas": [
+          { "preguntaId": 7001, "respuestaCorrecta": 0 },
+          { "preguntaId": 7002, "respuestaCorrecta": 0 },
+          { "preguntaId": 7003, "respuestaCorrecta": 0 }
+        ]
+      },
+      {
+        "nivelId": 702,
+        "orden": 2,
+        "tipo": "leccion",
+        "preguntas": [
+          { "preguntaId": 7004, "respuestaCorrecta": 0 },
+          { "preguntaId": 7005, "respuestaCorrecta": 1 },
+          { "preguntaId": 7006, "respuestaCorrecta": 0 }
+        ]
+      },
+      {
+        "nivelId": 703,
+        "orden": 3,
+        "tipo": "leccion",
+        "preguntas": [
+          { "preguntaId": 7007, "respuestaCorrecta": 0 },
+          { "preguntaId": 7008, "respuestaCorrecta": 1 },
+          { "preguntaId": 7009, "respuestaCorrecta": 0 }
+        ]
+      },
+      {
+        "nivelId": 704,
+        "orden": 4,
+        "tipo": "leccion",
+        "preguntas": [
+          { "preguntaId": 7010, "respuestaCorrecta": 0 },
+          { "preguntaId": 7011, "respuestaCorrecta": 0 },
+          { "preguntaId": 7012, "respuestaCorrecta": 0 }
+        ]
+      },
+      {
+        "nivelId": 705,
+        "orden": 5,
+        "tipo": "quiz",
+        "puntuacionMinima": 50,
+        "preguntas": [
+          { "preguntaId": 7013, "respuestaCorrecta": 0 },
+          { "preguntaId": 7014, "respuestaCorrecta": 0 },
+          { "preguntaId": 7015, "respuestaCorrecta": 0 },
+          { "preguntaId": 7016, "respuestaCorrecta": 0 },
+          { "preguntaId": 7017, "respuestaCorrecta": 0 }
+        ]
+      }
+    ]
+  },
+  {
+    "temaId": 8,
+    "titulo": "8. Ciudadanía y sostenibilidad",
+    "orden": 8,
+    "estrellasNecesarias": 8,
+    "niveles": [
+      {
+        "nivelId": 801,
+        "orden": 1,
+        "tipo": "leccion",
+        "preguntas": [
+          { "preguntaId": 8001, "respuestaCorrecta": 0 },
+          { "preguntaId": 8002, "respuestaCorrecta": 0 },
+          { "preguntaId": 8003, "respuestaCorrecta": 2 }
+        ]
+      },
+      {
+        "nivelId": 802,
+        "orden": 2,
+        "tipo": "leccion",
+        "preguntas": [
+          { "preguntaId": 8004, "respuestaCorrecta": 0 },
+          { "preguntaId": 8005, "respuestaCorrecta": 1 },
+          { "preguntaId": 8006, "respuestaCorrecta": 0 }
+        ]
+      },
+      {
+        "nivelId": 803,
+        "orden": 3,
+        "tipo": "leccion",
+        "preguntas": [
+          { "preguntaId": 8007, "respuestaCorrecta": 0 },
+          { "preguntaId": 8008, "respuestaCorrecta": 0 },
+          { "preguntaId": 8009, "respuestaCorrecta": 0 }
+        ]
+      },
+      {
+        "nivelId": 804,
+        "orden": 4,
+        "tipo": "quiz",
+        "puntuacionMinima": 50,
+        "preguntas": [
+          { "preguntaId": 8010, "respuestaCorrecta": 0 },
+          { "preguntaId": 8011, "respuestaCorrecta": 0 },
+          { "preguntaId": 8012, "respuestaCorrecta": 0 },
+          { "preguntaId": 8013, "respuestaCorrecta": 0 },
+          { "preguntaId": 8014, "respuestaCorrecta": 0 }
         ]
       }
     ]
