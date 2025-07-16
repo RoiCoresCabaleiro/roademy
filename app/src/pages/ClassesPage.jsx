@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import { useApi } from '../hooks/useApi';
 import { claseService } from '../services/claseService';
 import ErrorMessage from '../components/ErrorMessage';
+import Portal from '../components/Portal';
 import { extractError } from '../utils/errorHandler';
 import { copyToClipboard } from '../utils/clipboard';
 
@@ -82,7 +83,12 @@ export default function ClassesPage() {
   };
 
   if (isLoading) return <div className="p-4">Cargando clases…</div>;
-  if (error) return <ErrorMessage error={error} />;
+  if (error)
+    return (
+      <div className="p-4">
+        <ErrorMessage error={error} />
+      </div>
+    );
 
   return (
     <div className="p-4 space-y-6">
@@ -131,8 +137,8 @@ export default function ClassesPage() {
                 <div className="flex items-center mt-2">
                   <button
                     onClick={async e => {
-                      e.preventDefault();    // evita navegación
-                      e.stopPropagation();   // evita bubbling
+                      e.preventDefault();
+                      e.stopPropagation();
                       const ok = await copyToClipboard(c.codigo);
                       if (ok) {
                         setCopiedId(c.codigo);
@@ -155,79 +161,89 @@ export default function ClassesPage() {
 
       {/* MODAL DE CREACIÓN */}
       {creating && (
-        <div
-          className="fixed inset-0 bg-black/40 flex items-center justify-center z-50"
-          onClick={cancelCreate}
-        >
+        <Portal>
           <div
-            className="bg-white p-6 rounded shadow-lg w-11/12 max-w-md"
-            onClick={e => e.stopPropagation()}
+            className="fixed inset-0 bg-black/50 flex items-center justify-center z-50"
+            onClick={cancelCreate}
           >
-            <h3 className="text-lg font-semibold mb-4">Crear nueva clase</h3>
-            {createError && <ErrorMessage error={createError} />}
-            <input
-              type="text"
-              value={newName}
-              onChange={e => setNewName(e.target.value)}
-              placeholder="Nombre de la clase"
-              className="w-full border px-3 py-2 rounded mb-4"
-            />
-            <div className="flex justify-end space-x-2">
-              <button
-                onClick={cancelCreate}
-                className="px-4 py-2 bg-gray-200 rounded hover:bg-gray-300"
-                disabled={isCreating}
-              >
-                Cancelar
-              </button>
-              <button
-                onClick={handleCreate}
-                className="px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600 disabled:opacity-50"
-                disabled={isCreating}
-              >
-                Guardar
-              </button>
+            <div
+              className="bg-white p-6 rounded shadow-lg w-11/12 max-w-md space-y-2"
+              onClick={e => e.stopPropagation()}
+            >
+              <h3 className="text-lg font-semibold mb-4">Crear nueva clase</h3>
+              
+              <input
+                type="text"
+                value={newName}
+                onChange={e => setNewName(e.target.value)}
+                placeholder="Nombre de la clase"
+                className="w-full border px-3 py-2 rounded"
+              />
+
+              {createError && <ErrorMessage error={createError} />}
+
+              <div className="flex justify-end space-x-2 mt-4">
+                <button
+                  onClick={cancelCreate}
+                  className="px-4 py-2 bg-gray-200 rounded hover:bg-gray-300"
+                  disabled={isCreating}
+                >
+                  Cancelar
+                </button>
+                <button
+                  onClick={handleCreate}
+                  className="px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600 disabled:opacity-50"
+                  disabled={isCreating}
+                >
+                  Guardar
+                </button>
+              </div>
             </div>
           </div>
-        </div>
+        </Portal>
       )}
 
       {/* --- MODAL DE EDICIÓN --- */}
       {editingId !== null && (
-        <div
-          className="fixed inset-0 bg-black/40 flex items-center justify-center z-50"
-          onClick={cancelEdit}
-        >
+        <Portal>
           <div
-            className="bg-white p-6 rounded shadow-lg w-11/12 max-w-md"
-            onClick={e => e.stopPropagation()}
+            className="fixed inset-0 bg-black/50 flex items-center justify-center z-50"
+            onClick={cancelEdit}
           >
-            <h3 className="text-lg font-semibold mb-4">Renombrar clase</h3>
-            {editError && <ErrorMessage error={editError} />}
-            <input
-              type="text"
-              value={editName}
-              onChange={e => setEditName(e.target.value)}
-              className="w-full border px-3 py-2 rounded mb-4"
-            />
-            <div className="flex justify-end space-x-2">
-              <button
-                onClick={cancelEdit}
-                className="px-4 py-2 bg-gray-200 rounded hover:bg-gray-300"
-                disabled={isSaving}
-              >
-                Cancelar
-              </button>
-              <button
-                onClick={saveEdit}
-                className="px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600 disabled:opacity-50"
-                disabled={isSaving}
-              >
-                Guardar
-              </button>
+            <div
+              className="bg-white p-6 rounded shadow-lg w-11/12 max-w-md space-y-2"
+              onClick={e => e.stopPropagation()}
+            >
+              <h3 className="text-lg font-semibold mb-4">Renombrar clase</h3>
+              
+              <input
+                type="text"
+                value={editName}
+                onChange={e => setEditName(e.target.value)}
+                className="w-full border px-3 py-2 rounded"
+              />
+
+              {editError && <ErrorMessage error={editError} />}
+
+              <div className="flex justify-end space-x-2 mt-4">
+                <button
+                  onClick={cancelEdit}
+                  className="px-4 py-2 bg-gray-200 rounded hover:bg-gray-300"
+                  disabled={isSaving}
+                >
+                  Cancelar
+                </button>
+                <button
+                  onClick={saveEdit}
+                  className="px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600 disabled:opacity-50"
+                  disabled={isSaving}
+                >
+                  Guardar
+                </button>
+              </div>
             </div>
           </div>
-        </div>
+        </Portal>
       )}
     </div>
   );

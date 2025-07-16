@@ -2,7 +2,6 @@
 
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { formatNivelId } from "../utils/formatters";
-import ErrorMessage from "../components/ErrorMessage";
 
 export default function LevelCompletePage() {
   const { nivelId } = useParams();
@@ -84,7 +83,7 @@ export default function LevelCompletePage() {
   };
 
   return (
-    <div className="pb-16 p-4 flex flex-col items-center">
+    <div className="flex flex-col items-center justify-center min-h-screen p-4">
       <h1
         className={`text-2xl font-bold mb-4 ${
           attemptCompletado ? "text-black" : "text-red-600"
@@ -97,30 +96,35 @@ export default function LevelCompletePage() {
 
       {/* Puntuaciones */}
       <div className="mb-4 text-lg">
-        {isLeccion
-          ? `Estrellas: ${score}`
-          : `Puntuación: ${score}`}
+        {isLeccion ? `Estrellas: ${score}` : `Puntuación: ${score}`}
       </div>
       {!attemptCompletado && (
-        <div className="mb-4 text-sm text-red-700">
-          Necesario para superar el nivel:{" "}{isLeccion ? `1 estrella` : `${notaMinima}`}
+        <div className="mb-4 text-sm text-red-700 text-center">
+          Necesario para superar el nivel:{" "}
+          {isLeccion ? `1 estrella` : `${notaMinima}`}
         </div>
       )}
       {intentos > 1 && (
-        <div className="mb-4 text-sm text-gray-700">
-          Mejor puntuación:{" "}{isLeccion ? `${bestScore === 1 ? '1 estrella' : `${bestScore} estrellas`}` : `${bestScore}`}
+        <div className="mb-4 text-sm text-gray-700 text-center">
+          Mejor puntuación:{" "}
+          {isLeccion
+            ? `${bestScore === 1 ? "1 estrella" : `${bestScore} estrellas`}`
+            : `${bestScore}`}
         </div>
       )}
       {/* Mejora histórica */}
       {mejorado && (
-        <div className="text-green-600 mb-4">¡Has superado tu mejor puntuación!</div>
+        <div className="text-green-600 mb-4 text-center">
+          ¡Has superado tu mejor puntuación!
+        </div>
       )}
 
       {/* Mensaje motivacional */}
       <p className="italic mb-6 text-center max-w-md">{msg}</p>
 
       {/* Controles */}
-      <div className="flex space-x-4 mb-2">
+      <div className="flex flex-col items-center space-y-3 md:flex-row md:space-x-4 md:space-y-0 md:justify-center mb-2"
+      >
         <button
           onClick={() => navigate("/roadmap")}
           className="px-4 py-2 border rounded hover:bg-gray-100"
@@ -136,7 +140,11 @@ export default function LevelCompletePage() {
         {nextAvailable && (
           <button
             onClick={handleNext}
-            className={!nuevoTema ? "px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600" : "px-4 py-2 bg-yellow-500 text-white rounded hover:bg-yellow-600"}
+            className={`px-4 py-2 text-white rounded ${
+              nuevoTema
+                ? "bg-yellow-500 hover:bg-yellow-600"
+                : "bg-green-500 hover:bg-green-600"
+            }`}
           >
             Siguiente: {formatNivelId(nivelSiguienteId)}
           </button>
@@ -162,7 +170,7 @@ export default function LevelCompletePage() {
       {/* Fin del curso */}
       {isEndCourse && (
         <p className="text-center text-sm text-gray-600 max-w-sm">
-          Ultimo nivel del curso.
+          Este fue el último nivel del curso. ¡Bien hecho!
         </p>
       )}
     </div>

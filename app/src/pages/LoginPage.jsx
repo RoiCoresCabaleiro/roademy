@@ -37,7 +37,6 @@ export default function LoginPage() {
             name="identifier"
             value={form.identifier}
             onChange={handleChange}
-            //required
             className="w-full px-4 py-2 border rounded focus:outline-none focus:ring"
           />
         </div>
@@ -48,11 +47,12 @@ export default function LoginPage() {
             name="contraseña"
             value={form.contraseña}
             onChange={handleChange}
-            //required
             className="w-full px-4 py-2 border rounded focus:outline-none focus:ring"
           />
         </div>
-        <ErrorMessage error={error} />
+        
+        <div className='my-4'><ErrorMessage error={error} /></div>
+        
         <button
           type="submit"
           disabled={loading}

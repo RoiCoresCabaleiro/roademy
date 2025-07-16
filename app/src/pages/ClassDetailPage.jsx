@@ -4,6 +4,8 @@ import { useParams, useNavigate} from 'react-router-dom';
 import { useApi } from '../hooks/useApi';
 import { claseService } from '../services/claseService';
 import ErrorMessage from '../components/ErrorMessage';
+import ConfirmationModal from '../components/ConfirmationModal';
+import Portal from '../components/Portal';
 import { extractError } from '../utils/errorHandler';
 import { formatNivelId } from '../utils/formatters';
 import { copyToClipboard } from '../utils/clipboard';
@@ -32,10 +34,13 @@ export default function ClassDetailPage() {
   // Copiar código
   const [copied, setCopied] = useState(false);
   // Borrar clase
-  const [deleting, setDeleting] = useState(false);
-  const [confirmDelete, setConfirmDelete] = useState(false);
+  const [confirmDeleteClass, setConfirmDeleteClass] = useState(false);
+  const [isDeletingClass, setIsDeletingClass] = useState(false);
+  const [errorDeleteClass, setErrorDeleteClass] = useState(null);
   // Expulsar estudiante
-  const [confirmingExpel, setConfirmingExpel] = useState(null);
+  const [expelId, setExpelId] = useState(null);
+  const [isExpelling, setIsExpelling] = useState(false);
+  const [errorExpel, setErrorExpel] = useState(null);
   // Modal para mostrar todos los estudiantes
   const [showStudentsModal, setShowStudentsModal] = useState(false);
 
@@ -47,11 +52,6 @@ export default function ClassDetailPage() {
   );
   const { data, isLoading, error, refetch } = useApi(fetchClass);
 
-  // Inicializar nombre al cargar
-  //useEffect(() => {
-  //  if (data?.clase && !editing) setName(data.clase.nombre);
-  //}, [data, editing]);
-
   // Polling cada 10 s para recargar TODO el data (cabecera, estudiantes y actividad)
   useEffect(() => {
     const intervalId = setInterval(() => {
@@ -62,7 +62,12 @@ export default function ClassDetailPage() {
 
   // Guards
   if (isLoading && !data) return <div className="p-4">Cargando detalles…</div>;
-  if (error) return <ErrorMessage error={error} />;
+  if (error)
+    return (
+      <div className="p-4">
+        <ErrorMessage error={error} />
+      </div>
+    );
 
   const { clase, estudiantes = [], actividadReciente = [] } = data;
 
@@ -103,39 +108,42 @@ export default function ClassDetailPage() {
     }
   };
 
-  const startDelete = () => {
-    setConfirmDelete(true);
-    setTimeout(() => setConfirmDelete(false), 2000);
-  }
-  const handleDeleteClass = async () => {
-    setGlobalError(null);
-    setDeleting(true);
+  const handleRequestDeleteClass = () => {
+    setErrorDeleteClass(null);
+    setConfirmDeleteClass(true);
+  };
+
+  const handleConfirmDeleteClass = async () => {
+    setErrorDeleteClass(null);
+    setIsDeletingClass(true);
     try {
       await claseService.eliminarClase(id);
       navigate('/tutor/classes');
     } catch (err) {
-      setGlobalError(extractError(err));
-      setDeleting(false);
-      setConfirmDelete(false);
+      setErrorDeleteClass(extractError(err));
+    } finally {
+      setIsDeletingClass(false);
+      // Sólo cerramos el modal aquí si quieres:
+      // setConfirmDeleteClass(false);
     }
   };
 
   const handleRequestExpel = (studentId) => {
-    setConfirmingExpel(studentId);
-    setTimeout(() => {
-      setConfirmingExpel(null);
-    }, 2000);
+    setErrorExpel(null);
+    setExpelId(studentId);
   };
-
-  const handleConfirmExpel = async (studentId) => {
-    setStudentModalError(null);
+  const handleExpel = async () => {
+    setErrorExpel(null);
+    setIsExpelling(true);
     try {
-      await claseService.eliminarEstudiante(id, studentId);
+      await claseService.eliminarEstudiante(id, expelId);
       await refetch();
+      setExpelId(null);
     } catch (err) {
-      setStudentModalError(extractError(err));
+      setErrorExpel(extractError(err));
+      setIsExpelling(false);
     } finally {
-      setConfirmingExpel(null);
+      setIsExpelling(false);
     }
   };
 
@@ -179,63 +187,58 @@ export default function ClassDetailPage() {
           </button>
         </div>
         <div className="flex items-center gap-2">
-          {!confirmDelete ? (
-            <button
-              onClick={startDelete}
-              className="px-2 py-1 bg-red-500 hover:bg-red-600 text-white rounded"
-              title="Eliminar clase"
-            >
-              🗑️
-            </button>
-          ) : (
-            <button
-              onClick={handleDeleteClass}
-              disabled={deleting}
-              className="px-3 py-1 bg-red-500 hover:bg-red-600 text-white rounded disabled:opacity-50"
-              title="Confirmar eliminación"
-            >
-              ✓
-            </button>
-          )}
+          <button
+            type="button"
+            onClick={handleRequestDeleteClass}
+            className="px-2 py-1 bg-red-500 hover:bg-red-600 text-white rounded"
+            title="Eliminar clase"
+          >
+            🗑️
+          </button>
         </div>
       </div>
 
       {/* --- MODAL DE EDICIÓN --- */}
       {editing && (
-        <div
-          className="fixed inset-0 bg-black/40 flex items-center justify-center z-50"
-          onClick={cancelEdit}
-        >
+        <Portal>
           <div
-            className="bg-white p-6 rounded shadow-lg w-11/12 max-w-sm no-scrollbar"
-            onClick={e => e.stopPropagation()}
+            className="fixed inset-0 bg-black/50 flex items-center justify-center z-50"
+            onClick={cancelEdit}
           >
-            <h3 className="text-lg font-semibold mb-4">Renombrar clase</h3>
-            {editError && <ErrorMessage error={editError} />}
-            <input
-              type="text"
-              value={name}
-              onChange={e => setName(e.target.value)}
-              className="w-full border px-3 py-2 rounded mb-4"
-            />
-            <div className="flex justify-end space-x-2">
-              <button
-                onClick={cancelEdit}
-                className="px-4 py-2 bg-gray-200 rounded hover:bg-gray-300"
-                disabled={isSaving}
-              >
-                Cancelar
-              </button>
-              <button
-                onClick={handleSave}
-                className="px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600 disabled:opacity-50"
-                disabled={isSaving}
-              >
-                Guardar
-              </button>
+            <div
+              className="bg-white p-6 rounded shadow-lg w-11/12 max-w-sm no-scrollbar space-y-2"
+              onClick={e => e.stopPropagation()}
+            >
+              <h3 className="text-lg font-semibold mb-4">Renombrar clase</h3>
+              
+              <input
+                type="text"
+                value={name}
+                onChange={e => setName(e.target.value)}
+                className="w-full border px-3 py-2 rounded"
+              />
+
+              {editError && <ErrorMessage error={editError} />}
+
+              <div className="flex justify-end space-x-2 mt-4">
+                <button
+                  onClick={cancelEdit}
+                  className="px-4 py-2 bg-gray-200 rounded hover:bg-gray-300"
+                  disabled={isSaving}
+                >
+                  Cancelar
+                </button>
+                <button
+                  onClick={handleSave}
+                  className="px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600 disabled:opacity-50"
+                  disabled={isSaving}
+                >
+                  Guardar
+                </button>
+              </div>
             </div>
           </div>
-        </div>
+        </Portal>
       )}
 
       {globalError && !editing && !showStudentsModal && <ErrorMessage error={globalError} />}
@@ -261,21 +264,14 @@ export default function ClassDetailPage() {
                       {u.porcentajeProgresoTotal}%
                     </p>
                   </div>
-                  {confirmingExpel === u.id ? (
-                    <button
-                      onClick={() => handleConfirmExpel(u.id)}
-                      className="px-2 py-1 bg-red-800 text-white rounded"
-                    >
-                      Confirmar
-                    </button>
-                  ) : (
-                    <button
-                      onClick={() => handleRequestExpel(u.id)}
-                      className="px-2 py-1 bg-red-500 text-white rounded"
-                    >
-                      Expulsar
-                    </button>
-                  )}
+                  
+                  <button
+                    type="button"
+                    onClick={() => handleRequestExpel(u.id)}
+                    className="px-2 py-1 bg-red-500 hover:bg-red-600 text-white rounded"
+                  >
+                    Expulsar
+                  </button>
                 </li>
               ))}
             </ul>
@@ -394,59 +390,89 @@ export default function ClassDetailPage() {
 
       {/* MODAL DE ESTUDIANTES */}
       {showStudentsModal && (
-        <div
-          className="fixed inset-0 bg-black/40 flex items-center justify-center z-50"
-          onClick={() => {setShowStudentsModal(false); setStudentModalError(null);}}  /* click fuera cierra */
-        >
+        <Portal>
           <div
-            className="bg-white w-11/12 max-w-lg max-h-[80vh] p-6 rounded overflow-y-auto no-scrollbar"
-            onClick={e => e.stopPropagation()} /* click dentro no cierra */
+            className="fixed inset-0 bg-black/50 flex items-center justify-center z-50"
+            onClick={() => {setShowStudentsModal(false); setStudentModalError(null);}}  /* click fuera cierra */
           >
-            <div className="flex justify-between items-center mb-4">
-              <h4 className="text-xl font-semibold">Todos los estudiantes</h4>
-              <button
-                onClick={() => {setShowStudentsModal(false); setStudentModalError(null);}}
-                className="text-gray-500 hover:text-gray-700 text-2xl leading-none"
-              >
-                &times;
-              </button>
-            </div>
-            {studentModalError && <ErrorMessage error={studentModalError} />}
-            <ul className="space-y-2">
-              {estudiantes.map(u => (
-                <li
-                  key={u.id}
-                  className="flex justify-between items-center border rounded p-2"
+            <div
+              className="bg-white w-11/12 max-w-lg max-h-[80vh] py-6 px-4 rounded overflow-y-auto no-scrollbar md:px-6"
+              onClick={e => e.stopPropagation()} /* click dentro no cierra */
+            >
+              <div className="flex justify-between items-center mb-4">
+                <h4 className="text-xl font-semibold">Todos los estudiantes</h4>
+                <button
+                  onClick={() => {setShowStudentsModal(false); setStudentModalError(null);}}
+                  className="text-gray-500 hover:text-gray-700 text-2xl leading-none"
                 >
-                  <div>
-                    <p className="font-medium">{u.nombre}</p>
-                    <p className="text-sm text-gray-600">{u.email}</p>
-                    <p className="text-sm text-gray-600">
-                      ⭐ {u.estrellasObtenidasCurso}/{u.estrellasPosiblesCurso} · {u.porcentajeProgresoTotal}%
-                    </p>
-                  </div>
-                  {/* Botón expulsar con confirmación */}
-                  {confirmingExpel === u.id ? (
+                  &times;
+                </button>
+              </div>
+              {studentModalError && <ErrorMessage error={studentModalError} />}
+              <ul className="space-y-2">
+                {estudiantes.map(u => (
+                  <li
+                    key={u.id}
+                    className="flex justify-between items-center border rounded p-2"
+                  >
+                    <div>
+                      <p className="font-medium">{u.nombre}</p>
+                      <p className="text-sm text-gray-600">{u.email}</p>
+                      <p className="text-sm text-gray-600">
+                        ⭐ {u.estrellasObtenidasCurso}/{u.estrellasPosiblesCurso} · {u.porcentajeProgresoTotal}%
+                      </p>
+                    </div>
+
                     <button
-                      onClick={() => handleConfirmExpel(u.id)}
-                      className="px-2 py-1 bg-red-800 text-white rounded"
-                    >
-                      Confirmar
-                    </button>
-                  ) : (
-                    <button
+                      type="button"
                       onClick={() => handleRequestExpel(u.id)}
-                      className="px-2 py-1 bg-red-500 text-white rounded"
+                      className="px-2 py-1 bg-red-500 hover:bg-red-600 text-white rounded"
                     >
                       Expulsar
                     </button>
-                  )}
-                </li>
-              ))}
-            </ul>
+                  </li>
+                ))}
+              </ul>
+            </div>
           </div>
-        </div>
+        </Portal>
       )}
+
+      {/* — MODAL DE CONFIRMACIÓN DE EXPULSIÓN — */}
+      <ConfirmationModal
+        isOpen={expelId !== null}
+        title="Expulsar estudiante"
+        message="¿Estás seguro de que quieres expulsar a este estudiante?"
+        onCancel={() => setExpelId(null)}
+        onConfirm={handleExpel}
+        isLoading={isExpelling}
+      >
+        {errorExpel && (
+          <div className="mt-2">
+            <ErrorMessage error={errorExpel} />
+          </div>
+        )}
+      </ConfirmationModal>
+
+
+      {/* — MODAL DE CONFIRMACIÓN DE ELIMINAR CLASE — */}
+      <ConfirmationModal
+        isOpen={confirmDeleteClass}
+        title="Eliminar clase"
+        message="¿Estás seguro de que quieres eliminar esta clase? Esta acción no se puede deshacer."
+        onCancel={() => {
+          setConfirmDeleteClass(false);
+          setErrorDeleteClass(null);
+        }}
+        onConfirm={handleConfirmDeleteClass}
+        isLoading={isDeletingClass}
+      >
+        {errorDeleteClass && (
+          <div className="mt-2">
+            <ErrorMessage error={errorDeleteClass} />
+          </div>
+        )}
+      </ConfirmationModal>
     </div>
   );
 }

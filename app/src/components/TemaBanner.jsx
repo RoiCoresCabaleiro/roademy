@@ -11,7 +11,7 @@ export default function TemaBanner({ titulo, desbloqueado, estrellas, estrellasN
                 📖 {completados}/{total}
               </p>
             ) : (
-              <p className="text-sm text-green-500">✅ Tema Completado</p>
+              <p className="text-sm text-green-500">✅</p>
             )}
           </>
         )}

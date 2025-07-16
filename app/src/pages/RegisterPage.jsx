@@ -91,7 +91,9 @@ export default function RegisterPage() {
             />
           </div>
         )}
-        <ErrorMessage error={error} />
+
+        <div className='my-4'><ErrorMessage error={error} /></div>
+        
         <button
           type="submit"
           disabled={loading}
