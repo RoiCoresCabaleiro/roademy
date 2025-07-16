@@ -1,0 +1,474 @@
+[
+  {
+    "letter": "A",
+    "questions": [
+      {
+        "hint": "Empieza por la A",
+        "text": "Persona con uniforme que regula el tráfico y cuyas órdenes prevalecen sobre semáforos",
+        "options": ["Agente de tráfico", "Alguacil vial"],
+        "correct": 0
+      },
+      {
+        "hint": "Contiene la A",
+        "text": "Conjunto de normas, actitudes y habilidades para una circulación segura",
+        "options": ["Formación online", "Educación vial"],
+        "correct": 1
+      },
+      {
+        "hint": "Empieza por la A",
+        "text": "Vía de alta capacidad, acceso controlado y carriles separados por sentidos",
+        "options": ["Avenida peatonal", "Autopista"],
+        "correct": 1
+      }
+    ]
+  },
+  {
+    "letter": "B",
+    "questions": [
+      {
+        "hint": "Empieza por la B",
+        "text": "Vehículo de dos ruedas impulsado por pedales y cadena",
+        "options": ["Barco", "Bicicleta"],
+        "correct": 1
+      },
+      {
+        "hint": "Empieza por la B",
+        "text": "Dispositivo que emite sonido para advertir o avisar a otros usuarios",
+        "options": ["Bocina", "Baliza"],
+        "correct": 0
+      },
+      {
+        "hint": "Empieza por la B",
+        "text": "Elemento reflectante obligatorio en bicicletas para ser visto de noche",
+        "options": ["Bandas reflectantes", "Birra de seguridad"],
+        "correct": 0
+      }
+    ]
+  },
+  {
+    "letter": "C",
+    "questions": [
+      {
+        "hint": "Empieza por la C",
+        "text": "Carril exclusivo pintado para circular en bicicleta siempre que esté disponible",
+        "options": ["Carril bici", "Calzada compartida"],
+        "correct": 0
+      },
+      {
+        "hint": "Contiene la C",
+        "text": "Marca en el pavimento donde deben detenerse los vehículos ante un semáforo rojo",
+        "options": ["Línea de detención", "Ceda el paso"],
+        "correct": 0
+      },
+      {
+        "hint": "Empieza por la C",
+        "text": "Espacio destinado a dejar el vehículo detenido y sin conductor",
+        "options": ["Centro de control", "Plaza de estacionamiento"],
+        "correct": 1
+      }
+    ]
+  },
+  {
+    "letter": "D",
+    "questions": [
+      {
+        "hint": "Empieza por la D",
+        "text": "Organismo encargado de la seguridad vial y la gestión del tráfico en las carreteras estatales",
+        "options": ["Diputación vial", "DGT"],
+        "correct": 1
+      },
+      {
+        "hint": "Contiene la D",
+        "text": "Señal triangular invertida que obliga a ceder el paso a otros usuarios",
+        "options": ["Ceda el paso", "Dirección prohibida"],
+        "correct": 0
+      },
+      {
+        "hint": "Contiene la D",
+        "text": "Documento oficial que autoriza a una persona a conducir vehículos",
+        "options": ["Permiso de circulación", "Documento de conducir"],
+        "correct": 0
+      }
+    ]
+  },
+  {
+    "letter": "E",
+    "questions": [
+      {
+        "hint": "Empieza por la E",
+        "text": "Proceso de adquirir conocimientos y valores para una circulación segura",
+        "options": ["Emergencia vial", "Educación vial"],
+        "correct": 1
+      },
+      {
+        "hint": "Empieza por la E",
+        "text": "Situación que requiere atención inmediata, como en un accidente",
+        "options": ["Emergencia", "Enlace"],
+        "correct": 0
+      },
+      {
+        "hint": "Contiene la E",
+        "text": "Zona donde está permitido detener un coche sin conductor",
+        "options": ["Estacionamiento", "Parada de autobús"],
+        "correct": 0
+      }
+    ]
+  },
+  {
+    "letter": "F",
+    "questions": [
+      {
+        "hint": "Empieza por la F",
+        "text": "Acción de reducir la velocidad y detener el vehículo con el pedal correspondiente",
+        "options": ["Frenar", "Fluir"],
+        "correct": 0
+      },
+      {
+        "hint": "Contiene la F",
+        "text": "Dispositivo que se activa al pisar el pedal del freno para avisar a otros conductores",
+        "options": ["Faro trasero", "Luces de freno"],
+        "correct": 1
+      }
+    ]
+  },
+  {
+    "letter": "G",
+    "questions": [
+      {
+        "hint": "Empieza por la G",
+        "text": "Lugar cubierto donde se guarda un vehículo para protegerlo de la intemperie",
+        "options": ["Garaje", "Glorieta"],
+        "correct": 0
+      }
+    ]
+  },
+  {
+    "letter": "H",
+    "questions": [
+      {
+        "hint": "Contiene la H",
+        "text": "Elemento obligatorio para ciclistas que refleja luz para ser vistos de noche",
+        "options": ["Hebilla de casco", "Chaleco reflectante"],
+        "correct": 1
+      },
+      {
+        "hint": "Empieza por la H",
+        "text": "Vehiculo de movilidad personal con dos ruedas autoequilibradas y motor eléctrico",
+        "options": ["Hoverboard", "Hovercar"],
+        "correct": 0
+      }
+    ]
+  },
+  {
+    "letter": "I",
+    "questions": [
+      {
+        "hint": "Empieza por la I",
+        "text": "Sistema de anclaje para sillas infantiles que se sujeta a los anclajes del vehículo",
+        "options": ["Inyección electrónica", "ISOFIX"],
+        "correct": 1
+      },
+      {
+        "hint": "Contiene la I",
+        "text": "Conjunto de normas y leyes que regulan la circulación",
+        "options": ["Legislación", "Infraestructura"],
+        "correct": 0
+      },
+      {
+        "hint": "Contiene la I",
+        "text": "Documento donde aparecen los datos técnicos y matrícula del vehículo",
+        "options": ["Permiso de circulación", "Ficha técnica"],
+        "correct": 1
+      }
+    ]
+  },
+  {
+    "letter": "J",
+    "questions": [
+      {
+        "hint": "Empieza por la J",
+        "text": "Oficina de la DGT en cada provincia para trámites de tráfico",
+        "options": ["Jefatura de Matemáticas", "Jefatura de Tráfico"],
+        "correct": 1
+      },
+      {
+        "hint": "Contiene la J",
+        "text": "Persona que va en un vehículo y no es quien conduce",
+        "options": ["Pasajero", "Jinete"],
+        "correct": 0
+      }
+    ]
+  },
+  {
+    "letter": "K",
+    "questions": [
+      {
+        "hint": "Empieza por la K",
+        "text": "Unidad de distancia utilizada para indicar límites de velocidad en carreteras",
+        "options": ["Kilómetro por hora", "Kilovatio hora"],
+        "correct": 0
+      },
+      {
+        "hint": "Empieza por la K",
+        "text": "Término que indica la distancia total recorrida registrada por un vehículo",
+        "options": ["Kilómetro cero", "Kilometraje"],
+        "correct": 1
+      }
+    ]
+  },
+  {
+    "letter": "L",
+    "questions": [
+      {
+        "hint": "Empieza por la L",
+        "text": "Marca en la calzada que indica hasta dónde deben detenerse los coches en un semáforo",
+        "options": ["Límite de velocidad", "Línea de detención"],
+        "correct": 1
+      },
+      {
+        "hint": "Contiene la L",
+        "text": "Zona señalizada donde solo pueden ir peatones y ciclistas",
+        "options": ["Calzada compartida", "Zona peatonal"],
+        "correct": 1
+      },
+      {
+        "hint": "Contiene la L",
+        "text": "Máquina que infla ruedas y ajusta la presión de los neumáticos",
+        "options": ["Inflador", "Calibrador"],
+        "correct": 0
+      }
+    ]
+  },
+  {
+    "letter": "M",
+    "questions": [
+      {
+        "hint": "Empieza por la M",
+        "text": "Revisión básica que se hace a la bicicleta antes de cada salida",
+        "options": ["Mecánica avanzada", "Mantenimiento"],
+        "correct": 1
+      },
+      {
+        "hint": "Empieza por la M",
+        "text": "Elemento que mide la velocidad a la que circula un vehículo",
+        "options": ["Velocímetro", "Manómetro"],
+        "correct": 0
+      },
+      {
+        "hint": "Contiene la M",
+        "text": "Capacidad para poder moverse. Puede ser sana, segura y sostenible.",
+        "options": ["Movilidad", "Movimiento"],
+        "correct": 0
+      }
+    ]
+  },
+  {
+    "letter": "N",
+    "questions": [
+      {
+        "hint": "Empieza por la N",
+        "text": "Conjunto de reglas que todos los usuarios de la vía deben respetar",
+        "options": ["Normas de circulación", "Navegación GPS"],
+        "correct": 0
+      },
+      {
+        "hint": "Contiene la N",
+        "text": "Peatón o ciclista que no tiene carrocería protectora",
+        "options": ["Usuario vulnerable", "Conductor profesional"],
+        "correct": 0
+      }
+    ]
+  },
+  {
+    "letter": "O",
+    "questions": [
+      {
+        "hint": "Empieza por la O",
+        "text": "Tipo de señal que indica lo que debes hacer, es circular y azul, por ejemplo girar a la derecha",
+        "options": ["Orientación", "Obligación"],
+        "correct": 1
+      },
+      {
+        "hint": "Contiene la O",
+        "text": "Zona donde se permite aparcar vehículos de forma gratuita",
+        "options": ["Zona azul", "Zona naranja"],
+        "correct": 0
+      },
+      {
+        "hint": "Contiene la O",
+        "text": "Vehículo que transporta mercancías por carretera",
+        "options": ["Autobús", "Camión"],
+        "correct": 1
+      }
+    ]
+  },
+  {
+    "letter": "P",
+    "questions": [
+      {
+        "hint": "Empieza por la P",
+        "text": "Franjas blancas pintadas en el suelo que indican por donde cruzar la calle",
+        "options": ["Parada de taxi", "Paso de peatones"],
+        "correct": 1
+      },
+      {
+        "hint": "Empieza por la P",
+        "text": "Zona señalizada donde se permite estacionar el vehículo",
+        "options": ["Plaza de aparcamiento", "Parada de autobús"],
+        "correct": 0
+      }
+    ]
+  },
+  {
+    "letter": "Q",
+    "questions": [
+      {
+        "hint": "Contiene la Q",
+        "text": "Zona arbolada y ajardinada por la que pueden caminar los peatones",
+        "options": ["Parque", "Peluquería"],
+        "correct": 0
+      }
+    ]
+  },
+  {
+    "letter": "R",
+    "questions": [
+      {
+        "hint": "Contiene la R",
+        "text": "Intersección circular donde confluyen varias vías y se circula en círculo",
+        "options": ["Carretera circular", "Glorieta"],
+        "correct": 1
+      },
+      {
+        "hint": "Contiene la R",
+        "text": "Elemento de seguridad para proteger las rótulas",
+        "options": ["Rodillera", "Rotulador"],
+        "correct": 0
+      },
+      {
+        "hint": "Contiene la R",
+        "text": "Acción de detenerse temporalmente con el motor encendido",
+        "options": ["Parada", "Marcha atrás"],
+        "correct": 0
+      }
+    ]
+  },
+  {
+    "letter": "S",
+    "questions": [
+      {
+        "hint": "Empieza por la S",
+        "text": "Dispositivo con tres luces (rojo, amarillo, verde) que regula el tráfico",
+        "options": ["Señal de STOP", "Semáforo"],
+        "correct": 1
+      },
+      {
+        "hint": "Empieza por la S",
+        "text": "Señal triangular con fondo blanco y borde rojo que avisa de posible riesgo",
+        "options": ["Señal de servicio", "Señal de peligro"],
+        "correct": 1
+      },
+      {
+        "hint": "Empieza por la S",
+        "text": "Estado general del organismo en el que se incluyen el cuerpo, la mente y las relaciones con los demás",
+        "options": ["Salud", "Seguridad"],
+        "correct": 0
+      }
+    ]
+  },
+  {
+    "letter": "T",
+    "questions": [
+      {
+        "hint": "Empieza por la T",
+        "text": "Vehículo de transporte público que circula por una ruta fija",
+        "options": ["Tren", "Taxi"],
+        "correct": 0
+      },
+      {
+        "hint": "Empieza por la T",
+        "text": "Cualidad de mantenerse durante largo tiempo sin agotar los recursos o causar un grave daño al medio ambiente",
+        "options": ["Sostenibilidad", "Soportabilidad"],
+        "correct": 0
+      }
+    ]
+  },
+  {
+    "letter": "U",
+    "questions": [
+      {
+        "hint": "Contiene la U",
+        "text": "Vehículo de transporte público que puede transportar a muchas personas a la vez",
+        "options": ["Automóvil", "Autobús"],
+        "correct": 1
+      }
+    ]
+  },
+  {
+    "letter": "V",
+    "questions": [
+      {
+        "hint": "Empieza por la V",
+        "text": "Vehículo diseñado para una sola persona con motor eléctrico y una o dos ruedas",
+        "options": ["Vehículo particular", "VMP"],
+        "correct": 1
+      },
+      {
+        "hint": "Empieza por la V",
+        "text": "Educación relativa a la seguridad a la hora de movernos tanto siendo peatones o viajeros, como conductores",
+        "options": ["Vital", "Vial"],
+        "correct": 1
+      }
+    ]
+  },
+  {
+    "letter": "W",
+    "questions": [
+      {
+        "hint": "Empieza por la W",
+        "text": "Sitio oficial en internet donde consultar normativa y campañas de la DGT",
+        "options": ["Web de la DGT", "WhatsApp"],
+        "correct": 0
+      }
+    ]
+  },
+  {
+    "letter": "X",
+    "questions": [
+      {
+        "hint": "Contiene la X",
+        "text": "Que indica una señal azul cuadrada con un 70 dentro",
+        "options": ["Proxima salida a 70 km", "Velocidad máxima aconsejada (70km/h)"],
+        "correct": 1
+      }
+    ]
+  },
+  {
+    "letter": "Y",
+    "questions": [
+      {
+        "hint": "Empieza por la Y",
+        "text": "Auxilio o socorro que prestamos ante una emergencia o una situación inesperada",
+        "options": ["Ayuda", "Ayuno"],
+        "correct": 0
+      }
+    ]
+  },
+  {
+    "letter": "Z",
+    "questions": [
+      {
+        "hint": "Empieza por la Z",
+        "text": "Área cercana a un centro educativo donde se debe reducir la velocidad",
+        "options": ["Zona de descanso", "Zona escolar"],
+        "correct": 1
+      },
+      {
+        "hint": "Contiene la Z",
+        "text": "Parte de la calle por la que circulan los vehículos y no los peatones",
+        "options": ["Plazoleta", "Calzada"],
+        "correct": 1
+      }
+    ]
+  }
+]

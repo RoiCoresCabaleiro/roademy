@@ -3,8 +3,13 @@
 
 .no-scrollbar {
   -ms-overflow-style: none;  /* IE y Edge */
-  scrollbar-width: none;     /* Firefox */
+  scrollbar-width: none;  /* Firefox */
 }
 .no-scrollbar::-webkit-scrollbar {
-  display: none;             /* Chrome, Safari, Opera */
+  display: none;  /* Chrome, Safari, Opera */
+}
+
+/* Estilos de elementos de Markdown */
+.prose img {
+  @apply w-full h-auto my-4;
 }

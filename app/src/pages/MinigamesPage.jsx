@@ -1,16 +1,17 @@
 // app/src/pages/MinigamesPage.jsx
 
-import { useApi } from '../hooks/useApi';
+import { useNavigate } from "react-router-dom";
+import { useApi } from "../hooks/useApi";
 import { minijuegoService } from "../services/minijuegoService";
 import ErrorMessage from "../components/ErrorMessage";
+import { formatNivelId } from "../utils/formatters";
 
 export default function MinigamesPage() {
-  const {
-    data,
-    loading,
-    error,
-    reload,
-  } = useApi(minijuegoService.getMinijuegos);
+  const navigate = useNavigate();
+
+  const { data, loading, error, reload } = useApi(
+    minijuegoService.getMinijuegos
+  );
   const minijuegos = data?.minijuegos || [];
 
   if (loading) return <p className="p-4 text-center">Cargando minijuegos...</p>;
@@ -18,7 +19,7 @@ export default function MinigamesPage() {
 
   return (
     <div className="p-4 max-w-4xl mx-auto">
-      <h1 className="text-2xl font-bold mb-4 text-center">Juegos</h1>
+      <h1 className="text-2xl font-bold mb-8 text-center">Juegos</h1>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
         {minijuegos.map((juego) => (
@@ -30,30 +31,39 @@ export default function MinigamesPage() {
                 : "bg-gray-100 text-gray-500"
             }`}
           >
-            <h2 className="text-lg font-semibold mb-2">{juego.nombre}</h2>
-
             {juego.desbloqueado ? (
-              <>
-                {juego.puntuacion !== undefined ? (
-                  <p className="text-sm mb-2">
-                    Puntuación máxima:{" "}
-                    <span className="font-semibold">{juego.puntuacion}</span>
-                  </p>
-                ) : (
-                  <p className="text-sm mb-2 italic">¡Sin intentos aún!</p>
-                )}
+              <div className="flex items-center justify-between">
+                {/* Izquierda: nombre + puntuación */}
+                <div>
+                  <h2 className="text-lg font-semibold">{juego.nombre}</h2>
+                  {juego.puntuacion !== undefined ? (
+                    <p className="text-sm text-gray-700">
+                      Máxima:{" "}
+                      <span className="font-semibold">{juego.puntuacion}</span>
+                    </p>
+                  ) : (
+                    <p className="text-sm italic text-gray-500">
+                      ¡Sin intentos aún!
+                    </p>
+                  )}
+                </div>
 
+                {/* Derecha: botón */}
                 <button
-                  className="px-3 py-1 bg-blue-600 text-white text-sm rounded hover:bg-blue-700"
-                  onClick={() => alert("TODO: lanzar minijuego")}
+                  className="px-4 py-4 bg-purple-600 text-white text-sm rounded hover:bg-purple-700"
+                  onClick={() => navigate(`/minigames/${juego.id}`)}
                 >
-                  Iniciar minijuego
+                  Jugar
                 </button>
-              </>
+              </div>
             ) : (
-              <p className="text-sm italic">
-                Bloqueado: completa el nivel {juego.nivelDesbloqueo} para acceder
-              </p>
+              <>
+                <h2 className="text-lg font-semibold mb-2">{juego.nombre}</h2>
+                <p className="text-sm italic">
+                  Bloqueado: completa el nivel{" "}
+                  {formatNivelId(juego.nivelDesbloqueo)} para acceder
+                </p>
+              </>
             )}
           </div>
         ))}

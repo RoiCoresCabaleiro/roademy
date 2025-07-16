@@ -1,0 +1,62 @@
+[
+  {
+    "type": 1,
+    "image": "/assets/conducta1a.jpg",
+    "isCorrect": true
+  },
+  {
+    "type": 1,
+    "image": "/assets/conducta2a.jpg",
+    "isCorrect": false
+  },
+  {
+    "type": 1,
+    "image": "/assets/conducta3a.jpg",
+    "isCorrect": false
+  },
+  {
+    "type": 1,
+    "image": "/assets/conducta4a.jpg",
+    "isCorrect": true
+  },
+  {
+    "type": 1,
+    "image": "/assets/conducta5a.jpg",
+    "isCorrect": true
+  },
+  {
+    "type": 1,
+    "image": "/assets/conducta6a.jpg",
+    "isCorrect": false
+  },
+  {
+    "type": 2,
+    "image": "/assets/conducta1b.jpg",
+    "region": { "x": 38, "y": 40, "w": 45, "h": 55 }
+  },
+  {
+    "type": 2,
+    "image": "/assets/conducta2b.jpg",
+    "region": { "x": 10, "y": 35, "w": 35, "h": 65 }
+  },
+  {
+    "type": 2,
+    "image": "/assets/conducta3b.jpg",
+    "region": { "x": 35, "y": 20, "w": 35, "h": 50 }
+  },
+  {
+    "type": 2,
+    "image": "/assets/conducta4b.jpg",
+    "region": { "x": 45, "y": 30, "w": 50, "h": 60 }
+  },
+  {
+    "type": 2,
+    "image": "/assets/conducta5b.jpg",
+    "region": { "x": 5, "y": 45, "w": 60, "h": 55 }
+  },
+  {
+    "type": 2,
+    "image": "/assets/conducta6b.jpg",
+    "region": { "x": 0, "y": 25, "w": 35, "h": 55 }
+  }
+]

@@ -2,7 +2,7 @@
   "temas": [
     {
       "temaId": 1,
-      "titulo": "1. Señales de tráfico",
+      "titulo": "1. Introducción a la movilidad segura",
       "orden": 1,
       "niveles": [
         {
@@ -12,32 +12,46 @@
           "teoria": [
             {
               "subId": 1,
-              "texto": "# Este es un ejemplo de texto en **Markdown**.\n\nTambién podemos tener listas:\n\n*   Elemento 1\n*   Elemento 2\n\nY enlaces:"
+              "texto": "## 1.1 ¿Qué es la educación vial?\n\n### 1.1.1 Definición y alcance\n\nLa educación vial es como un manual de buenas conductas en la calle: aprendes las **normas**, desarrollas **actitudes responsables** y practicas habilidades que te ayudan a cruzar la calle o montar en bici con seguridad. Te enseña a conocer señales, a mirar a los lados y a comportarte bien junto a otros usuarios."
             },
             {
               "subId": 2,
-              "texto": "# Este es un ejemplo de texto en **Markdown**.\n\nTambién podemos tener listas:\n\n*   Elemento 1\n*   Elemento 2\n\nY enlaces:"
+              "texto": "## 1.1 ¿Qué es la educación vial?\n\n### 1.1.2 Objetivos y beneficios\n\nSaber de educación vial sirve para:\n1) **Protegerte** y reducir la posibilidad de accidentes.\n2) Fomentar la **convivencia** respetando a quienes te rodean.\n3) Asumir tu **responsabilidad** como parte de la comunidad."
             },
             {
               "subId": 3,
-              "texto": "# Este es un ejemplo de texto en **Markdown**.\n\nTambién podemos tener listas:\n\n*   Elemento 1\n*   Elemento 2\n\nY enlaces:"
+              "texto": "## 1.1 ¿Qué es la educación vial?\n\n### 1.1.3 El papel de la DGT en la seguridad vial\n\nLa Dirección General de Tráfico (DGT) organiza campañas como \"Creciendo en Seguridad\", crea materiales para colegios y colabora con ayuntamientos para pintar pasos de peatones y enseñar a los niños cómo usarlos.\n\n![Img](/assets/1003.jpg)"
             }
           ],
           "preguntas": [
             {
               "preguntaId": 1001,
-              "texto": "¿Pregunta 1001?",
-              "opciones": ["A", "B", "C"]
+              "texto": "¿Qué tres cosas aprendes con la educación vial?",
+              "opciones": [
+                "Cocinar, pintar y cantar",
+                "Normas, actitudes y habilidades",
+                "Leer, escribir y sumar"
+              ]
             },
             {
               "preguntaId": 1002,
-              "texto": "¿Pregunta 1002?",
-              "opciones": ["A", "B", "C"]
+              "texto": "¿Cuál de estos NO es un beneficio de la educación vial?",
+              "opciones": [
+                "Saber cocinar paella",
+                "Responsabilidad cívica",
+                "Convivencia con otros usuarios",
+                "Protección personal"
+              ]
             },
             {
               "preguntaId": 1003,
-              "texto": "¿Pregunta 1003?",
-              "opciones": ["A", "B", "C"]
+              "texto": "¿Qué hace la DGT para enseñar a los niños sobre seguridad vial?",
+              "opciones": [
+                "Vende juguetes en tiendas",
+                "Construye parques infantiles",
+                "Organiza campañas y crea material educativo para colegios",
+                "Da clases de matemáticas"
+              ]
             }
           ]
         },
@@ -48,55 +62,146 @@
           "teoria": [
             {
               "subId": 1,
-              "texto": "Teoría de ejemplo nivel 1.2 - contexto de Pregunta 1004"
+              "texto": "## 1.2 ¿Quiénes intervienen en la vía?\n\n### 1.2.1 El peatón\n\nEl peatón es **tú** cuando caminas por la calle. Eres el usuario más **vulnerable**, pues no tienes carrocería que te proteja. Para ir seguro:\n\n- Usa siempre las **aceras** o zonas peatonales.\n- **Mira** a ambos lados antes de pisar el bordillo.\n- Si eres pequeño, **sujétate de la mano** de un adulto.\n- Cruza solo por pasos de peatones y bajo la supervisión de un mayor si es necesario.\n\n![Img](/assets/1004.jpg)"
             },
             {
               "subId": 2,
-              "texto": "Teoría de ejemplo nivel 1.2 - contexto de Pregunta 1005"
+              "texto": "## 1.2 ¿Quiénes intervienen en la vía?\n\n### 1.2.2 El conductor de vehículo\n\nEl conductor es quien maneja un coche, moto o furgoneta. Tiene una gran **responsabilidad**:\n\n- Debe **reducir la velocidad** en zonas escolares y residenciales.\n- Mantener siempre la **visión del entorno**, mirando espejos y puntos ciegos.\n- Usar el **cinturón** y asegurarse de no distraerse con el móvil.\n- Obedecer los **límites de velocidad** y ceder paso a peatones y ciclistas."
             },
             {
               "subId": 3,
-              "texto": "Teoría de ejemplo nivel 1.2 - contexto de Pregunta 1006"
+              "texto": "## 1.2 ¿Quiénes intervienen en la vía?\n\n### 1.2.3 ¿Qué hace el agente de tráfico?\n\nEl agente de tráfico es la persona que lleva un **uniforme** y controla cómo circulan coches y peatones. Su función principal es **velar por la seguridad de los usuarios de la vía**:\n\n- Indica cuándo parar o continuar con gestos sencillos.\n- Ayuda en atascos y cruces complicados.\n- Asegura que todos respeten las normas para evitar accidentes.\n\n![Img](/assets/1006.jpg)"
             }
           ],
           "preguntas": [
             {
               "preguntaId": 1004,
-              "texto": "¿Pregunta 1004?",
-              "opciones": ["A", "B", "C"]
+              "texto": "¿Por dónde debe caminar siempre un peatón?",
+              "opciones": [
+                "Por el carril bici",
+                "Por la acera o zona peatonal",
+                "En medio de la calzada"
+              ]
             },
             {
               "preguntaId": 1005,
-              "texto": "¿Pregunta 1005?",
-              "opciones": ["A", "B", "C"]
+              "texto": "¿Qué debe hacer un conductor en una zona escolar?",
+              "opciones": [
+                "Estacionar en doble fila",
+                "Acelerar para pasar rápido",
+                "Reducir la velocidad y estar atento"
+              ]
             },
             {
               "preguntaId": 1006,
-              "texto": "¿Pregunta 1006?",
-              "opciones": ["A", "B", "C"]
+              "texto": "¿Quién regula el tráfico con gestos manuales y uniforme?",
+              "opciones": [
+                "El campanero de la iglesia",
+                "El agente de tráfico",
+                "El jefe de la policía"
+              ]
             }
           ]
         },
         {
           "nivelId": 103,
           "orden": 3,
+          "tipo": "leccion",
+          "teoria": [
+            {
+              "subId": 1,
+              "texto": "## 1.3 Principios básicos: atención, previsión y respeto mutuo\n\n### 1.3.1 Atención\n\nEstar atento es como encender una **alarma interior**:\n\n- **Mira** siempre a ambos lados antes y mientras cruzas.\n- **Escucha** el sonido de motores, bocinas o bicicletas.\n- Evita distracciones: guarda el móvil y baja el volumen de los cascos.\n\nAsí reaccionarás rápido si algo inesperado sucede."
+            },
+            {
+              "subId": 2,
+              "texto": "## 1.3 Principios básicos: atención, previsión y respeto mutuo\n\n### 1.3.2 Previsión\n\nLa previsión es **anticipar** lo que pueden hacer otros:\n\n- Imagina por dónde pueden venir los coches o bicicletas.\n- **Piensa antes de actuar**: no cruces al azar ni corras sin mirar.\n- Ante una situación complicada (un coche mal aparcado que quite visibilidad), avisa a un adulto.\n\nDe este modo evitas sorpresas y te sientes más seguro."
+            },
+            {
+              "subId": 3,
+              "texto": "## 1.3 Principios básicos: atención, previsión y respeto mutuo\n\n### 1.3.3 Respeto mutuo\n\nEl respeto mutuo es **ponerse en el lugar** del otro:\n\n- Cede el paso a **personas mayores** o con silla de ruedas.\n- Agradece con un **gesto** cuando alguien te ayude o espere.\n- Respeta **espacios comunes**: no invadas aceras estrechas ni carriles bici.\n\nAsí todos convivimos mejor y la calle es más amable."
+            }
+          ],
+          "preguntas": [
+            {
+              "preguntaId": 1007,
+              "texto": "¿Qué debes hacer antes de cruzar la calle?",
+              "opciones": [
+                "Mirar a ambos lados y escuchar el tráfico",
+                "Usar el móvil mientras caminas",
+                "Cerrar los ojos y cruzar"
+              ]
+            },
+            {
+              "preguntaId": 1008,
+              "texto": "¿Por qué es importante anticipar el movimiento de los coches?",
+              "opciones": [
+                "Para distraerse mirando escaparates",
+                "Para evitar sorpresas y mantenerse seguro",
+                "Para gritar a los conductores"
+              ]
+            },
+            {
+              "preguntaId": 1009,
+              "texto": "¿Cómo demuestras respeto mutuo en la calle?",
+              "opciones": [
+                "Ignorando a los demás",
+                "Gritando si alguien va despacio",
+                "Empujando para llegar antes",
+                "Cediendo el paso a personas mayores o con movilidad reducida"
+              ]
+            }
+          ]
+        },
+        {
+          "nivelId": 104,
+          "orden": 4,
           "tipo": "quiz",
           "teoria": [],
           "preguntas": [
             {
-              "preguntaId": 1007,
-              "texto": "¿Pregunta 1007?",
-              "opciones": ["A", "B", "C"]
+              "preguntaId": 1010,
+              "texto": "Estás en un paso de peatones sin semáforo. ¿Qué haces?",
+              "opciones": [
+                "Te subes a la acera",
+                "Miras a ambos lados y cruzas cuando no vienen coches",
+                "Te pones detrás de un coche"
+              ]
             },
             {
-              "preguntaId": 1008,
-              "texto": "¿Pregunta 1008?",
-              "opciones": ["A", "B", "C"]
+              "preguntaId": 1011,
+              "texto": "Si un agente te indica con el brazo que pases aunque el semáforo esté en rojo, ¿qué haces?",
+              "opciones": [
+                "Obedezco al agente y cruzo con cuidado",
+                "Espero al siguiente semáforo verde",
+                "Me doy la vuelta y vuelvo a casa"
+              ]
             },
             {
-              "preguntaId": 1009,
-              "texto": "¿Pregunta 1009?",
-              "opciones": ["A", "B", "C"]
+              "preguntaId": 1012,
+              "texto": "¿Cuál es la jerarquía correcta de señales?",
+              "opciones": [
+                "Semáforos > agente > marcas > señales",
+                "Señales verticales > agente > marcas > semáforos",
+                "Agente > semáforos > señales verticales > marcas en el suelo",
+                "Marcas en el suelo > señales > semáforos > agente"
+              ]
+            },
+            {
+              "preguntaId": 1013,
+              "texto": "¿Por qué es mejor caminar o usar bici en vez de ir siempre en coche?",
+              "opciones": [
+                "Porque emite menos CO₂ y contamina menos",
+                "Porque se tarda más",
+                "Porque los coches cuestan dinero"
+              ]
+            },
+            {
+              "preguntaId": 1014,
+              "texto": "Verdadero o falso: “Las actitudes, respeto y previsión NO forman parte de la educación vial”.",
+              "opciones": [
+                "Verdadero",
+                "Falso"
+              ]
             }
           ]
         }
@@ -104,7 +209,7 @@
     },
     {
       "temaId": 2,
-      "titulo": "2. Normas de prioridad",
+      "titulo": "2. Seguridad como peatón",
       "orden": 2,
       "niveles": [
         {
@@ -114,32 +219,43 @@
           "teoria": [
             {
               "subId": 1,
-              "texto": "Teoría de ejemplo nivel 2.1 - contexto de Pregunta 2001"
+              "texto": "## 2.1 Zonas seguras para caminar\n\n### 2.1.1 Características de las aceras\n\nLas **aceras** son el espacio pensado solo para peatones, separados de los coches. Ten en cuenta:\n\n- **Ancho mínimo**: lo suficiente para que pasen dos personas cómodas.\n- **Obstáculos**: cuidado con farolas, contenedores o coches mal aparcados.\n- **Buen uso**: camina siempre por el centro, sin bajar a la calzada salvo en paso de peatones.\n\nSi ves algo que estorba, avisa a un adulto o al ayuntamiento para que lo retiren."
             },
             {
               "subId": 2,
-              "texto": "Teoría de ejemplo nivel 2.1 - contexto de Pregunta 2002"
+              "texto": "## 2.1 Zonas seguras para caminar\n\n### 2.1.2 Uso correcto de los pasos de peatones\n\nLos **pasos de peatones** sirven para cruzar sin peligro. Hay varios tipos:\n\n1. **Cebra**: franjas blancas y negras en el suelo.\n2. **Semaforizado**: con luz verde y roja para peatones.\n3. **Elevado**: como un pequeño badén, ralentiza a los coches.\n\n**Cómo cruzar**:\n\n- Para primero y espera a que no vengan coches.\n- Si tiene semáforo peatonal, cruza con luz verde.\n- Mira siempre a ambos lados mientras cruzas.\n\n![Img](/assets/2002.jpg)"
             },
             {
               "subId": 3,
-              "texto": "Teoría de ejemplo nivel 2.1 - contexto de Pregunta 2003"
+              "texto": "## 2.1 Zonas seguras para caminar\n\n### 2.1.3 Función y seguridad en las isletas peatonales\n\nLas **isletas** son pequeños refugios en medio de calles anchas. Sirven para:\n\n- Detenerte a mitad de camino si no puedes cruzar de una vez.\n- Romper el cruce en dos partes más cortas.\n\n**Cómo usarlas**:\n\n1. Cruza hasta la isleta y párate.\n2. Asegúrate de que en el siguiente tramo no vienen coches.\n3. Cruza con calma hasta la acera contraria.\n\n![Img](/assets/2003.jpg)"
             }
           ],
           "preguntas": [
             {
               "preguntaId": 2001,
-              "texto": "¿Pregunta 2001?",
-              "opciones": ["A", "B", "C"]
+              "texto": "¿Dónde debes caminar siempre que haya espacio disponible?",
+              "opciones": [
+                "Por el carril bici",
+                "Por la calzada",
+                "Por la acera"
+              ]
             },
             {
               "preguntaId": 2002,
-              "texto": "¿Pregunta 2002?",
-              "opciones": ["A", "B", "C"]
+              "texto": "Verdadero o falso: “Un paso de peatones elevado ayuda a que los coches reduzcan la velocidad”.",
+              "opciones": [
+                "Verdadero",
+                "Falso"
+              ]
             },
             {
               "preguntaId": 2003,
-              "texto": "¿Pregunta 2003?",
-              "opciones": ["A", "B", "C"]
+              "texto": "¿Para qué sirve una isleta peatonal?",
+              "opciones": [
+                "Para jugar al escondite",
+                "Para hacer el cruce en dos partes",
+                "Para aparcar bicicletas"
+              ]
             }
           ]
         },
@@ -150,55 +266,192 @@
           "teoria": [
             {
               "subId": 1,
-              "texto": "Teoría de ejemplo nivel 2.2 - contexto de Pregunta 2004"
+              "texto": "## 2.2 Señales y semáforos para peatones\n\n### 2.2.1 Señalización vertical y horizontal\n\n- **Señales verticales**: triángulos o círculos con símbolo de peatón.\n- **Marcas horizontales**: líneas o pictogramas pintados en el suelo.\n\nEstas señales te avisan de zonas peligrosas o de cruce de peatones. Siempre respétalas: si ves una señal de “Prohibido pasar”, busca otra ruta."
             },
             {
               "subId": 2,
-              "texto": "Teoría de ejemplo nivel 2.2 - contexto de Pregunta 2005"
+              "texto": "## 2.2 Señales y semáforos para peatones\n\n### 2.2.2 Semáforos peatonales\n\nLos **semáforos peatonales** tienen:\n\n- **Icono verde**: puedes cruzar.\n- **Icono rojo**: detente y espera.\n- **Cuenta atrás**: números que indican segundos para acabar de cruzar.\n- **Pulsadores**: a veces debes pulsar un botón y esperar al cambio.\n\nSiempre espera tu turno y no cruces al rojo."
             },
             {
               "subId": 3,
-              "texto": "Teoría de ejemplo nivel 2.2 - contexto de Pregunta 2006"
+              "texto": "## 2.2 Señales y semáforos para peatones\n\n### 2.2.3 Señales provisionales y de obra\n\nEn zonas en obras verás **conos**, **vallas** o **paneles móviles**:\n\n- Indican cambios temporales de paso o desvíos.\n- Respeta las indicaciones y sigue el camino señalizado.\n- Ten cuidado con el suelo irregular y maquinaria cercana.\n\n![Img](/assets/2006.jpg)"
             }
           ],
           "preguntas": [
             {
               "preguntaId": 2004,
-              "texto": "¿Pregunta 2004?",
-              "opciones": ["A", "B", "C"]
+              "texto": "¿Qué indican las marcas en el suelo que muestran franjas blancas y negras?",
+              "opciones": [
+                "Carril de emergencia",
+                "Zona de juegos",
+                "Paso de peatones"
+              ]
             },
             {
               "preguntaId": 2005,
-              "texto": "¿Pregunta 2005?",
-              "opciones": ["A", "B", "C"]
+              "texto": "¿Qué debes hacer cuando veas el icono verde en un semáforo peatonal?",
+              "opciones": [
+                "Encender el móvil",
+                "Esperar sentado",
+                "Cruzar con cuidado"
+              ]
             },
             {
               "preguntaId": 2006,
-              "texto": "¿Pregunta 2006?",
-              "opciones": ["A", "B", "C"]
+              "texto": "Verdadero o falso: “Los conos y vallas en obras indican desvíos temporales para peatones”.",
+              "opciones": [
+                "Verdadero",
+                "Falso"
+              ]
             }
           ]
         },
         {
           "nivelId": 203,
           "orden": 3,
+          "tipo": "leccion",
+          "teoria": [
+            {
+              "subId": 1,
+              "texto": "## 2.3 Cruce de calzada: mirada, escucha y actitud\n\n### 2.3.1 Mirar antes de cruzar\n\nAntes de pisar la calzada, **mira**:\n\n- A la izquierda y a la derecha en calles de un solo carril.\n- A cada carril por separado en calles más anchas.\n\nRepite “izquierda-derecha-izquierda” hasta estar seguro de que ningún coche viene.\n\n![Img](/assets/2007.jpg)"
+            },
+            {
+              "subId": 2,
+              "texto": "## 2.3 Cruce de calzada: mirada, escucha y actitud\n\n### 2.3.2 Escuchar el entorno\n\nA veces los coches llegan **silenciosos** (motos, bicicletas eléctricas). Por eso:\n\n- **Escucha** motores, campanas de bici y el ruido del entorno.\n- Quítate auriculares o baja el volumen antes de cruzar."
+            },
+            {
+              "subId": 3,
+              "texto": "## 2.3 Cruce de calzada: mirada, escucha y actitud\n\n### 2.3.3 Actitud segura al cruzar\n\n- **Señaliza** con la mano que vas a cruzar.\n- **Mantén contacto visual** con el conductor si es posible.\n- **No corras**: atraviesa con paso firme y constante."
+            }
+          ],
+          "preguntas": [
+            {
+              "preguntaId": 2007,
+              "texto": "Antes de cruzar sin semáforo, debes…",
+              "opciones": [
+                "Usar el móvil",
+                "Gritar para avisar",
+                "Mirar a izquierda y derecha",
+                "Correr rápido"
+              ]
+            },
+            {
+              "preguntaId": 2008,
+              "texto": "Verdadero o falso: “Escuchar el entorno te ayuda a detectar bicicletas o motos silenciosas”.",
+              "opciones": [
+                "Verdadero",
+                "Falso"
+              ]
+            },
+            {
+              "preguntaId": 2009,
+              "texto": "Al cruzar, ¿qué gesto puedes hacer para avisar a los conductores?",
+              "opciones": [
+                "Taparte los ojos",
+                "Levantar la mano",
+                "Saltar"
+              ]
+            }
+          ]
+        },
+        {
+          "nivelId": 204,
+          "orden": 4,
+          "tipo": "leccion",
+          "teoria": [
+            {
+              "subId": 1,
+              "texto": "## 2.4 Prioridad del agente de tráfico y señales manuales\n\n### 2.4.1 Autoridad del agente de tráfico\n\nEl **agente de tráfico** puede usar gestos y banderines para ordenar el paso. Sus órdenes **siempre** tienen más importancia que:\n\n1. Semáforos.\n2. Señales verticales.\n3. Cualquier otra señalización.\n\nObedece siempre al agente si está regulando."
+            },
+            {
+              "subId": 2,
+              "texto": "## 2.4 Prioridad del agente de tráfico y señales manuales\n\n### 2.4.2 Interpretación de las señales manuales\n\n- **Brazo vertical**: todos deben detenerse.\n- **Brazo horizontal**: deja pasar al tráfico perpendicular.\n- **Silbato o banderín**: refuerzan la señal.\n\nAprende estos gestos para actuar sin dudar.\n\n![Img](/assets/2011.jpg)"
+            },
+            {
+              "subId": 3,
+              "texto": "## 2.4 Prioridad del agente de tráfico y señales manuales\n\n### 2.4.3 Casos prácticos: agente vs. semáforo\n\n**Escenario:** Semáforo en rojo, pero el agente hace señas para que pases.\n\n¿Qué haces? — Debes **obedecer al agente** y cruzar con cuidado.\n\n![Img](/assets/2012.jpg)"
+            }
+          ],
+          "preguntas": [
+            {
+              "preguntaId": 2010,
+              "texto": "Verdadero o falso: “Cuando un agente te ordena pasar, siempre debes obedecer aunque el semáforo esté en rojo”.",
+              "opciones": [
+                "Verdadero",
+                "Falso"
+              ]
+            },
+            {
+              "preguntaId": 2011,
+              "texto": "¿Qué indica el brazo horizontal de un agente de tráfico?",
+              "opciones": [
+                "Tocar el claxon",
+                "Parar a todos los usuarios",
+                "Dejar pasar a los coches que vienen de lado"
+              ]
+            },
+            {
+              "preguntaId": 2012,
+              "texto": "Si un semáforo está en rojo y no hay agente, ¿qué haces?",
+              "opciones": [
+                "Te subes a la acera",
+                "Esperas hasta que cambie a verde",
+                "Cruzas de un salto"
+              ]
+            }
+          ]
+        },
+        {
+          "nivelId": 205,
+          "orden": 5,
           "tipo": "quiz",
           "teoria": [],
           "preguntas": [
             {
-              "preguntaId": 2007,
-              "texto": "¿Pregunta 2007?",
-              "opciones": ["A", "B", "C"]
+              "preguntaId": 2013,
+              "texto": "¿Cuál de estas situaciones muestra un paso de peatones correcto?",
+              "opciones": [
+                "Solo un signo pintado en la pared",
+                "Franjas blancas sobre el asfalto y señal vertical cercana",
+                "Marcas de tierra",
+                "Un semáforo colgando sin franjas"
+              ]
             },
             {
-              "preguntaId": 2008,
-              "texto": "¿Pregunta 2008?",
-              "opciones": ["A", "B", "C"]
+              "preguntaId": 2014,
+              "texto": "Estas en un paso de peatones con semáforo en rojo. ¿Qué haces?",
+              "opciones": [
+                "Cruzas rápido sin mirar",
+                "Esperas a que el semáforo se ponga en verde",
+                "Te sientas a esperar"
+              ]
             },
             {
-              "preguntaId": 2009,
-              "texto": "¿Pregunta 2009?",
-              "opciones": ["A", "B", "C"]
+              "preguntaId": 2015,
+              "texto": "Si ves conos naranjas y una señal de desvío, tú…",
+              "opciones": [
+                "Sigues la ruta señalizada",
+                "Te quedas parado en medio",
+                "Cruzas por donde quieras"
+              ]
+            },
+            {
+              "preguntaId": 2016,
+              "texto": "¿Qué debes hacer si un agente te gesticula mientras el semáforo está en verde?",
+              "opciones": [
+                "Ignorarlo",
+                "Obedecer al agente",
+                "Gritar"
+              ]
+            },
+            {
+              "preguntaId": 2017,
+              "texto": "¿Qué debes hacer si un coche te pita mientras cruzas?",
+              "opciones": [
+                "Acelerar el paso",
+                "Detenerte en medio de la calzada",
+                "Seguir cruzando con precaución"
+              ]
             }
           ]
         }
@@ -206,7 +459,7 @@
     },
     {
       "temaId": 3,
-      "titulo": "3. Tema de ejemplo",
+      "titulo": "3. Normas y señales básicas",
       "orden": 3,
       "niveles": [
         {
@@ -216,32 +469,43 @@
           "teoria": [
             {
               "subId": 1,
-              "texto": "Teoría de ejemplo nivel 3.1 - contexto de Pregunta 3001"
+              "texto": "## 3.1 Tipos de señales\n\n### 3.1.1 Señales de prohibición\n\nLas señales de **prohibición** indican lo que **no** puedes hacer. Su forma y color: círculo rojo con barra diagonal. Ejemplos:\n\n- 🚫 **Prohibido girar**: no puedes girar en esa dirección.\n- 🚫 **Prohibido adelantar**: no puedes pasar a otro vehículo.\n- 🚫 **Prohibido el acceso a bicicletas / peatones**.\n\n![Img](/assets/3001.jpg)"
             },
             {
               "subId": 2,
-              "texto": "Teoría de ejemplo nivel 3.1 - contexto de Pregunta 3002"
+              "texto": "## 3.1 Tipos de señales\n\n### 3.1.2 Señales de obligación\n\nLas señales de **obligación** te dicen lo que **debes** hacer. Son círculos azules con un símbolo blanco. Ejemplos:\n\n- 🔵 **Obligación de girar a la derecha**: tienes que girar en esa dirección.\n- 🔵 **Uso de casco obligatorio**: indica que debes llevar casco.\n- 🔵 **Vía reservada para bicicletas / peatones** \n\nCumple siempre lo que te indiquen para circular con seguridad.\n\n![Img](/assets/3002.jpg)"
             },
             {
               "subId": 3,
-              "texto": "Teoría de ejemplo nivel 3.1 - contexto de Pregunta 3003"
+              "texto": "## 3.1 Tipos de señales\n\n### 3.1.3 Señales de advertencia\n\nLas señales de **advertencia** te avisan de un peligro cercano. Son triángulos con borde rojo y fondo amarillo o blanco. Ejemplos:\n\n- ⚠️ **Curva peligrosa**: prepárate para girar.\n- ⚠️ **Zona escolar**: cuidado con niños cruzando.\n- ⚠️ **Peligro Ciclistas / Peatones**: peligro por proximidad de lugares frecuentados por ciclistas / peatones.\n\nCuando veas una señal de advertencia, reduce la velocidad y presta atención.\n\n![Img](/assets/3003.jpg)"
             }
           ],
           "preguntas": [
             {
               "preguntaId": 3001,
-              "texto": "¿Pregunta 3001?",
-              "opciones": ["A", "B", "C"]
+              "texto": "¿Qué indica una señal de prohibición?",
+              "opciones": [
+                "Que hay peligro cercano",
+                "Lo que DEBES hacer",
+                "Lo que NO puedes hacer"
+              ]
             },
             {
               "preguntaId": 3002,
-              "texto": "¿Pregunta 3002?",
-              "opciones": ["A", "B", "C"]
+              "texto": "Verdadero o falso: “Las señales de obligación son círculos azules con símbolo blanco”.",
+              "opciones": [
+                "Verdadero",
+                "Falso"
+              ]
             },
             {
               "preguntaId": 3003,
-              "texto": "¿Pregunta 3003?",
-              "opciones": ["A", "B", "C"]
+              "texto": "¿De qué forma suele ser una señal de advertencia?",
+              "opciones": [
+                "Círculo rojo con barra diagonal",
+                "Triángulo con borde rojo",
+                "Círculo azul con flecha blanca"
+              ]
             }
           ]
         },
@@ -252,55 +516,1390 @@
           "teoria": [
             {
               "subId": 1,
-              "texto": "Teoría de ejemplo nivel 3.2 - contexto de Pregunta 3004"
+              "texto": "## 3.2 Marcas en el pavimento\n\n### 3.2.1 Pasos de peatones\n\nLos **pasos de peatones** (cebra) están pintados en el suelo con franjas blancas. Sirven para:\n\n- Indicar dónde cruzar con seguridad.\n- Avisar a los conductores de que deben parar.\n\nCruza siempre por estas franjas y **asegúrate de que los coches se detienen por completo** antes de cruzar."
             },
             {
               "subId": 2,
-              "texto": "Teoría de ejemplo nivel 3.2 - contexto de Pregunta 3005"
+              "texto": "## 3.2 Marcas en el pavimento\n\n### 3.2.2 Líneas de detención y bandas sonoras\n\n- **Líneas de detención**: línea continua blanca donde los coches deben parar ante un semáforo.\n- **Bandas sonoras**: ranuras en el pavimento que vibran al pasar para avisar al conductor.\n\nRespeta la línea de detención y, si oyes vibrar tu vehículo, sabrás que te acercas a un cruce peligroso."
             },
             {
               "subId": 3,
-              "texto": "Teoría de ejemplo nivel 3.2 - contexto de Pregunta 3006"
+              "texto": "## 3.2 Marcas en el pavimento\n\n### 3.2.3 Carriles bici y zonas de espera pintadas\n\n- **Carril bici**: carril exclusivo para ciclistas, pintado de verde o con símbolos de bicicleta.\n- **Zona de espera**: espacio delante de los semáforos donde los ciclistas se colocan para ver mejor el cambio de luz.\n\nMantente fuera del carril bici si vas andando y respeta el espacio de los ciclistas."
             }
           ],
           "preguntas": [
             {
               "preguntaId": 3004,
-              "texto": "¿Pregunta 3004?",
-              "opciones": ["A", "B", "C"]
+              "texto": "¿Qué representan las franjas blancas pintadas en el suelo en forma de cebra?",
+              "opciones": [
+                "Zona de carga",
+                "Paso de peatones",
+                "Carril bici"
+              ]
             },
             {
               "preguntaId": 3005,
-              "texto": "¿Pregunta 3005?",
-              "opciones": ["A", "B", "C"]
+              "texto": "Verdadero o falso: “Las bandas sonoras en el pavimento vibran al pasar para avisar al conductor”.",
+              "opciones": [
+                "Verdadero",
+                "Falso"
+              ]
             },
             {
               "preguntaId": 3006,
-              "texto": "¿Pregunta 3006?",
-              "opciones": ["A", "B", "C"]
+              "texto": "¿Qué color suelen tener los carriles bici pintados?",
+              "opciones": [
+                "Verde",
+                "Amarillo",
+                "Rojo"
+              ]
             }
           ]
         },
         {
           "nivelId": 303,
           "orden": 3,
+          "tipo": "leccion",
+          "teoria": [
+            {
+              "subId": 1,
+              "texto": "## 3.3 Semáforos y pulsadores peatonales\n\n### 3.3.1 Funcionamiento de semáforos básicos\n\nLos **semáforos** tienen tres luces:\n\n- 🔴 **Rojo**: detente y espera.\n- 🟡 **Amarillo**: prepárate para detenerte.\n- 🟢 **Verde**: puedes avanzar.\n\nPara peatones, el icono cambia de rojo a verde para cruzar con seguridad."
+            },
+            {
+              "subId": 2,
+              "texto": "## 3.3 Semáforos y pulsadores peatonales\n\n### 3.3.2 Semáforos acústicos y accesibilidad\n\nAlgunos semáforos emiten **pitidos** o mensajes de voz:\n\n- Ayudan a personas con **discapacidad visual** a saber cuándo es seguro cruzar.\n- Suenan más rápido si el tiempo para cruzar es corto.\n\nRespeta estos avisos y no cruces hasta escucharlos."
+            },
+            {
+              "subId": 3,
+              "texto": "## 3.3 Semáforos y pulsadores peatonales\n\n### 3.3.3 Uso de pulsadores e indicadores de cuenta atrás\n\n- **Pulsadores**: botones que activas para pedir el paso peatonal.\n- **Cuenta atrás**: números que indican segundos restantes para cruzar.\n\nPulsa el botón y espera a que aparezca el verde. No cruces si quedan pocos segundos en la cuenta atrás."
+            }
+          ],
+          "preguntas": [
+            {
+              "preguntaId": 3007,
+              "texto": "¿Qué significa la luz amarilla en un semáforo?",
+              "opciones": [
+                "Prepárate para detenerte",
+                "Sigue sin cambios",
+                "Avanza con más velocidad"
+              ]
+            },
+            {
+              "preguntaId": 3008,
+              "texto": "Verdadero o falso: “Los semáforos acústicos ayudan a personas con discapacidad visual a cruzar”.",
+              "opciones": [
+                "Verdadero",
+                "Falso"
+              ]
+            },
+            {
+              "preguntaId": 3009,
+              "texto": "Verdadero o falso: “Si el semáforo muestra 30 segundos en la cuenta atrás, debes esperar al siguiente ciclo para cruzar”.",
+              "opciones": [
+                "Verdadero",
+                "Falso"
+              ]
+            }
+          ]
+        },
+        {
+          "nivelId": 304,
+          "orden": 4,
+          "tipo": "leccion",
+          "teoria": [
+            {
+              "subId": 1,
+              "texto": "## 3.4 Prioridad de la señalización\n\n### 3.4.1 Jerarquía de la señalización\n\nCuando hay varias señales, sigue este orden:\n\n1. 👮 **Órdenes del agente de tráfico**\n2. 🚦 **Semáforos**\n3. 🪧 **Señales verticales**\n4. 🖌️ **Marcas en el pavimento**\n\nSiempre obedece primero al agente y después al resto."
+            },
+            {
+              "subId": 2,
+              "texto": "## 3.4 Prioridad de la señalización\n\n### 3.4.2 Prioridad en intersecciones\n\nAl llegar a un cruce:\n\n- Si el semáforo está en verde, sigue adelante.\n- Si el semáforo está en rojo pero el agente te indica paso, obedece al agente.\n- Si no hay semáforo ni agente, cede el paso al vehículo que viene por tu derecha.\n\nAsí evitarás confusiones y accidentes."
+            },
+            {
+              "subId": 3,
+              "texto": "## 3.4 Prioridad de la señalización\n\n### 3.4.3 Resolución de conflictos de señales\n\nA veces dos señales dan órdenes distintas. En ese caso:\n\n1. Confirma si hay un **agente**; si lo hay, sigue sus indicaciones.\n2. Si no hay agente, sigue el **semáforo**.\n3. Si no hay semáforo, atiende a la **señal vertical**.\n4. Por último, fíjate en las **marcas en el suelo**.\n\nSigue siempre este orden para no equivocarte."
+            }
+          ],
+          "preguntas": [
+            {
+              "preguntaId": 3010,
+              "texto": "Verdadero o falso: “Las órdenes del agente de tráfico tienen más prioridad que las de un semáforo”.",
+              "opciones": [
+                "Verdadero",
+                "Falso"
+              ]
+            },
+            {
+              "preguntaId": 3011,
+              "texto": "En un cruce sin semáforo ni agente, ¿a quién debes ceder el paso?",
+              "opciones": [
+                "Al que viene por tu izquierda",
+                "A nadie, pasa primero tú",
+                "Al vehículo que viene por tu derecha"
+              ]
+            },
+            {
+              "preguntaId": 3012,
+              "texto": "¿Cuál es el siguiente nivel de prioridad tras semáforos y agente?",
+              "opciones": [
+                "Marcas en el pavimento",
+                "Señales verticales",
+                "Indicaciones de peatones"
+              ]
+            }
+          ]
+        },
+        {
+          "nivelId": 305,
+          "orden": 5,
           "tipo": "quiz",
           "teoria": [],
           "preguntas": [
             {
-              "preguntaId": 3007,
-              "texto": "¿Pregunta 3007?",
-              "opciones": ["A", "B", "C"]
+              "preguntaId": 3013,
+              "texto": "¿Cuál de estas es una señal de advertencia?",
+              "opciones": [
+                "Cuadrado verde con símbolo",
+                "Triángulo con borde rojo",
+                "Círculo azul con flecha"
+              ]
             },
             {
-              "preguntaId": 3008,
-              "texto": "¿Pregunta 3008?",
-              "opciones": ["A", "B", "C"]
+              "preguntaId": 3014,
+              "texto": "¿Qué marca en el pavimento indica dónde deben detenerse los conductores ante un semáforo en rojo?",
+              "opciones": [
+                "La línea de detención",
+                "El paso de zebra",
+                "Ni una ni otra"
+              ]
             },
             {
-              "preguntaId": 3009,
-              "texto": "¿Pregunta 3009?",
-              "opciones": ["A", "B", "C"]
+              "preguntaId": 3015,
+              "texto": "Verdadero o falso: “La señal del agente siempre prevalece sobre cualquier otra”.",
+              "opciones": [
+                "Verdadero",
+                "Falso"
+              ]
+            },
+            {
+              "preguntaId": 3016,
+              "texto": "Si dos señales dan órdenes contradictorias y no hay agente ni semáforo, ¿qué debes seguir primero?",
+              "opciones": [
+                "Marca en el suelo",
+                "Ninguna, espera instrucciones",
+                "Señal vertical"
+              ]
+            },
+            {
+              "preguntaId": 3017,
+              "texto": "Para que sirven las bandas sonoras en el pavimento",
+              "opciones": [
+                "Para decorar las calles",
+                "Para avisar a los conductores de un cruce cercano",
+                "Para marcar zonas de aparcamiento"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "temaId": 4,
+      "titulo": "4. Movilidad en bicicleta",
+      "orden": 4,
+      "niveles": [
+        {
+          "nivelId": 401,
+          "orden": 1,
+          "tipo": "leccion",
+          "teoria": [
+            {
+              "subId": 1,
+              "texto": "## 4.1 Equipo de seguridad\n\n### 4.1.1 Casco homologado\n\nEl **casco** es tu casco protector como un escudo para la cabeza. Debe ser **homologado**, lo que significa que cumple las normas de seguridad. Para elegirlo y ajustarlo bien:\n\n- Pruébate el casco y menea la cabeza: no debe moverse.\n- Ajusta la correa bajo la barbilla para que quede bien firme.\n- El casco debe cubrir tu frente sin tapar la visión.\n\nSiempre que montes en bici, ¡ponte el casco antes de partir!\n\n![Img](/assets/4001.jpg)"
+            },
+            {
+              "subId": 2,
+              "texto": "## 4.1 Equipo de seguridad\n\n### 4.1.2 Protecciones complementarias\n\nLas **protecciones** son como tu armadura extra:\n\n- **Rodilleras** y **coderas**: protegen al caer.\n- **Guantes**: cuidan tus manos si resbalas.\n\nÚsalas cuando aprendas trucos o circules por zonas con piedras y evita golpes dolorosos."
+            },
+            {
+              "subId": 3,
+              "texto": "## 4.1 Equipo de seguridad\n\n### 4.1.3 Elementos reflectantes\n\nPara que te vean de día y de noche, lleva elementos que brillen:\n\n- **Chaleco reflectante** o bandas en brazos y piernas.\n- **Luces** en la parte delantera (blancas) y trasera (rojas).\n\nAsí los coches y otros ciclistas sabrán dónde estás incluso con poca luz."
+            }
+          ],
+          "preguntas": [
+            {
+              "preguntaId": 4001,
+              "texto": "¿Por qué es importante ajustar bien la correa del casco?",
+              "opciones": [
+                "Para que combine con la ropa",
+                "Para que no se mueva al pedalear",
+                "Para que sea más bonito"
+              ]
+            },
+            {
+              "preguntaId": 4002,
+              "texto": "Verdadero o falso: “Las rodilleras protegen tus manos en caso de caída”.",
+              "opciones": [
+                "Verdadero",
+                "Falso"
+              ]
+            },
+            {
+              "preguntaId": 4003,
+              "texto": "¿Qué elemento te ayuda a ser visible?",
+              "opciones": [
+                "Guantes de lana",
+                "Chaleco reflectante",
+                "Gafas de sol"
+              ]
+            }
+          ]
+        },
+        {
+          "nivelId": 402,
+          "orden": 2,
+          "tipo": "leccion",
+          "teoria": [
+            {
+              "subId": 1,
+              "texto": "## 4.2 Normas básicas de circulación en bici\n\n### 4.2.1 Uso de carril bici y calzada\n\nLos **carriles bici** son carriles especiales pintados en la calle. Para usarlos:\n\n- Pedalea dentro de las líneas del carril bici si hay uno.\n- Si no hay carril, circula por la **calzada** pegado a la derecha.\n- Nunca circules por la acera para no chocar con peatones."
+            },
+            {
+              "subId": 2,
+              "texto": "## 4.2 Normas básicas de circulación en bici\n\n### 4.2.2 Adelantamientos y distancias de seguridad\n\nAl adelantar a peatones o ciclistas:\n\n- Comienza el adelantamiento con suficiente espacio.\n- Mantén como mínimo 1 metro de separación.\n- Avisa con la voz o el timbre antes de pasar.\n\nAsí evitas sustos y mantienes a todos a salvo."
+            },
+            {
+              "subId": 3,
+              "texto": "## 4.2 Normas básicas de circulación en bici\n\n### 4.2.3 Velocidad adecuada y control del equilibrio\n\n- Ajusta tu **velocidad** al lugar: despacio en zonas estrechas o con tráfico.\n- Mantén el **centro de gravedad**: lleva el peso centrado y mira al frente.\n- Si vas rápido, podrás girar y frenar mejor."
+            }
+          ],
+          "preguntas": [
+            {
+              "preguntaId": 4004,
+              "texto": "¿Dónde debes circular si hay carril bici disponible?",
+              "opciones": [
+                "Por la acera",
+                "Dentro del carril bici",
+                "Por el arcén de coche"
+              ]
+            },
+            {
+              "preguntaId": 4005,
+              "texto": "Verdadero o falso: “Para adelantar a un peatón debes dejar al menos un metro de separación”",
+              "opciones": [
+                "Verdadero",
+                "Falso"
+              ]
+            },
+            {
+              "preguntaId": 4006,
+              "texto": "¿Qué debes hacer antes de girar en tu bicicleta?",
+              "opciones": [
+                "Levantar el asiento",
+                "Reducir la velocidad y mantener el equilibrio",
+                "Acelerar para dar impulso"
+              ]
+            }
+          ]
+        },
+        {
+          "nivelId": 403,
+          "orden": 3,
+          "tipo": "leccion",
+          "teoria": [
+            {
+              "subId": 1,
+              "texto": "## 4.3 Señalización con brazos\n\n### 4.3.1 Giro a la derecha e izquierda\n\nPara decir a todos que vas a girar:\n\n- **Estira** el brazo **izquierdo**  para girar a la **izquierda**.\n- **Estira** el brazo **derecho** para girar a la **derecha**.\n\n Tambien puedes doblar un brazo hacia arriba para indicar hacia el lado opuesto.\n- **Dobla** el brazo **derecho** para girar a la **izquierda**.\n- **Dobla** el brazo **izquierdo** para girar a la **derecha**.\n\n Mantén el brazo extendido unos segundos antes de girar."
+            },
+            {
+              "subId": 2,
+              "texto": "## 4.3 Señalización con brazos\n\n### 4.3.2 Señal de parada o disminución de velocidad\n\nCuando vayas a **frenar** o detenerte:\n\n- Baja el brazo **izquierdo** con la palma abierta.\n- Mantén la señal mientras reduces la velocidad.\n\nAsí los demás saben que vas a detenerte."
+            },
+            {
+              "subId": 3,
+              "texto": "## 4.3 Señalización con brazos\n\n### 4.3.3 Coordinación con semáforos y otros usuarios\n\nAntes de girar o frenar:\n\n- Asegúrate de que peatones y coches **ven** tu señal.\n- Espera a que terminen de cruzar o reducir la marcha.\n- Solo ejecuta el giro cuando sea seguro para todos."
+            }
+          ],
+          "preguntas": [
+            {
+              "preguntaId": 4007,
+              "texto": "¿Cómo señalizas un giro a la izquierda con el brazo?",
+              "opciones": [
+                "Haciendo un círculo con la mano",
+                "Extendiendo el brazo izquierdo",
+                "Bajando el brazo derecho"
+              ]
+            },
+            {
+              "preguntaId": 4008,
+              "texto": "Verdadero o falso: “Para indicar parada, se estira el brazo izquierdo hacia abajo”.",
+              "opciones": [
+                "Verdadero",
+                "Falso"
+              ]
+            },
+            {
+              "preguntaId": 4009,
+              "texto": "¿Qué debes comprobar antes de girar señalizando con el brazo?",
+              "opciones": [
+                "Que nadie te escuche",
+                "Que te hayan visto otros usuarios",
+                "Que el casco esté suelto"
+              ]
+            }
+          ]
+        },
+        {
+          "nivelId": 404,
+          "orden": 4,
+          "tipo": "leccion",
+          "teoria": [
+            {
+              "subId": 1,
+              "texto": "## 4.4 Mantenimiento básico y revisión antes de salir\n\n### 4.4.1 Comprobación de frenos\n\nAntes de montar:\n\n- Aprieta ambas manetas de freno: la rueda debe bloquearse.\n- Revisa que los frenos respondan sin ruido raro.\n\nAsí evitarás frenazos inesperados."
+            },
+            {
+              "subId": 2,
+              "texto": "## 4.4 Mantenimiento básico y revisión antes de salir\n\n### 4.4.2 Presión y estado de los neumáticos\n\n- Infla las ruedas según la **presión** indicada en el lateral.\n- Revisa que no tengan cortes ni clavos.\n\nUnos neumáticos bien inflados ruedan mejor y son más seguros."
+            },
+            {
+              "subId": 3,
+              "texto": "## 4.4 Mantenimiento básico y revisión antes de salir\n\n### 4.4.3 Lubricación de cadena y ajuste de tornillería\n\n- Aplica **aceite** a la cadena cada varias salidas.\n- Comprueba y aprieta tornillos de sillín y manillar.\n\nUna bici limpia y bien ajustada te llevará siempre a tu destino."
+            }
+          ],
+          "preguntas": [
+            {
+              "preguntaId": 4010,
+              "texto": "¿Cómo sabes que tus frenos están bien ajustados?",
+              "opciones": [
+                "Escuchas un silbido al frenar",
+                "La rueda se bloquea al apretar la maneta",
+                "La maneta se queda floja"
+              ]
+            },
+            {
+              "preguntaId": 4011,
+              "texto": "Verdadero o falso: “Un neumático muy desinflado mejora el agarre en curvas”.",
+              "opciones": [
+                "Verdadero",
+                "Falso"
+              ]
+            },
+            {
+              "preguntaId": 4012,
+              "texto": "¿Por qué es importante lubricar la cadena regularmente?",
+              "opciones": [
+                "Para hacer ruido divertido",
+                "Para que brille al sol",
+                "Para que se mueva suave y no se desgaste"
+              ]
+            }
+          ]
+        },
+        {
+          "nivelId": 405,
+          "orden": 5,
+          "tipo": "quiz",
+          "teoria": [],
+          "preguntas": [
+            {
+              "preguntaId": 4013,
+              "texto": "Verdadero o falso: “Debe usarse siempre casco homologado al montar en bici”.",
+              "opciones": [
+                "Verdadero",
+                "Falso"
+              ]
+            },
+            {
+              "preguntaId": 4014,
+              "texto": "¿Cuál es la señal correcta para indicar que vas a girar a la derecha?",
+              "opciones": [
+                "Estira el brazo derecho",
+                "Dobla el brazo derecho hacia arriba",
+                "Estira el brazo izquierdo"
+              ]
+            },
+            {
+              "preguntaId": 4015,
+              "texto": "¿Dónde debes colocar las luces si pedaleas al anochecer?",
+              "opciones": [
+                "Solo trasera blanca",
+                "Delantera blanca y trasera roja",
+                "Solo delantera roja"
+              ]
+            },
+            {
+              "preguntaId": 4016,
+              "texto": "¿En qué situación debes parar y revisar tu bici antes de continuar?",
+              "opciones": [
+                "Si nadie va detrás",
+                "Si la cadena hace ruido extraño",
+                "Si hace sol brillante"
+              ]
+            },
+            {
+              "preguntaId": 4017,
+              "texto": "Verdadero o falso: “El chaleco reflectante solo sirve de noche”.",
+              "opciones": [
+                "Verdadero",
+                "Falso"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "temaId": 5,
+      "titulo": "5. Seguridad como pasajero",
+      "orden": 5,
+      "niveles": [
+        {
+          "nivelId": 501,
+          "orden": 1,
+          "tipo": "leccion",
+          "teoria": [
+            {
+              "subId": 1,
+              "texto": "## 5.1 Cinturón de seguridad y sistemas de retención infantil (SRI)\n\n### 5.1.1 Ajuste correcto del cinturón\n\nEl **cinturón de seguridad** es tu mejor amigo en el coche. Para que funcione bien:\n\n- La **banda diagonal** debe ir sobre tu hombro, nunca bajo el brazo.\n- La **banda pélvica** debe quedar sobre tus caderas, no sobre el estómago.\n- Ajusta hasta que queden **tensas**, sin que te aprieten demasiado.\n\nAsí evitas golpes y rozaduras en caso de frenazo."
+            },
+            {
+              "subId": 2,
+              "texto": "## 5.1 Cinturón de seguridad y sistemas de retención infantil (SRI)\n\n### 5.1.2 Tipos de SRI según edad y talla\n\nLas **sillas infantiles** cambian según tu peso y altura:\n\n- **Grupo 0** (0-10 kg): silla mirando hacia atrás.\n- **Grupo I** (9-18 kg): silla mirando hacia delante con arnés.\n- **Grupo II** (15-25 kg) y **III** (22-36 kg): alzador con respaldo o cojín elevador.\n\nUsa siempre la silla adecuada para ir más seguro."
+            },
+            {
+              "subId": 3,
+              "texto": "## 5.1 Cinturón de seguridad y sistemas de retención infantil (SRI)\n\n### 5.1.3 Instalación segura del SRI\n\nPara poner bien la silla:\n\n- Si tu coche tiene **ISOFIX**, engancha los anclajes directamente.\n- Si no, pasa el **cinturón** por la guía de la silla y ajústalo.\n- Comprueba que la silla no se **mueva** más de 2 cm en ningún sentido.\n\nAntes de salir, haz siempre esta revisión rápida."
+            }
+          ],
+          "preguntas": [
+            {
+              "preguntaId": 5001,
+              "texto": "¿Dónde debe colocarse la banda pélvica del cinturón de seguridad?",
+              "opciones": [
+                "Sobre el estómago",
+                "Por debajo de las caderas",
+                "Sobre las caderas",
+                "Sobre la axila"
+              ]
+            },
+            {
+              "preguntaId": 5002,
+              "texto": "Verdadero o falso: “El Grupo I de SRI es para niños de 0 a 10 kg”.",
+              "opciones": [
+                "Verdadero",
+                "Falso"
+              ]
+            },
+            {
+              "preguntaId": 5003,
+              "texto": "¿Qué sistema de anclaje permite fijar la silla infantil sin usar el cinturón?",
+              "opciones": [
+                "ISOFIX",
+                "Cinturón diagonal",
+                "Top Tether"
+              ]
+            }
+          ]
+        },
+        {
+          "nivelId": 502,
+          "orden": 2,
+          "tipo": "leccion",
+          "teoria": [
+            {
+              "subId": 1,
+              "texto": "## 5.2 Comportamiento dentro del vehículo\n\n### 5.2.1 Mantener silencio y evitar distracciones\n\nDentro del coche o bus, **silencio** es seguridad:\n\n- Habla bajo y evita gritos para que el conductor se concentre.\n- No empujes ni muevas el asiento del conductor.\n- Reserva los juegos y bromas para después de bajar."
+            },
+            {
+              "subId": 2,
+              "texto": "## 5.2 Comportamiento dentro del vehículo\n\n### 5.2.2 Uso responsable de dispositivos electrónicos\n\nSi llevas tablet o móvil:\n\n- Baja el **volumen** para no molestar al conductor.\n- Mantén la **postura**: sostén el dispositivo con ambas manos.\n- Limita el tiempo de pantalla para no marearte."
+            },
+            {
+              "subId": 3,
+              "texto": "## 5.2 Comportamiento dentro del vehículo\n\n### 5.2.3 Postura y ergonomía durante el viaje\n\nPara viajar cómodo y seguro:\n\n- Siéntate con la **espalda recta** y bien pegada al respaldo.\n- Apoya los **pies** en el suelo o en el reposapiés.\n- No te asomes ni saques brazos fuera de la ventanilla."
+            }
+          ],
+          "preguntas": [
+            {
+              "preguntaId": 5004,
+              "texto": "¿Por qué es importante mantener silencio dentro del vehículo?",
+              "opciones": [
+                "Para que el motor suene más fuerte",
+                "Para no distraer al conductor",
+                "Para hablar más alto",
+                "Para escuchar música mejor"
+              ]
+            },
+            {
+              "preguntaId": 5005,
+              "texto": "Verdadero o falso: “Se recomienda subir el volumen de la tablet para no aburrirse durante el viaje”.",
+              "opciones": [
+                "Verdadero",
+                "Falso"
+              ]
+            },
+            {
+              "preguntaId": 5006,
+              "texto": "¿Cuál es una postura ergonómica correcta al viajar en coche?",
+              "opciones": [
+                "Espalda pegada al respaldo y pies apoyados",
+                "Inclinarse hacia adelante",
+                "Sacar los brazos por la ventana"
+              ]
+            }
+          ]
+        },
+        {
+          "nivelId": 503,
+          "orden": 3,
+          "tipo": "leccion",
+          "teoria": [
+            {
+              "subId": 1,
+              "texto": "## 5.3 Subida, bajada y posiciones seguras en autobús y transporte escolar\n\n### 5.3.1 Protocolo de subida y bajada\n\nCuando subas o bajes del bus:\n\n- **Forma fila** y espera tu turno.\n- Sujétate del **pasamanos** al subir y bajar.\n- No te muevas hasta que el vehículo esté **completamente parado**."
+            },
+            {
+              "subId": 2,
+              "texto": "## 5.3 Subida, bajada y posiciones seguras en autobús y transporte escolar\n\n### 5.3.2 Asientos y zonas seguras dentro del autobús\n\nDentro del bus busca:\n\n- **Asientos con cinturón** si los hay.\n- Evita el **pasillo** para no tropezar al frenar.\n- Mantente alejado de la **salida de emergencia**."
+            },
+            {
+              "subId": 3,
+              "texto": "## 5.3 Subida, bajada y posiciones seguras en autobús y transporte escolar\n\n### 5.3.3 Comportamiento en paradas intermedias\n\nSi el bus para en ruta:\n\n- No te **levantes** hasta que esté parado y las puertas abiertas.\n- Mantén **orden** y espera a que los más pequeños bajen primero.\n- No empujes, y espera tu turno con calma."
+            }
+          ],
+          "preguntas": [
+            {
+              "preguntaId": 5007,
+              "texto": "Al subir al autobús, debes…",
+              "opciones": [
+                "Formar fila y sujetarte al pasamanos",
+                "Correr para coger asiento",
+                "Empujar a los demás"
+              ]
+            },
+            {
+              "preguntaId": 5008,
+              "texto": "Verdadero o falso: “Es seguro quedarse de pie en el pasillo mientras el autobús circula”.",
+              "opciones": [
+                "Verdadero",
+                "Falso"
+              ]
+            },
+            {
+              "preguntaId": 5009,
+              "texto": "En una parada intermedia, ¿qué debes hacer antes de levantarte?",
+              "opciones": [
+                "Esperar a que el bus esté parado y las puertas abiertas",
+                "Levantarte de inmediato",
+                "Empujar a los de delante"
+              ]
+            }
+          ]
+        },
+        {
+          "nivelId": 504,
+          "orden": 4,
+          "tipo": "leccion",
+          "teoria": [
+            {
+              "subId": 1,
+              "texto": "## 5.4 Respeto al conductor y a los compañeros\n\n### 5.4.1 Cortesía con el conductor\n\n- **Saluda** al subir y **agradece** al bajar.\n- No critiques la forma de conducir.\n- Si necesitas algo, pide ayuda con respeto."
+            },
+            {
+              "subId": 2,
+              "texto": "## 5.4 Respeto al conductor y a los compañeros\n\n### 5.4.2 Buenas normas de convivencia\n\n- **Comparte espacio**: no invadas el asiento de al lado.\n- No empujes ni grites al acompañante.\n- Cede el **asiento** a quien lo necesite (mayores, embarazadas)."
+            },
+            {
+              "subId": 3,
+              "texto": "## 5.4 Respeto al conductor y a los compañeros\n\n### 5.4.3 Gestión de conflictos menores\n\nSi hay una pelea o discusión:\n\n- Mantén la calma y no participes.\n- Informa a un adulto o al conductor.\n- Espera a que lo solucionen sin alzar la voz."
+            }
+          ],
+          "preguntas": [
+            {
+              "preguntaId": 5010,
+              "texto": "¿Qué debes decir al bajar del coche o autobús para mostrar cortesía?",
+              "opciones": [
+                "Gracias",
+                "¿Ya llegamos?",
+                "Adiós a todos",
+                "¡Hasta luego!"
+              ]
+            },
+            {
+              "preguntaId": 5011,
+              "texto": "Verdadero o falso: “Está bien invadir el asiento de al lado si no hay más pasajeros” .",
+              "opciones": [
+                "Verdadero",
+                "Falso"
+              ]
+            },
+            {
+              "preguntaId": 5012,
+              "texto": "Si hay una discusión dentro del vehículo, debes…",
+              "opciones": [
+                "Mantener la calma e informar a un adulto",
+                "Unirte a la pelea",
+                "Gritar con ellos"
+              ]
+            }
+          ]
+        },
+        {
+          "nivelId": 505,
+          "orden": 5,
+          "tipo": "quiz",
+          "teoria": [],
+          "preguntas": [
+            {
+              "preguntaId": 5013,
+              "texto": "¿Cómo deben quedar tensas las bandas del cinturón para un niño?",
+              "opciones": [
+                "Justo ajustadas, sin holgura",
+                "Muy sueltas",
+                "Muy apretadas",
+                "Colgando del hombro"
+              ]
+            },
+            {
+              "preguntaId": 5014,
+              "texto": "Verdadero o falso: “El anclaje ISOFIX mantiene la silla infantil estable si no se mueve más de 2 cm”.",
+              "opciones": [
+                "Verdadero",
+                "Falso"
+              ]
+            },
+            {
+              "preguntaId": 5015,
+              "texto": "Al usar la tablet en el coche, debes:",
+              "opciones": [
+                "Bajar el volumen y sujetar la pantalla con ambas manos",
+                "Subir el volumen al máximo",
+                "Colocar la tablet en el suelo"
+              ]
+            },
+            {
+              "preguntaId": 5016,
+              "texto": "En el autobús, ¿qué debes hacer antes de levantarte?",
+              "opciones": [
+                "Esperar a que el vehículo esté parado",
+                "Levantarte en marcha",
+                "Empujar a otros pasajeros"
+              ]
+            },
+            {
+              "preguntaId": 5017,
+              "texto": "Verdadero o falso: “Puedes levantarte antes de que el autobús se detenga del todo si tienes prisa”.",
+              "opciones": [
+                "Verdadero",
+                "Falso"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "temaId": 6,
+      "titulo": "6. Vehículos de movilidad personal (VMP)",
+      "orden": 6,
+      "niveles": [
+        {
+          "nivelId": 601,
+          "orden": 1,
+          "tipo": "leccion",
+          "teoria": [
+            {
+              "subId": 1,
+              "texto": "## 6.1 Definición y tipos de VMP\n\n### 6.1.1 ¿Qué es un VMP?\n\nUn **VMP** (Vehículo de Movilidad Personal) es un aparato con motor y ruedas para una sola persona. Ejemplos:\n\n- **Patinete eléctrico**\n- **Hoverboard**\n- **Segway**\n\nSe usan para moverse por la ciudad de forma rápida y divertida."
+            },
+            {
+              "subId": 2,
+              "texto": "## 6.1 Definición y tipos de VMP\n\n### 6.1.2 Clasificación según velocidad y potencia\n\n- **Baja velocidad (< 25 km/h):** ideal para niños y calles peatonales.\n- **Alta velocidad (> 25 km/h):** más potente, pero solo para usuarios mayores y vías especiales.\n\nUsa siempre el VMP adecuado para tu edad y lugar."
+            },
+            {
+              "subId": 3,
+              "texto": "## 6.1 Definición y tipos de VMP\n\n### 6.1.3 Requisitos de homologación y marcado CE\n\nPara que un VMP sea legal debe tener:\n\n- **Etiqueta CE** que certifica su seguridad.\n- **Manual de instrucciones** con límites de velocidad y peso.\n- **Ficha técnica** donde se vean sus características.\n\nNunca uses un VMP sin estas etiquetas."
+            }
+          ],
+          "preguntas": [
+            {
+              "preguntaId": 6001,
+              "texto": "¿Qué es un VMP según la definición legal?",
+              "opciones": [
+                "Aparato con motor y ruedas para una sola persona",
+                "Vehículo de transporte público",
+                "Coche compartido"
+              ]
+            },
+            {
+              "preguntaId": 6002,
+              "texto": "Verdadero o falso: “Un VMP de baja velocidad supera los 30 km/h”.",
+              "opciones": [
+                "Verdadero",
+                "Falso"
+              ]
+            },
+            {
+              "preguntaId": 6003,
+              "texto": "¿Qué etiqueta debe llevar un VMP para ser legal?",
+              "opciones": [
+                "Etiqueta CE",
+                "Etiqueta ECO",
+                "Etiqueta B"
+              ]
+            }
+          ]
+        },
+        {
+          "nivelId": 602,
+          "orden": 2,
+          "tipo": "leccion",
+          "teoria": [
+            {
+              "subId": 1,
+              "texto": "## 6.2 Equipamiento y zonas de circulación permitidas\n\n### 6.2.1 Elementos de seguridad obligatorios\n\nAntes de montar en VMP, ponte:\n\n- **Casco** homologado.\n- **Luces** delante (blancas) y detrás (rojas).\n- **Timbre o bocina** para avisar.\n- **Chaleco reflectante** si circulas de noche."
+            },
+            {
+              "subId": 2,
+              "texto": "## 6.2 Equipamiento y zonas de circulación permitidas\n\n### 6.2.2 Vías permitidas y prohibidas\n\n- **Permitido:** carriles bici y calzada.\n- **Prohibido:** aceras y zonas peatonales.\n\nRespeta las señales que indican dónde puedes circular."
+            },
+            {
+              "subId": 3,
+              "texto": "## 6.2 Equipamiento y zonas de circulación permitidas\n\n### 6.2.3 Velocidad y horario en zonas peatonales\n\nEn zonas escolares o peatonales con aviso:\n\n- Reduce la velocidad al mínimo.\n- Circula despacio en horas de mucho tráfico de niños.\n\nAsí evitas ruidos y peligros."
+            }
+          ],
+          "preguntas": [
+            {
+              "preguntaId": 6004,
+              "texto": "¿Cuál de estos elementos es obligatorio en un VMP?",
+              "opciones": [
+                "Luces delanteras y traseras",
+                "Ruedas de repuesto",
+                "Alfombrilla antifatiga",
+                "Radio integrada"
+              ]
+            },
+            {
+              "preguntaId": 6005,
+              "texto": "Verdadero o falso: “Está permitido circular por la acera con un VMP”.",
+              "opciones": [
+                "Verdadero",
+                "Falso"
+              ]
+            },
+            {
+              "preguntaId": 6006,
+              "texto": "¿En qué horario debes reducir la velocidad en zonas escolares?",
+              "opciones": [
+                "Durante la entrada y salida del colegio",
+                "Solo de noche",
+                "Nunca"
+              ]
+            }
+          ]
+        },
+        {
+          "nivelId": 603,
+          "orden": 3,
+          "tipo": "leccion",
+          "teoria": [
+            {
+              "subId": 1,
+              "texto": "## 6.3 Normas de convivencia con peatones y ciclistas\n\n### 6.3.1 Ceder el paso y distancia lateral\n\n- Siempre **cede el paso** al peatón.\n- Mantén al menos **1 metro** de distancia lateral.\n\nCon esta distancia evitas sustos y accidentes."
+            },
+            {
+              "subId": 2,
+              "texto": "## 6.3 Normas de convivencia con peatones y ciclistas\n\n### 6.3.2 Adelantamientos y estacionamiento\n\nPara adelantar:\n\n- Avanza **lentamente** y anuncia tu paso.\n- Aparca solo en zonas permitidas, nunca bloquees caminos.\n\nAsí todos compartimos el espacio sin problemas."
+            },
+            {
+              "subId": 3,
+              "texto": "## 6.3 Normas de convivencia con peatones y ciclistas\n\n### 6.3.3 Señalización de giro y frenada\n\n- Usa la **mano** y el **timbre** para avisar.\n- Señala con antelación y comprueba que te han visto.\n\nAsí tus intenciones quedan claras para todos."
+            }
+          ],
+          "preguntas": [
+            {
+              "preguntaId": 6007,
+              "texto": "Para adelantar a un peatón con tu VMP debes…",
+              "opciones": [
+                "Mantener al menos un metro de separación",
+                "Rozarlo ligeramente",
+                "Superarlo por la acera"
+              ]
+            },
+            {
+              "preguntaId": 6008,
+              "texto": "Verdadero o falso: “Puedes aparcar un VMP encima de la acera si está libre”.",
+              "opciones": [
+                "Verdadero",
+                "Falso"
+              ]
+            },
+            {
+              "preguntaId": 6009,
+              "texto": "¿Cómo señalizas a los demás usuarios que vas a frenar con tu VMP?",
+              "opciones": [
+                "Extendiendo la mano hacia abajo",
+                "Gritando “alto”",
+                "Tocando el timbre continuamente"
+              ]
+            }
+          ]
+        },
+        {
+          "nivelId": 604,
+          "orden": 4,
+          "tipo": "leccion",
+          "teoria": [
+            {
+              "subId": 1,
+              "texto": "## 6.4 Riesgos específicos\n\n### 6.4.1 Velocidad inadecuada\n\nIr muy rápido puede hacerte perder el control, sobre todo en suelos **irregulares**.\n\n- Ajusta la velocidad según el terreno.\n- Reduce al pasar por topes o curvas cerradas."
+            },
+            {
+              "subId": 2,
+              "texto": "## 6.4 Riesgos específicos\n\n### 6.4.2 Estado de los frenos y neumáticos\n\n- Revisa que los **frenos** respondan sin retraso.\n- Comprueba que los **neumáticos** no estén desgastados.\n\nUn fallo de frenos o un neumático desinflado puede provocar caídas."
+            },
+            {
+              "subId": 3,
+              "texto": "## 6.4 Riesgos específicos\n\n### 6.4.3 Visibilidad y condiciones meteorológicas\n\n- En **lluvia** o **niebla**, usa luces y circula despacio.\n- Con poca luz, ponte reflectantes y asegúrate de verte.\n\nAsí evitas deslizamientos y te mantienen visibles."
+            }
+          ],
+          "preguntas": [
+            {
+              "preguntaId": 6010,
+              "texto": "¿Cuál es el riesgo de circular demasiado rápido en un VMP?",
+              "opciones": [
+                "Perder el control en superficies irregulares",
+                "Ahorrar tiempo",
+                "Mejorar la autonomía"
+              ]
+            },
+            {
+              "preguntaId": 6011,
+              "texto": "Verdadero o falso: “Un neumático desgastado no afecta a la frenada”.",
+              "opciones": [
+                "Verdadero",
+                "Falso"
+              ]
+            },
+            {
+              "preguntaId": 6012,
+              "texto": "Para mejorar la visibilidad en niebla debes…",
+              "opciones": [
+                "Usar reflectantes y luces",
+                "Aumentar la velocidad",
+                "Circular sin luces"
+              ]
+            }
+          ]
+        },
+        {
+          "nivelId": 605,
+          "orden": 5,
+          "tipo": "quiz",
+          "teoria": [],
+          "preguntas": [
+            {
+              "preguntaId": 6013,
+              "texto": "Verdadero o falso: “Todos los VMP deben llevar timbre o bocina”.",
+              "opciones": [
+                "Verdadero",
+                "Falso"
+              ]
+            },
+            {
+              "preguntaId": 6014,
+              "texto": "¿Cuál de estos vehículos es un VMP?",
+              "opciones": [
+                "Hoverboard",
+                "Turismo",
+                "Tren ligero"
+              ]
+            },
+            {
+              "preguntaId": 6015,
+              "texto": "¿Dónde está prohibido circular con un VMP?",
+              "opciones": [
+                "En aceras",
+                "En carriles bici",
+                "En calzada"
+              ]
+            },
+            {
+              "preguntaId": 6016,
+              "texto": "Para garantizar tu seguridad en zonas de alta afluencia, debes…",
+              "opciones": [
+                "Reducir la velocidad",
+                "Acelerar",
+                "Quitar reflectantes",
+                "Cerrar los ojos"
+              ]
+            },
+            {
+              "preguntaId": 6017,
+              "texto": "Verdadero o falso: “La homologación CE verifica la seguridad del VMP”.",
+              "opciones": [
+                "Verdadero",
+                "Falso"
+              ]
+            },
+            {
+              "preguntaId": 6018,
+              "texto": "¿Qué mantenimiento básico evita derrapes?",
+              "opciones": [
+                "Revisar el estado de los frenos y neumáticos",
+                "Pintar el chasis",
+                "Abrir el motor",
+                "Cambiar el timbre"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "temaId": 7,
+      "titulo": "7. Planificación y prevención",
+      "orden": 7,
+      "niveles": [
+        {
+          "nivelId": 701,
+          "orden": 1,
+          "tipo": "leccion",
+          "teoria": [
+            {
+              "subId": 1,
+              "texto": "## 7.1 Elegir la ruta más segura\n\n### 7.1.1 Evaluación del tráfico\n\nAntes de salir, mira el **tráfico**:  \n- Elige calles con **menos coches** y peatones.  \n- Ten en cuenta las **horas**: en hora escolar o de atascos hay más vehículos.  \n- Usa apps o mapas para ver calles tranquilas."
+            },
+            {
+              "subId": 2,
+              "texto": "## 7.1 Elegir la ruta más segura\n\n### 7.1.2 Uso de rutas escolares establecidas\n\nMuchos colegios y ayuntamientos crean **caminos escolares** señalizados:  \n- Suelen tener **semáforos especiales** o voluntarios ayudando.  \n- Siguen siempre el mismo **recorrido seguro**.  \n- Pregunta en tu colegio si existe uno y ¡únete al grupo!"
+            },
+            {
+              "subId": 3,
+              "texto": "## 7.1 Elegir la ruta más segura\n\n### 7.1.3 Itinerarios alternativos y pausas seguras\n\nPlanifica paradas para descansar:  \n- Busca bancos, zonas peatonales amplias o fuentes.  \n- Divide tu ruta en tramos de unos minutos.  \n- Así te aseguras de no cansarte y de volver a salir con energía."
+            }
+          ],
+          "preguntas": [
+            {
+              "preguntaId": 7001,
+              "texto": "¿Cuál es una buena forma de elegir calles con poco tráfico?",
+              "opciones": [
+                "Usar mapas o apps que muestren densidad de vehículos",
+                "Circular siempre por la carretera principal",
+                "Seguir al grupo más grande de personas"
+              ]
+            },
+            {
+              "preguntaId": 7002,
+              "texto": "Verdadero o falso: “Los caminos escolares suelen contar con voluntarios que ayudan a cruzar con seguridad”.",
+              "opciones": [
+                "Verdadero",
+                "Falso"
+              ]
+            },
+            {
+              "preguntaId": 7003,
+              "texto": "¿Por qué es útil planificar pausas en la ruta?",
+              "opciones": [
+                "Para descansar en zonas seguras y recargar energía",
+                "Para adelantar a otros caminantes",
+                "Para cruzar calles sin mirar"
+              ]
+            }
+          ]
+        },
+        {
+          "nivelId": 702,
+          "orden": 2,
+          "tipo": "leccion",
+          "teoria": [
+            {
+              "subId": 1,
+              "texto": "## 7.2 Señales de peligro y zonas de riesgo\n\n### 7.2.1 Señales de paso de peatones próximo\n\nEstas señales te avisan de un **cruce** cercano:  \n- Triángulos con una figura de peatón.\n\n Así llegas preparado para cruzar con seguridad."
+            },
+            {
+              "subId": 2,
+              "texto": "## 7.2 Señales de peligro y zonas de riesgo\n\n### 7.2.2 Zonas de baja visibilidad\n\nAlgunas zonas son más **oscuras** o **escondidas**:  \n- Dentro de parques o detrás de coches aparcados.  \n- En curvas cerradas donde no ves a los coches venir.  \n- Camina con cuidado, mirando más tiempo antes de avanzar."
+            },
+            {
+              "subId": 3,
+              "texto": "## 7.2 Señales de peligro y zonas de riesgo\n\n### 7.2.3 Salidas de garajes y accesos secundarios\n\nMuchos coches salen **de improvisto** por garajes:  \n- Reconoce las puertas de garaje y señalizaciones.  \n- Detente un momento, mira y solo avanza si no vienen coches.  \n- Mantén la calma para no sobresaltarte."
+            }
+          ],
+          "preguntas": [
+            {
+              "preguntaId": 7004,
+              "texto": "¿Qué señal avisa de un paso de peatones próximo?",
+              "opciones": [
+                "Triángulo con figura de persona caminando",
+                "Círculo rojo con barra diagonal",
+                "Cuadrado azul con flecha"
+              ]
+            },
+            {
+              "preguntaId": 7005,
+              "texto": "Verdadero o falso: “Las zonas de baja visibilidad solo existen de noche”.",
+              "opciones": [
+                "Verdadero",
+                "Falso"
+              ]
+            },
+            {
+              "preguntaId": 7006,
+              "texto": "Al llegar a la puerta de un garaje, debes…",
+              "opciones": [
+                "Detenerte un momento y mirar si salen coches",
+                "Acelerar antes de pasar",
+                "Pasar sin detenerte"
+              ]
+            }
+          ]
+        },
+        {
+          "nivelId": 703,
+          "orden": 3,
+          "tipo": "leccion",
+          "teoria": [
+            {
+              "subId": 1,
+              "texto": "## 7.3 Comportamiento ante imprevistos\n\n### 7.3.1 En caso de accidente vial\n\nSi ves un **accidente**:  \n- Mantén la **calma** y no corras.  \n- Señaliza la zona con un pañuelo o chaleco reflectante.  \n- Pide ayuda a un adulto o llama al 112 inmediatamente."
+            },
+            {
+              "subId": 2,
+              "texto": "## 7.3 Comportamiento ante imprevistos\n\n### 7.3.2 Averías o fallos de equipo\n\nSi tu bici o patinete se **estropea**:  \n- Para en un lugar seguro, fuera del paso de otros.  \n- Revisa frenos, cadena o batería.  \n- Pide ayuda a un adulto para arreglar o llevar el vehículo."
+            },
+            {
+              "subId": 3,
+              "texto": "## 7.3 Comportamiento ante imprevistos\n\n### 7.3.3 Procedimientos de evacuación y agrupamiento\n\nSi vas en grupo y pasa algo:  \n- Reúne a todos en un **punto seguro** (acera amplia).  \n- Sigue las indicaciones de un adulto o monitor.  \n- Quédate junto al grupo hasta que llegue la ayuda."
+            }
+          ],
+          "preguntas": [
+            {
+              "preguntaId": 7007,
+              "texto": "En caso de accidente, lo primero que debes hacer es…",
+              "opciones": [
+                "Señalizar la zona y mantener la calma",
+                "Correr hacia el tráfico",
+                "Ignorar lo sucedido"
+              ]
+            },
+            {
+              "preguntaId": 7008,
+              "texto": "Verdadero o falso: “Si tu bicicleta se avería, lo mejor es dejarla en medio del camino”.",
+              "opciones": [
+                "Verdadero",
+                "Falso"
+              ]
+            },
+            {
+              "preguntaId": 7009,
+              "texto": "Cuando vas en grupo y ocurre un imprevisto, debes…",
+              "opciones": [
+                "Reunir al grupo en un punto seguro y esperar instrucciones",
+                "Separarte rápidamente del grupo",
+                "Continuar sin avisar a nadie"
+              ]
+            }
+          ]
+        },
+        {
+          "nivelId": 704,
+          "orden": 4,
+          "tipo": "leccion",
+          "teoria": [
+            {
+              "subId": 1,
+              "texto": "## 7.4 Primeros auxilios básicos: Proteger-Avisar-Socorrer (PAS)\n\n### 7.4.1 Proteger la escena\n\nLo primero es **protegerse** a uno mismo y luego a los demás:  \n- Aleja a las personas del peligro (tráfico).  \n- Coloca triángulos o usa un chaleco reflectante.  \n- Así evitas más accidentes."
+            },
+            {
+              "subId": 2,
+              "texto": "## 7.4 Primeros auxilios básicos: Proteger-Avisar-Socorrer (PAS)\n\n### 7.4.2 Avisar a los servicios de emergencia\n\nDespués, **avisa** al 112:  \n- Di **qué** ha pasado y **dónde** estás con detalle.  \n- Mantén la calma para que te entiendan bien."
+            },
+            {
+              "subId": 3,
+              "texto": "## 7.4 Primeros auxilios básicos: Proteger-Avisar-Socorrer (PAS)\n\n### 7.4.3 Socorrer sin riesgos\n\nPor último, **socorre** sin ponerte en peligro únicamente si sabes lo que estás haciendo:  \n- Comprueba si la víctima respira.  \n- Espera a los profesionales y no hagas maniobras complicadas."
+            }
+          ],
+          "preguntas": [
+            {
+              "preguntaId": 7010,
+              "texto": "Primero, al ayudar en un accidente, debes “Proteger”:",
+              "opciones": [
+                "Alejar a las personas del peligro y señalizar la zona",
+                "Socorrer a la víctima sin mirar a tu alrededor",
+                "Correr al coche más cercano"
+              ]
+            },
+            {
+              "preguntaId": 7011,
+              "texto": "Verdadero o falso: “Para avisar a emergencias, debes llamar al 112 e indicar dónde y qué ha pasado”.",
+              "opciones": [
+                "Verdadero",
+                "Falso"
+              ]
+            },
+            {
+              "preguntaId": 7012,
+              "texto": "Al “Socorrer” sin riesgos, lo recomendable es…",
+              "opciones": [
+                "Comprobar si respira y aplicar presión suave en hemorragias leves",
+                "Mover a la víctima sin asegurarte",
+                "Dejarla y marcharte"
+              ]
+            }
+          ]
+        },
+        {
+          "nivelId": 705,
+          "orden": 5,
+          "tipo": "quiz",
+          "teoria": [],
+          "preguntas": [
+            {
+              "preguntaId": 7013,
+              "texto": "¿Cuál de estas acciones es la primera del método PAS?",
+              "opciones": [
+                "Proteger la escena",
+                "Avisar a emergencias",
+                "Socorrer a la víctima",
+                "Tomar una foto"
+              ]
+            },
+            {
+              "preguntaId": 7014,
+              "texto": "Verdadero o falso: “Los caminos escolares ayudan a reducir el tráfico en la puerta del cole”.",
+              "opciones": [
+                "Verdadero",
+                "Falso"
+              ]
+            },
+            {
+              "preguntaId": 7015,
+              "texto": "Si no hay agente ni semáforo, ¿qué señal priorizas al cruzar?",
+              "opciones": [
+                "Señal vertical de ceda el paso",
+                "Banderín de un peatón",
+                "Marca en el suelo pintada con tiza"
+              ]
+            },
+            {
+              "preguntaId": 7016,
+              "texto": "¿Qué debes hacer si tu patinete se detiene repentinamente en medio de la calzada?",
+              "opciones": [
+                "Moverlo a un lugar seguro antes de revisar la avería",
+                "Dejarlo y seguir caminando",
+                "Esperar sentado en la calzada"
+              ]
+            },
+            {
+              "preguntaId": 7017,
+              "texto": "Verdadero o falso: “Antes de evacuar un grupo, siempre reúnes a todos en un punto seguro”.",
+              "opciones": [
+                "Verdadero",
+                "Falso"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "temaId": 8,
+      "titulo": "8. Ciudadanía y sostenibilidad",
+      "orden": 8,
+      "niveles": [
+        {
+          "nivelId": 801,
+          "orden": 1,
+          "tipo": "leccion",
+          "teoria": [
+            {
+              "subId": 1,
+              "texto": "## 8.1 Movilidad saludable y medioambientalmente sostenible\n\n### 8.1.1 Beneficios de caminar y pedalear\n\nCaminar o ir en bici cada día es como hacer ejercicio gratis:\n\n- Tu **corazón** y tus **músculos** se fortalecen.\n- Ayudas a **limpiar** el aire: menos coches = menos contaminación.\n- Te sientes con más **energía** y menos estrés para todo el día."
+            },
+            {
+              "subId": 2,
+              "texto": "## 8.1 Movilidad saludable y medioambientalmente sostenible\n\n### 8.1.2 Uso compartido de vehículos\n\nCompartir bici o coche es como jugar en equipo:\n\n- Menos coches en la calle, menos **atascos**.\n- Ahorras **dinero** y cuidas el **medio ambiente**.\n- Puedes probar diferentes rutas y conocer a tus vecin@s."
+            },
+            {
+              "subId": 3,
+              "texto": "## 8.1 Movilidad saludable y medioambientalmente sostenible\n\n### 8.1.3 Organizar caminatas y rutas escolares verdes\n\nLos **pedibus** y **bicibus** son rutas en grupo:\n\n- Un adulto guía a los niños por un camino seguro.\n- Se cumple un **horario fijo**, como un autobús escolar a pie.\n- Cada familia colabora: unos acompañan, otros señalan el paso."
+            }
+          ],
+          "preguntas": [
+            {
+              "preguntaId": 8001,
+              "texto": "¿Cuál es uno de los beneficios de caminar o pedalear cada día?",
+              "opciones": [
+                "Mayor fortaleza muscular",
+                "Mayor emisión de CO₂",
+                "Mayor consumo de azúcar"
+              ]
+            },
+            {
+              "preguntaId": 8002,
+              "texto": "Verdadero o falso: “Caminar o ir en bici ayuda a mejorar la calidad del aire al reducir coches”.",
+              "opciones": [
+                "Verdadero",
+                "Falso"
+              ]
+            },
+            {
+              "preguntaId": 8003,
+              "texto": "¿Qué es un \"bicibus\"?",
+              "opciones": [
+                "Una ruta escolar en grupo andando",
+                "Un sistema de préstamo de bicis",
+                "Una ruta escolar en grupo en bici"
+              ]
+            }
+          ]
+        },
+        {
+          "nivelId": 802,
+          "orden": 2,
+          "tipo": "leccion",
+          "teoria": [
+            {
+              "subId": 1,
+              "texto": "## 8.2 Respeto al espacio público y a los demás usuarios\n\n### 8.2.1 Convivencia en aceras y carriles bici\n\n- Camina con **cuidado**: no bloquees el paso.\n- Si vas en bici, no invadas la acera; usa el carril bici.\n- Cede siempre el paso a quienes van más **lento** o con **movilidad reducida**."
+            },
+            {
+              "subId": 2,
+              "texto": "## 8.2 Respeto al espacio público y a los demás usuarios\n\n### 8.2.2 Limpieza y cuidado del entorno\n\n- No tires **basura** al suelo: hay papeleras para todo.\n- Cuida los **árboles**, bancos y señales: son de todos.\n- Si ves algo roto o sucio, avisa a un adulto o al ayuntamiento."
+            },
+            {
+              "subId": 3,
+              "texto": "## 8.2 Respeto al espacio público y a los demás usuarios\n\n### 8.2.3 Fomentar la inclusión\n\n- Deja espacio a sillas de ruedas y cochecitos de bebé.\n- Cede el asiento a personas mayores o con carritos.\n- Usa un lenguaje **amable** y ayuda si ves a alguien con dificultad."
+            }
+          ],
+          "preguntas": [
+            {
+              "preguntaId": 8004,
+              "texto": "¿Qué debes hacer al ver a una persona en silla de ruedas en la acera?",
+              "opciones": [
+                "Ceder el paso y esperar pacientemente",
+                "Acelerar para pasar primero",
+                "Invadir el carril bici"
+              ]
+            },
+            {
+              "preguntaId": 8005,
+              "texto": "Verdadero o falso: “Está bien dejar basura ligera en la calle si no hay papeleras cerca”.",
+              "opciones": [
+                "Verdadero",
+                "Falso"
+              ]
+            },
+            {
+              "preguntaId": 8006,
+              "texto": "¿Cómo fomentas la inclusión en espacios públicos?",
+              "opciones": [
+                "Respetando los rebajes de acera y los semáforos acústicos",
+                "Hablando en voz muy alta",
+                "Bloqueando el paso con tus pertenencias"
+              ]
+            }
+          ]
+        },
+        {
+          "nivelId": 803,
+          "orden": 3,
+          "tipo": "leccion",
+          "teoria": [
+            {
+              "subId": 1,
+              "texto": "## 8.3 Movilidad responsable y ejemplo familiar\n\n### 8.3.1 Huella de carbono y tráfico\n\nLa **huella de carbono** es la cantidad de gases que emitimos al circular. Los coches y motos lanzan **CO₂** al aire, que hace que el planeta se caliente.  \n- Cada kilómetro en coche suma más huella.  \n- Andar o ir en bici no emite CO₂ y disminuye la contaminación.  \n- Si más personas usan medios limpios, reducimos la huella de toda la ciudad."
+            },
+            {
+              "subId": 2,
+              "texto": "## 8.3 Movilidad responsable y ejemplo familiar\n\n### 8.3.2 Ventajas de combinar bici y transporte público\n\nUsar **autobús**, **metro** o **tranvía**, junto con la **bicicleta**, tiene muchos beneficios:  \n- Menos coches en la calle, menos atascos y menos contaminación.  \n- Puedes hacer trayectos largos en transporte y el tramo final en bici.  \n- Ahorras energía y tiempo, y ayudas a que el aire sea más limpio."
+            },
+            {
+              "subId": 3,
+              "texto": "## 8.3 Movilidad responsable y ejemplo familiar\n\n### 8.3.3 Ser un ejemplo familiar de movilidad sostenible\n\nLas familias pueden liderar con el **buen ejemplo**:\n\n- Salir juntos en **bicicleta** o andando al colegio, mostrando a los niños que es divertido y seguro.\n- Mantener el coche parado en casa los **días elegidos**, demostrando que se puede vivir sin él.\n- Hablar en casa sobre la importancia de cuidar el planeta y celebrar cada kilómetro recorrido sin usar coche."
+            }
+          ],
+          "preguntas": [
+            {
+              "preguntaId": 8007,
+              "texto": "¿Qué acción puede hacer una familia para dar buen ejemplo de movilidad sostenible?",
+              "opciones": [
+                "Salir juntos andando o en bici al colegio",
+                "Usar el coche todos los días",
+                "Dejar las luces del coche encendidas"
+              ]
+            },
+            {
+              "preguntaId": 8008,
+              "texto": "Verdadero o falso: “Explicar en casa por qué cuidamos el planeta es una buena práctica familiar”.",
+              "opciones": [
+                "Verdadero",
+                "Falso"
+              ]
+            },
+            {
+              "preguntaId": 8009,
+              "texto": "¿Qué práctica familiar ayuda a reducir la huella de carbono?",
+              "opciones": [
+                "Combinar bici y transporte público",
+                "Salir de casa en coche aunque sea cerca",
+                "Dejar todas las luces encendidas"
+              ]
+            }
+          ]
+        },
+        {
+          "nivelId": 804,
+          "orden": 4,
+          "tipo": "quiz",
+          "teoria": [],
+          "preguntas": [
+            {
+              "preguntaId": 8010,
+              "texto": "¿Qué significa \"huella de carbono\" en movilidad?",
+              "opciones": [
+                "Gases emitidos al usar vehículos",
+                "Cantidad de zapatos usados",
+                "Número de bicicletas en la ciudad",
+                "Tiempo que dura un viaje"
+              ]
+            },
+            {
+              "preguntaId": 8011,
+              "texto": "Verdadero o falso: “Usar bus y bici reduce el tráfico y la contaminación”.",
+              "opciones": [
+                "Verdadero",
+                "Falso"
+              ]
+            },
+            {
+              "preguntaId": 8012,
+              "texto": "¿Cómo colabora la familia en un pedibus?",
+              "opciones": [
+                "Turnándose para acompañar a los niños andando",
+                "Conduciendo en coche para cada niño",
+                "Dejando el pedibus sin supervisión"
+              ]
+            },
+            {
+              "preguntaId": 8013,
+              "texto": "¿Qué hábito NO contribuye a una movilidad sostenible?",
+              "opciones": [
+                "Ir siempre en coche incluso en trayectos cortos",
+                "Caminar al colegio",
+                "Usar la bici para trayectos cercanos"
+              ]
+            },
+            {
+              "preguntaId": 8014,
+              "texto": "¿Cuál es una forma de cuidar el espacio público?",
+              "opciones": [
+                "No tirar basura y respetar mobiliario urbano",
+                "Romper señales de tráfico",
+                "Dejar bicicletas en cualquier lugar"
+              ]
             }
           ]
         }

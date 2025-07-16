@@ -11,6 +11,7 @@ import RoadmapPage from './pages/RoadmapPage';
 import LevelPage from './pages/LevelPage';
 import LevelCompletePage from './pages/LevelCompletePage';
 import MinigamesPage from './pages/MinigamesPage';
+import MinigamePage from './pages/MinigamePage';
 
 import TutorDashboard from './pages/TutorDashboard';
 import ClassesPage from './pages/ClassesPage';
@@ -34,6 +35,7 @@ export default function App() {
           <Route path="levels/:nivelId" element={<LevelPage />} />
           <Route path="levels/:nivelId/completed" element={<LevelCompletePage />} />
           <Route path="minigames" element={<MinigamesPage />} />
+          <Route path="minigames/:minijuegoId" element={<MinigamePage />} />
           <Route path="*" element={<Navigate to="/dashboard" replace />} />
         </Route>
 
