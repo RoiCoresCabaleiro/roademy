@@ -184,11 +184,18 @@ async function eliminarEstudiante(req, res, next) {
   try {
     const alumno = await Usuario.findByPk(req.params.userId);
     if (!alumno || alumno.claseId !== req.clase.id) {
-      const err = new Error("El alumno no pertenece a esta clase.");
+      const err = new Error("El alumno no existe o no pertenece a esta clase.");
       err.status = 403;
       return next(err);
     }
+    
+    // Actualizar el usuario para quitarle la clase
     await alumno.update({ claseId: null });
+
+    // Generar un nuevo código para la clase
+    req.clase.codigo = await generateUniqueCode(6);
+    await req.clase.save();
+
     return res.json({
       success: true,
       message: `El estudiante ${alumno.nombre} ha sido expulsado de la clase.`,
