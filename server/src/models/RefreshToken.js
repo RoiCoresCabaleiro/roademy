@@ -32,7 +32,7 @@ const RefreshToken = sequelize.define(
   }
 );
 
-// Asociación con el modelo Usuario
+// Relaciones
 RefreshToken.associate = (models) => {
   RefreshToken.belongsTo(models.Usuario, {
     foreignKey: "usuarioId",

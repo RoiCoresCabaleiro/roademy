@@ -72,6 +72,7 @@ const Clase = sequelize.define(
   }
 );
 
+// Relaciones
 Clase.associate = (models) => {
   // Una clase agrupa muchos estudiantes
   Clase.hasMany(models.Usuario, {

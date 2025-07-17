@@ -4,6 +4,9 @@ const { ProgresoUsuarioMinijuego } = require("../models");
 const minijuegoService = require("../services/minijuegoService");
 const activityLogService = require("../services/activityLogService");
 
+/**
+ * Lista todos los minijuegos disponibles del usuario.
+ */
 async function listarMinijuegos(req, res, next) {
   try {
     const usuarioId = req.user.id;
@@ -31,6 +34,9 @@ async function listarMinijuegos(req, res, next) {
   }
 }
 
+/**
+ * Completa un minijuego y actualiza la puntuación del usuario.
+ */
 async function completeMinijuego(req, res, next) {
   try {
     const usuarioId = req.user.id;

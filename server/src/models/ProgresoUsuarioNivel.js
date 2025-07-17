@@ -53,6 +53,7 @@ const Progreso = sequelize.define(
   }
 );
 
+// Relaciones
 Progreso.associate = (models) => {
   Progreso.belongsTo(models.Usuario, {
     foreignKey: "usuarioId",

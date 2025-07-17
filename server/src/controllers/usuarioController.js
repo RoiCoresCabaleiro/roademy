@@ -34,7 +34,6 @@ async function register(req, res, next) {
       }
     }
 
-
     const nuevoUser = await Usuario.create({
       nombre,
       email,
@@ -201,7 +200,7 @@ async function dashboardTutor(req, res, next) {
 
 
 /**
- * Devuelve los datos del perfil (id, nombre, email, rol, claseId y, si tiene, la clase).
+ * Devuelve los datos principales del perfil (id, nombre, email, rol y claseId si la tiene).
  */
 // GET  /api/v1/usuarios/me
 async function verPerfil(req, res, next) {
@@ -249,7 +248,7 @@ async function editarPerfil(req, res, next) {
       return next(err);
     }  
 
-    // 1. Si quiere cambiar contraseña, validamos la antigua
+    // 1. Si se quiere cambiar contraseña, se valida la antigua
     if (contraseña) {
       const usuario = await Usuario.findByPk(req.user.id);
       const match = await bcrypt.compare(antiguaContraseña, usuario.contraseña);
@@ -309,7 +308,6 @@ async function editarPerfil(req, res, next) {
 
 /**
  * Permite a un estudiante unirse a una clase por código.
- * - Asigna claseId para el usuario autenticado.
  */
 // POST /api/v1/usuarios/me/unirse-clase
 async function unirseClase(req, res, next) {
@@ -358,7 +356,6 @@ async function unirseClase(req, res, next) {
 
 /**
  * Permite a un estudiante abandonar su clase.
- * - Pone claseId = null para el usuario autenticado.
  */
 // DELETE /api/v1/usuarios/me/clase
 async function abandonarClase(req, res, next) {

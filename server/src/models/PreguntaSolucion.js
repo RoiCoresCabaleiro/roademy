@@ -25,6 +25,7 @@ const PreguntaSolucion = sequelize.define(
   }
 );
 
+// Relaciones
 PreguntaSolucion.associate = (models) => {
   // Cada solución pertenece a un nivel
   PreguntaSolucion.belongsTo(models.Nivel, {

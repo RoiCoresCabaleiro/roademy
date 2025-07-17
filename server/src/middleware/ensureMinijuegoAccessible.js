@@ -28,7 +28,7 @@ module.exports = async function ensureMinijuegoAccessible(req, res, next) {
       return next(err);
     }
 
-    // para el controlador
+    // Guardar el minijuego para no repetir la consulta en los controllers
     req.minijuego = juego; 
     next();
   } catch (err) {

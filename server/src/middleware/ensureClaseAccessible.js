@@ -1,4 +1,5 @@
 // src/middleware/ensureClaseAccessible.js
+
 const { Clase, Usuario } = require('../models');
 
 module.exports = async function ensureClaseAccessible(req, res, next) {
@@ -38,7 +39,7 @@ module.exports = async function ensureClaseAccessible(req, res, next) {
       return next(err);
     }
 
-    // Guardamos la clase para el controller
+    // Se guarda la clase para los controllers posteriores y asi no hacer otra consulta
     req.clase = clase;
     next();
   } catch (err) {

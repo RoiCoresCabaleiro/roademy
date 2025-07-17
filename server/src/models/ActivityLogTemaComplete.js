@@ -33,6 +33,7 @@ const ActivityLogTemaComplete = sequelize.define(
   }
 );
 
+// Relaciones
 ActivityLogTemaComplete.associate = (models) => {
   ActivityLogTemaComplete.belongsTo(models.Usuario, {
     foreignKey: "usuarioId",

@@ -33,6 +33,7 @@ const ProgresoUsuarioMinijuego = sequelize.define(
   }
 );
 
+// Relaciones
 ProgresoUsuarioMinijuego.associate = (models) => {
   ProgresoUsuarioMinijuego.belongsTo(models.Usuario, {
     foreignKey: "usuarioId",

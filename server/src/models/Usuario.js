@@ -84,6 +84,7 @@ const Usuario = sequelize.define(
   }
 );
 
+// Relaciones
 Usuario.associate = (models) => {
   // Un estudiante puede pertenecer a cero o una clase
   Usuario.belongsTo(models.Clase, {

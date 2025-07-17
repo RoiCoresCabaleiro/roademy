@@ -34,6 +34,7 @@ const Tema = sequelize.define(
   }
 );
 
+// Relaciones
 Tema.associate = (models) => {
   Tema.hasMany(models.Nivel, {
     foreignKey: "temaId",

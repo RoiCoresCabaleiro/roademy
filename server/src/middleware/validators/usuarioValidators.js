@@ -121,6 +121,7 @@ const validateUnirseClase = [
     .notEmpty().withMessage('Por favor, introduzca un código de clase.')
     .isAlphanumeric().withMessage('El código de clase solo puede tener letras y números.')
     .isLength({ min: 6, max: 6 }).withMessage("El código de clase debe tener exactamente 6 caracteres."),
+
   (req, res, next) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {

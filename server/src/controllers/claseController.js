@@ -110,7 +110,7 @@ async function verClase(req, res, next) {
       })
     );
 
-    // Solo si el que llama es tutor, añadimos log de actividad
+    // Solo si el que llama es tutor, se añade log de actividad a la respuesta
     
     let actividadReciente = [];
     if (req.user.rol === "tutor") {
@@ -142,8 +142,7 @@ async function verClase(req, res, next) {
 }
 
 /**
- * Actualiza el nombre de una clase o genera un nuevo nombre,
- * si el tutor autenticado es el propietario.
+ * Actualiza el nombre de una clase o genera un nuevo nombre.
  */
 // PUT /api/v1/clases/:id - Actualiza nombre de la clase
 async function actualizarClase(req, res, next) {
@@ -177,7 +176,6 @@ async function actualizarClase(req, res, next) {
 
 /**
  * Permite al tutor expulsar a un estudiante de su clase.
- * - Pone claseId = null al usuario indicado.
  */
 // DELETE /api/v1/clases/:claseId/estudiantes/:userId
 async function eliminarEstudiante(req, res, next) {

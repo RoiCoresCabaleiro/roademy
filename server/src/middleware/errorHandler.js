@@ -1,7 +1,7 @@
 // server/src/middleware/errorHandler.js
 
 function errorHandler(err, req, res, next) {
-  console.error(err); // O envíalo a tu herramienta de logs
+  console.error(err);
   const status = err.status || 500;
   const response = {
     success: false,

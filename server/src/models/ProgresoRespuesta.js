@@ -40,6 +40,7 @@ const Respuesta = sequelize.define(
   }
 );
 
+// Relaciones
 Respuesta.associate = (models) => {
   Respuesta.belongsTo(models.ProgresoUsuarioNivel, {
     foreignKey: "progresoId",

@@ -38,6 +38,7 @@ const Nivel = sequelize.define(
   }
 );
 
+// Relaciones
 Nivel.associate = (models) => {
   Nivel.belongsTo(models.Tema, {
     foreignKey: "temaId",

@@ -45,6 +45,7 @@ const ActivityLogNivel = sequelize.define(
   }
 );
 
+// Relaciones
 ActivityLogNivel.associate = (models) => {
   ActivityLogNivel.belongsTo(models.Usuario, {
     foreignKey: "usuarioId",

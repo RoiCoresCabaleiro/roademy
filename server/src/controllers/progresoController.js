@@ -8,8 +8,7 @@ const { fn, col, literal } = require("sequelize");
 
 /**
  * GET /api/v1/progresos/:nivelId/init
- * Recupera o inicializa el progreso del usuario en ese nivel,
- * junto con todas las respuestas parciales guardadas.
+ * Recupera (las respuestas parciales) o inicializa (en blanco) el progreso del usuario en un nivel.
  */
 async function iniciarNivel(req, res, next) {
   try {
@@ -47,7 +46,7 @@ async function iniciarNivel(req, res, next) {
 
 /**
  * POST /api/v1/progresos/:nivelId/answer
- * Valida e inserta/actualiza una única respuesta a una pregunta.
+ * Valida y guarda una respuesta a una pregunta.
  */
 async function answerPregunta(req, res, next) {
   try {
@@ -84,7 +83,7 @@ async function answerPregunta(req, res, next) {
       return next(err);
     }
 
-    // 4) Insertar o actualizar respuesta
+    // 4) Guardar respuesta
     await ProgresoRespuesta.create({
       progresoId: prog.id,
       preguntaId,

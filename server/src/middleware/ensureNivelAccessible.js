@@ -24,7 +24,7 @@ module.exports = async function ensureNivelAccessible(req, res, next) {
       return next(err);
     }
 
-    // 3) Lo guardamos en req para que el controlador lo use si lo necesita
+    // Guardar el nivel para no repetir la consulta en los controllers
     req.nivel = nivel;
     next();
   } catch(err) {

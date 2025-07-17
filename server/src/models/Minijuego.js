@@ -35,6 +35,7 @@ const Minijuego = sequelize.define(
   }
 );
 
+// Relaciones
 Minijuego.associate = (models) => {
   Minijuego.belongsTo(models.Nivel, {
     foreignKey: "nivelDesbloqueo",
