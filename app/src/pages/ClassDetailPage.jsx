@@ -1,4 +1,5 @@
 // src/pages/ClassDetailPage.jsx
+
 import { useState, useEffect, useCallback } from 'react';
 import { useParams, useNavigate} from 'react-router-dom';
 import { useApi } from '../hooks/useApi';
@@ -56,7 +57,7 @@ export default function ClassDetailPage() {
   useEffect(() => {
     const intervalId = setInterval(() => {
       refetch();
-    }, 10_000);  // 10 segundos en milisegundos
+    }, 10_000);
     return () => clearInterval(intervalId);
   }, [refetch]);
 
@@ -123,8 +124,6 @@ export default function ClassDetailPage() {
       setErrorDeleteClass(extractError(err));
     } finally {
       setIsDeletingClass(false);
-      // Sólo cerramos el modal aquí si quieres:
-      // setConfirmDeleteClass(false);
     }
   };
 
@@ -174,6 +173,7 @@ export default function ClassDetailPage() {
             onClick={async () => {
               const ok = await copyToClipboard(clase.codigo);
               if (ok) {
+                setGlobalError(null);
                 setCopied(true);
                 setTimeout(() => setCopied(false), 3000);
               } else {

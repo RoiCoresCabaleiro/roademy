@@ -1,4 +1,5 @@
 // src/pages/ClassesPage.jsx
+
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { useApi } from '../hooks/useApi';
@@ -133,7 +134,7 @@ export default function ClassesPage() {
                   {c.numEstudiantes === 1 ? 'alumno' : 'alumnos'}
                 </p>
 
-                {/* Aquí metemos el código y el botón de copiar */}
+                {/* Código y botón de copiar */}
                 <div className="flex items-center mt-2">
                   <button
                     onClick={async e => {
@@ -141,6 +142,7 @@ export default function ClassesPage() {
                       e.stopPropagation();
                       const ok = await copyToClipboard(c.codigo);
                       if (ok) {
+                        setGlobalError(null);
                         setCopiedId(c.codigo);
                         setTimeout(() => setCopiedId(null), 3000);
                       } else {
