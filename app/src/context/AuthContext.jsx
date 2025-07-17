@@ -2,7 +2,7 @@
 
 import { createContext, useState, useEffect, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
-import api from '../services/api';         // nuestra instancia con interceptors
+import api from '../services/api';
 import { authService } from '../services/authService';
 
 // eslint-disable-next-line react-refresh/only-export-components

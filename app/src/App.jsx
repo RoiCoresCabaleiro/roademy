@@ -1,3 +1,5 @@
+// src/App.jsx
+
 import { Routes, Route, Navigate } from 'react-router-dom';
 import Layout from './layouts/Layout';
 import { RoleRoute } from './components/guards/RoleRoute';

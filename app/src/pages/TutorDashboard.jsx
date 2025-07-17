@@ -48,7 +48,6 @@ export default function TutorDashboard() {
     refetch: refetchClases
   } = useApi(fetchTutorDashboard);
 
-  // Mientras carga o hay error salir antes de renderizar el resto
   if (loadingProfile || (loadingClases && !clasesData)) return <div className="p-4">Cargando datos…</div>;
   if (errorProfile)
     return (
@@ -66,12 +65,11 @@ export default function TutorDashboard() {
   const { user } = profileData;
   const { clases } = clasesData;
 
-  // Editar perfil
+  // Handlers
   const handleChange = e => {
     setForm(f => ({ ...f, [e.target.name]: e.target.value }));
   };
 
-  // Guardar cambios en el perfil
   const handleSaveProfile = async () => {
     setErrorEdit(null);
     setIsSaving(true);
@@ -98,7 +96,6 @@ export default function TutorDashboard() {
     }
   };
 
-  // Eliminar cuenta
   const handleDelete = async () => {
     setErrorDel(null);
     setIsDeleting(true);
@@ -111,7 +108,6 @@ export default function TutorDashboard() {
     }
   };
 
-  // Navegar a detalle de clase
   const goToDetalle = claseId => {
     navigate(`/tutor/classes/${claseId}`);
   };
@@ -129,6 +125,7 @@ export default function TutorDashboard() {
           Cerrar sesión
         </button>
       </section>
+
       {/* PERFIL */}
       <section className="relative p-4 space-y-2 bg-white shadow rounded">
         <div className="flex justify-between items-center">
@@ -231,7 +228,7 @@ export default function TutorDashboard() {
         </Portal>
       )}
 
-      {/* — MIS CLASES — nueva sección */}
+      {/* — RESUMEN CLASES */}
       <section className="p-4 bg-white shadow rounded space-y-4">
         <div className="flex justify-between items-center">
           <h2 className="font-semibold">Mis clases</h2>

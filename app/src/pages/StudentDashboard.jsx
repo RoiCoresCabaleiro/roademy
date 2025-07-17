@@ -59,7 +59,6 @@ export default function StudentDashboard() {
     error: errorDash,
   } = useApi(fetchDashboard);
 
-  // Mientras carga o hay error salir antes de renderizar el resto
   if (loadingProfile || (loadingDash && !dashboard)) return <div className="p-4">Cargando datos...</div>;
   if (errorProfile)
     return (
@@ -74,10 +73,8 @@ export default function StudentDashboard() {
       </div>
     );
 
-  // Tras carga exitosa inicializamos el formulario con los datos del usuario
   const { user } = profileData;
-  const { progresoTotalCurso, progresoTemaActual, actividadReciente } =
-    dashboard;
+  const { progresoTotalCurso, progresoTemaActual, actividadReciente } = dashboard;
 
   // Agrupar actividad por día
   const actividadesPorDia = actividadReciente.reduce((acc, log) => {
@@ -87,11 +84,11 @@ export default function StudentDashboard() {
     return acc;
   }, {});
 
+  // Handlers
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
 
-  // 3. Editar perfil
   const handleSaveProfile = async () => {
     setErrorEdit(null);
     setIsSaving(true);
@@ -118,7 +115,6 @@ export default function StudentDashboard() {
     }
   };
 
-  // 4. Unirse / Abandonar clase
   const handleJoin = async () => {
     setErrorClass(null);
     setIsJoining(true);
@@ -146,7 +142,6 @@ export default function StudentDashboard() {
     }
   };
 
-  // 5. Eliminar cuenta
   const handleDelete = async () => {
     setErrorDel(null);
     setIsDeleting(true);
@@ -161,8 +156,8 @@ export default function StudentDashboard() {
 
   const cursoCompletado =
     progresoTemaActual.completados >= progresoTemaActual.totalNiveles &&
-    progresoTotalCurso.estrellasObtenidasCurso >=
-      progresoTotalCurso.estrellasPosiblesCurso;
+    progresoTotalCurso.estrellasObtenidasCurso >= progresoTotalCurso.estrellasPosiblesCurso;
+
   return (
     <div className="pb-8 p-4 space-y-6">
       <section className="md:hidden relative p-4 ">

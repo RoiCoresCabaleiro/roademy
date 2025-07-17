@@ -1,3 +1,5 @@
+// src/pages/LoginPage.jsx
+
 import { useState } from 'react';
 import { useAuth } from '../hooks/useAuth';
 import { Link } from 'react-router-dom';

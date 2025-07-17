@@ -1,4 +1,4 @@
-// app/src/pages/MinigamesPage.jsx
+// src/pages/MinigamesPage.jsx
 
 import { useNavigate } from "react-router-dom";
 import { useApi } from "../hooks/useApi";
@@ -33,7 +33,6 @@ export default function MinigamesPage() {
           >
             {juego.desbloqueado ? (
               <div className="flex items-center justify-between">
-                {/* Izquierda: nombre + puntuación */}
                 <div>
                   <h2 className="text-lg font-semibold">{juego.nombre}</h2>
                   {juego.puntuacion !== undefined ? (
@@ -48,7 +47,6 @@ export default function MinigamesPage() {
                   )}
                 </div>
 
-                {/* Derecha: botón */}
                 <button
                   className="px-4 py-4 bg-purple-600 text-white text-sm rounded hover:bg-purple-700"
                   onClick={() => navigate(`/minigames/${juego.id}`)}

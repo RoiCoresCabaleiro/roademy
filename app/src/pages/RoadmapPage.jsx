@@ -34,7 +34,7 @@ export default function RoadmapPage() {
     }
   }, [nivelActual]);
 
-  // 3) Agrupamos minijuegos por nivel
+  // 3) Agrupar minijuegos por nivel
   const minijuegosPorNivel = useMemo(() => {
     const map = {};
     minijuegos.forEach((m) => {

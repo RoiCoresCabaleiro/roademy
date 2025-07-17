@@ -1,3 +1,5 @@
+// src/components/minijuegos/CompletionModal.jsx
+
 export default function CompletionModal({
   open,
   onClose,

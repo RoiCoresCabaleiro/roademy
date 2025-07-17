@@ -1,4 +1,4 @@
-// app/src/services/claseService.js
+// src/services/claseService.js
 
 import { api } from './api';
 

@@ -79,7 +79,7 @@ export default function LevelPage() {
   const isFirst = slideIndex === 0;
   const isLast = slideIndex === slides.length - 1;
 
-  // 4) Al responder, enviamos al backend y guardamos la respuesta
+  // 4) Peticion a la API para procesar y guardar cada respuesta
   const handleAnswer = async (seleccion) => {
     try {
       setGlobalError(null);

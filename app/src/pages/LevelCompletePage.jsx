@@ -62,12 +62,12 @@ export default function LevelCompletePage() {
   const hasNext = typeof nivelSiguienteId !== "undefined";
   const isEndCourse = completado && !hasNext;
 
-  // Determinar disponibilidad del siguiente
+  // Determinar disponibilidad del siguiente nivel
   let nextAvailable = false;
   let nextLocked = false;
   if (hasNext) {
     if (nuevoTema) {
-      // era último del tema
+      // último del tema
       if (temaSiguienteDesbloqueado) nextAvailable = true;
       else nextLocked = true;
     } else {
@@ -83,7 +83,7 @@ export default function LevelCompletePage() {
   };
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen p-4">
+    <div className="flex flex-col items-center h-full justify-center p-4">
       <h1
         className={`text-2xl font-bold mb-4 ${
           attemptCompletado ? "text-black" : "text-red-600"

@@ -1,4 +1,4 @@
-// app/src/services/minijuegoService.js
+// src/services/minijuegoService.js
 
 import { api } from "./api";
 

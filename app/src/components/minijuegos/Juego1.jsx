@@ -44,7 +44,7 @@ export default function Juego1({ onComplete }) {
       const timer = setInterval(() => setTimeLeft((t) => t - 1), 1000);
       return () => clearInterval(timer);
     }
-    // cuando hasCompleted===true, detenemos el intervalo
+    // cuando hasCompleted===true, se detiene el intervalo
   }, [timeLeft, onComplete, score, hasCompleted]);
 
   if (currentIndex >= preguntasArr.length && !hasCompleted) {
