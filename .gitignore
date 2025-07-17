@@ -1,18 +1,17 @@
-# node
+# === GENERAL ===
+**/*.log
+**/.env*
+**/.DS_Store
+**/*.sqlite
+**/*.pid
+**/.vscode/
+
+# === Node.js ===
 **/node_modules
 
-# React Native
-app/android
-app/ios
+# === APP ===
+**/android/
+**/dist/
 
-# VS Code
-.vscode/
-
-# Environment
-**/*.env
-
-# Logs
-**/*.log
-
-# Docker
+# === Docker ===
 **/docker-compose.override.yml
