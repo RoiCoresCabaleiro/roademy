@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">Roademy</string>
+    <string name="title_activity_main">Roademy</string>
+    <string name="package_name">com.example.Roademy</string>
+    <string name="custom_url_scheme">com.example.Roademy</string>
+</resources>
