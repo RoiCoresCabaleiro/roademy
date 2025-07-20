@@ -19,7 +19,7 @@ async function cleanupRefreshTokens() {
   return deletedCount;
 }
 
-// Cron job: "0 0 * * *" = cada día a medianoche se eliminan los tokens que lleven más de "RETENTION_DAYS" días expirados/revocados
+// Cron job: "0 0 * * *" = cada día a medianoche se eliminan los tokens revocados y los que lleven más de "RETENTION_DAYS" días expirados
 cron.schedule("0 0 * * *", () => {
     console.log("Ejecutando limpieza diaria de refresh tokens...");
     cleanupRefreshTokens().catch(console.error);

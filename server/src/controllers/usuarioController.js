@@ -315,12 +315,6 @@ async function unirseClase(req, res, next) {
     const { codigoClase } = req.body;
     const userId = req.user.id;
 
-    if (req.user.rol !== "estudiante") {
-      const err = new Error("Solo los estudiantes pueden unirse a una clase.");
-      err.status = 403;
-      return next(err);
-    }
-
     const usuario = await Usuario.findByPk(userId);
 
     const clase = await Clase.findOne({ where: { codigo: codigoClase } });

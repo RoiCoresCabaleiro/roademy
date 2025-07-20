@@ -29,7 +29,7 @@ router.get('/me', usuarioController.verPerfil);
 
 router.put('/me', validateEditarPerfil, usuarioController.editarPerfil);
 
-router.post('/me/unirse-clase', validateUnirseClase, usuarioController.unirseClase);
+router.post('/me/unirse-clase', ensureEstudiante, validateUnirseClase, usuarioController.unirseClase);
 
 router.delete('/me/clase', ensureEstudiante, usuarioController.abandonarClase);
 

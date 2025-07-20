@@ -10,10 +10,14 @@ const PORT = process.env.PORT || 3000;
 
 async function start() {
   try {
-    await sequelize.sync({ force: true });  // en producion usar sync() a secas o migraciones
+    await sequelize.sync();  // en desarrollo usar "{ alter: true }" y en produción usar migraciones
 
-    // Sembrar datos iniciales
-    await seedData();
+    // Sembrar datos iniciales si no se ha hecho ya
+    const { Tema } = require("./models");
+    const count = await Tema.count();
+    if (count === 0) {
+      await seedData();
+    }
 
     app.listen(PORT, () => {
       console.log(`Server listening on port ${PORT}`);
