@@ -110,7 +110,7 @@
           "teoria": [
             {
               "subId": 1,
-              "texto": "## 1.3 Principios básicos: atención, previsión y respeto mutuo\n\n### 1.3.1 Atención\n\nEstar atento es como encender una **alarma interior**:\n\n- **Mira** siempre a ambos lados antes y mientras cruzas.\n- **Escucha** el sonido de motores, bocinas o bicicletas.\n- Evita distracciones: guarda el móvil y baja el volumen de los cascos.\n\nAsí reaccionarás rápido si algo inesperado sucede."
+              "texto": "## 1.3 Principios básicos: atención, previsión y respeto mutuo\n\n### 1.3.1 Atención\n\nEstar atento es como encender una **alarma interior**:\n\n- **Mira** siempre a ambos lados antes y mientras cruzas.\n- **Escucha** el sonido de motores, bocinas o bicicletas.\n- Evita distracciones: guarda el móvil y baja el volumen de los cascos.\n\nAsí reaccionarás rápido si algo inesperado sucede.\n\n![Img](/assets/1007.jpg)"
             },
             {
               "subId": 2,
@@ -169,7 +169,7 @@
             },
             {
               "preguntaId": 1011,
-              "texto": "Si un agente te indica con el brazo que pases aunque el semáforo esté en rojo, ¿qué haces?",
+              "texto": "Si un agente te indica con el brazo que pases aunque el semáforo esté en rojo, ¿qué haces?\n\n![Img](/assets/1011.jpg)",
               "opciones": [
                 "Obedezco al agente y cruzo con cuidado",
                 "Espero al siguiente semáforo verde",
@@ -178,7 +178,7 @@
             },
             {
               "preguntaId": 1012,
-              "texto": "¿Cuál es la jerarquía correcta de señales?",
+              "texto": "¿Cuál es la jerarquía correcta de señales?\n\n![Img](/assets/1012.jpg)",
               "opciones": [
                 "Semáforos > agente > marcas > señales",
                 "Señales verticales > agente > marcas > semáforos",
@@ -409,7 +409,7 @@
           "preguntas": [
             {
               "preguntaId": 2013,
-              "texto": "¿Cuál de estas situaciones muestra un paso de peatones correcto?",
+              "texto": "¿Cuál de estas situaciones muestra un paso de peatones correcto?\n\n![Img](/assets/2013.jpg)",
               "opciones": [
                 "Solo un signo pintado en la pared",
                 "Franjas blancas sobre el asfalto y señal vertical cercana",
@@ -428,7 +428,7 @@
             },
             {
               "preguntaId": 2015,
-              "texto": "Si ves conos naranjas y una señal de desvío, tú…",
+              "texto": "Si ves conos naranjas y una señal de desvío, tú…\n\n![Img](/assets/2015.jpg)",
               "opciones": [
                 "Sigues la ruta señalizada",
                 "Te quedas parado en medio",
@@ -524,7 +524,7 @@
             },
             {
               "subId": 3,
-              "texto": "## 3.2 Marcas en el pavimento\n\n### 3.2.3 Carriles bici y zonas de espera pintadas\n\n- **Carril bici**: carril exclusivo para ciclistas, pintado de verde o con símbolos de bicicleta.\n- **Zona de espera**: espacio delante de los semáforos donde los ciclistas se colocan para ver mejor el cambio de luz.\n\nMantente fuera del carril bici si vas andando y respeta el espacio de los ciclistas."
+              "texto": "## 3.2 Marcas en el pavimento\n\n### 3.2.3 Carriles bici y zonas de espera pintadas\n\n- **Carril bici**: carril exclusivo para ciclistas, pintado de verde o con símbolos de bicicleta.\n- **Zona de espera**: espacio delante de los semáforos donde los ciclistas se colocan para ver mejor el cambio de luz.\n\nMantente fuera del carril bici si vas andando y respeta el espacio de los ciclistas.\n\n![Img](/assets/3006.jpg)"
             }
           ],
           "preguntas": [
@@ -563,7 +563,7 @@
           "teoria": [
             {
               "subId": 1,
-              "texto": "## 3.3 Semáforos y pulsadores peatonales\n\n### 3.3.1 Funcionamiento de semáforos básicos\n\nLos **semáforos** tienen tres luces:\n\n- 🔴 **Rojo**: detente y espera.\n- 🟡 **Amarillo**: prepárate para detenerte.\n- 🟢 **Verde**: puedes avanzar.\n\nPara peatones, el icono cambia de rojo a verde para cruzar con seguridad."
+              "texto": "## 3.3 Semáforos y pulsadores peatonales\n\n### 3.3.1 Funcionamiento de semáforos básicos\n\nLos **semáforos** tienen tres luces:\n\n- 🔴 **Rojo**: detente y espera.\n- 🟡 **Amarillo**: prepárate para detenerte.\n- 🟢 **Verde**: puedes avanzar.\n\nPara peatones, el icono cambia de rojo a verde para cruzar con seguridad.\n\n![Img](/assets/3007.jpg)"
             },
             {
               "subId": 2,
@@ -609,7 +609,7 @@
           "teoria": [
             {
               "subId": 1,
-              "texto": "## 3.4 Prioridad de la señalización\n\n### 3.4.1 Jerarquía de la señalización\n\nCuando hay varias señales, sigue este orden:\n\n1. 👮 **Órdenes del agente de tráfico**\n2. 🚦 **Semáforos**\n3. 🪧 **Señales verticales**\n4. 🖌️ **Marcas en el pavimento**\n\nSiempre obedece primero al agente y después al resto."
+              "texto": "## 3.4 Prioridad de la señalización\n\n### 3.4.1 Jerarquía de la señalización\n\nCuando hay varias señales, sigue este orden:\n\n1. 👮 **Órdenes del agente de tráfico**\n2. 🚦 **Semáforos**\n3. 🪧 **Señales verticales**\n4. 🖌️ **Marcas en el pavimento**\n\nSiempre obedece primero al agente y después al resto.\n\n![Img](/assets/3010.jpg)"
             },
             {
               "subId": 2,
@@ -666,7 +666,7 @@
             },
             {
               "preguntaId": 3014,
-              "texto": "¿Qué marca en el pavimento indica dónde deben detenerse los conductores ante un semáforo en rojo?",
+              "texto": "¿Qué marca en el pavimento indica dónde deben detenerse los conductores ante un semáforo en rojo?\n\n![Img](/assets/3014.jpg)",
               "opciones": [
                 "La línea de detención",
                 "El paso de zebra",
@@ -692,7 +692,7 @@
             },
             {
               "preguntaId": 3017,
-              "texto": "Para que sirven las bandas sonoras en el pavimento",
+              "texto": "Para que sirven las bandas sonoras en el pavimento\n\n![Img](/assets/3017.jpg)",
               "opciones": [
                 "Para decorar las calles",
                 "Para avisar a los conductores de un cruce cercano",
@@ -762,7 +762,7 @@
           "teoria": [
             {
               "subId": 1,
-              "texto": "## 4.2 Normas básicas de circulación en bici\n\n### 4.2.1 Uso de carril bici y calzada\n\nLos **carriles bici** son carriles especiales pintados en la calle. Para usarlos:\n\n- Pedalea dentro de las líneas del carril bici si hay uno.\n- Si no hay carril, circula por la **calzada** pegado a la derecha.\n- Nunca circules por la acera para no chocar con peatones."
+              "texto": "## 4.2 Normas básicas de circulación en bici\n\n### 4.2.1 Uso de carril bici y calzada\n\nLos **carriles bici** son carriles especiales pintados en la calle. Para usarlos:\n\n- Pedalea dentro de las líneas del carril bici si hay uno.\n- Si no hay carril, circula por la **calzada** pegado a la derecha.\n- Nunca circules por la acera para no chocar con peatones.\n\n![Img](/assets/4004.jpg)"
             },
             {
               "subId": 2,
@@ -809,7 +809,7 @@
           "teoria": [
             {
               "subId": 1,
-              "texto": "## 4.3 Señalización con brazos\n\n### 4.3.1 Giro a la derecha e izquierda\n\nPara decir a todos que vas a girar:\n\n- **Estira** el brazo **izquierdo**  para girar a la **izquierda**.\n- **Estira** el brazo **derecho** para girar a la **derecha**.\n\n Tambien puedes doblar un brazo hacia arriba para indicar hacia el lado opuesto.\n- **Dobla** el brazo **derecho** para girar a la **izquierda**.\n- **Dobla** el brazo **izquierdo** para girar a la **derecha**.\n\n Mantén el brazo extendido unos segundos antes de girar."
+              "texto": "## 4.3 Señalización con brazos\n\n### 4.3.1 Giro a la derecha e izquierda\n\nPara decir a todos que vas a girar:\n\n- **Estira** el brazo **izquierdo**  para girar a la **izquierda**.\n- **Estira** el brazo **derecho** para girar a la **derecha**.\n\n Tambien puedes doblar un brazo hacia arriba para indicar hacia el lado opuesto.\n- **Dobla** el brazo **derecho** para girar a la **izquierda**.\n- **Dobla** el brazo **izquierdo** para girar a la **derecha**.\n\n Mantén el brazo extendido unos segundos antes de girar.\n\n![Img](/assets/4007.jpg)"
             },
             {
               "subId": 2,
@@ -864,7 +864,7 @@
             },
             {
               "subId": 3,
-              "texto": "## 4.4 Mantenimiento básico y revisión antes de salir\n\n### 4.4.3 Lubricación de cadena y ajuste de tornillería\n\n- Aplica **aceite** a la cadena cada varias salidas.\n- Comprueba y aprieta tornillos de sillín y manillar.\n\nUna bici limpia y bien ajustada te llevará siempre a tu destino."
+              "texto": "## 4.4 Mantenimiento básico y revisión antes de salir\n\n### 4.4.3 Lubricación de cadena y ajuste de tornillería\n\n- Aplica **aceite** a la cadena cada varias salidas.\n- Comprueba y aprieta tornillos de sillín y manillar.\n\nUna bici limpia y bien ajustada te llevará siempre a tu destino.\n\n![Img](/assets/4012.jpg)"
             }
           ],
           "preguntas": [
@@ -912,7 +912,7 @@
             },
             {
               "preguntaId": 4014,
-              "texto": "¿Cuál es la señal correcta para indicar que vas a girar a la derecha?",
+              "texto": "¿Cuál es la señal correcta para indicar que vas a girar a la derecha?\n\n![Img](/assets/4014.jpg)",
               "opciones": [
                 "Estira el brazo derecho",
                 "Dobla el brazo derecho hacia arriba",
@@ -930,7 +930,7 @@
             },
             {
               "preguntaId": 4016,
-              "texto": "¿En qué situación debes parar y revisar tu bici antes de continuar?",
+              "texto": "¿En qué situación debes parar y revisar tu bici antes de continuar?\n\n![Img](/assets/4016.jpg)",
               "opciones": [
                 "Si nadie va detrás",
                 "Si la cadena hace ruido extraño",
@@ -965,7 +965,7 @@
             },
             {
               "subId": 2,
-              "texto": "## 5.1 Cinturón de seguridad y sistemas de retención infantil (SRI)\n\n### 5.1.2 Tipos de SRI según edad y talla\n\nLas **sillas infantiles** cambian según tu peso y altura:\n\n- **Grupo 0** (0-10 kg): silla mirando hacia atrás.\n- **Grupo I** (9-18 kg): silla mirando hacia delante con arnés.\n- **Grupo II** (15-25 kg) y **III** (22-36 kg): alzador con respaldo o cojín elevador.\n\nUsa siempre la silla adecuada para ir más seguro."
+              "texto": "## 5.1 Cinturón de seguridad y sistemas de retención infantil (SRI)\n\n### 5.1.2 Tipos de SRI según edad y talla\n\nLas **sillas infantiles** cambian según tu peso y altura:\n\n- **Grupo 0** (0-10 kg): silla mirando hacia atrás.\n- **Grupo I** (9-18 kg): silla mirando hacia delante con arnés.\n- **Grupo II** (15-25 kg) y **III** (22-36 kg): alzador con respaldo o cojín elevador.\n\nUsa siempre la silla adecuada para ir más seguro.\n\n![Img](/assets/5002.jpg)"
             },
             {
               "subId": 3,
@@ -1013,7 +1013,7 @@
             },
             {
               "subId": 2,
-              "texto": "## 5.2 Comportamiento dentro del vehículo\n\n### 5.2.2 Uso responsable de dispositivos electrónicos\n\nSi llevas tablet o móvil:\n\n- Baja el **volumen** para no molestar al conductor.\n- Mantén la **postura**: sostén el dispositivo con ambas manos.\n- Limita el tiempo de pantalla para no marearte."
+              "texto": "## 5.2 Comportamiento dentro del vehículo\n\n### 5.2.2 Uso responsable de dispositivos electrónicos\n\nSi llevas tablet o móvil:\n\n- Baja el **volumen** para no molestar al conductor.\n- Mantén la **postura**: sostén el dispositivo con ambas manos.\n- Limita el tiempo de pantalla para no marearte.\n\n![Img](/assets/5005.jpg)"
             },
             {
               "subId": 3,
@@ -1057,7 +1057,7 @@
           "teoria": [
             {
               "subId": 1,
-              "texto": "## 5.3 Subida, bajada y posiciones seguras en autobús y transporte escolar\n\n### 5.3.1 Protocolo de subida y bajada\n\nCuando subas o bajes del bus:\n\n- **Forma fila** y espera tu turno.\n- Sujétate del **pasamanos** al subir y bajar.\n- No te muevas hasta que el vehículo esté **completamente parado**."
+              "texto": "## 5.3 Subida, bajada y posiciones seguras en autobús y transporte escolar\n\n### 5.3.1 Protocolo de subida y bajada\n\nCuando subas o bajes del bus:\n\n- **Forma fila** y espera tu turno.\n- Sujétate del **pasamanos** al subir y bajar.\n- No te muevas hasta que el vehículo esté **completamente parado**.\n\n![Img](/assets/5007.jpg)"
             },
             {
               "subId": 2,
@@ -1104,7 +1104,7 @@
           "teoria": [
             {
               "subId": 1,
-              "texto": "## 5.4 Respeto al conductor y a los compañeros\n\n### 5.4.1 Cortesía con el conductor\n\n- **Saluda** al subir y **agradece** al bajar.\n- No critiques la forma de conducir.\n- Si necesitas algo, pide ayuda con respeto."
+              "texto": "## 5.4 Respeto al conductor y a los compañeros\n\n### 5.4.1 Cortesía con el conductor\n\n- **Saluda** al subir y **agradece** al bajar.\n- No critiques la forma de conducir.\n- Si necesitas algo, pide ayuda con respeto.\n\n![Img](/assets/5010.jpg)"
             },
             {
               "subId": 2,
@@ -1211,7 +1211,7 @@
           "teoria": [
             {
               "subId": 1,
-              "texto": "## 6.1 Definición y tipos de VMP\n\n### 6.1.1 ¿Qué es un VMP?\n\nUn **VMP** (Vehículo de Movilidad Personal) es un aparato con motor y ruedas para una sola persona. Ejemplos:\n\n- **Patinete eléctrico**\n- **Hoverboard**\n- **Segway**\n\nSe usan para moverse por la ciudad de forma rápida y divertida."
+              "texto": "## 6.1 Definición y tipos de VMP\n\n### 6.1.1 ¿Qué es un VMP?\n\nUn **VMP** (Vehículo de Movilidad Personal) es un aparato con motor y ruedas para una sola persona. Ejemplos:\n\n- **Patinete eléctrico**\n- **Hoverboard**\n- **Segway**\n\nSe usan para moverse por la ciudad de forma rápida y divertida.\n\n![Img](/assets/6001.jpg)"
             },
             {
               "subId": 2,
@@ -1258,7 +1258,7 @@
           "teoria": [
             {
               "subId": 1,
-              "texto": "## 6.2 Equipamiento y zonas de circulación permitidas\n\n### 6.2.1 Elementos de seguridad obligatorios\n\nAntes de montar en VMP, ponte:\n\n- **Casco** homologado.\n- **Luces** delante (blancas) y detrás (rojas).\n- **Timbre o bocina** para avisar.\n- **Chaleco reflectante** si circulas de noche."
+              "texto": "## 6.2 Equipamiento y zonas de circulación permitidas\n\n### 6.2.1 Elementos de seguridad obligatorios\n\nAntes de montar en VMP, ponte:\n\n- **Casco** homologado.\n- **Luces** delante (blancas) y detrás (rojas).\n- **Timbre o bocina** para avisar.\n- **Chaleco reflectante** si circulas de noche.\n\n![Img](/assets/6004.jpg)"
             },
             {
               "subId": 2,
@@ -1306,7 +1306,7 @@
           "teoria": [
             {
               "subId": 1,
-              "texto": "## 6.3 Normas de convivencia con peatones y ciclistas\n\n### 6.3.1 Ceder el paso y distancia lateral\n\n- Siempre **cede el paso** al peatón.\n- Mantén al menos **1 metro** de distancia lateral.\n\nCon esta distancia evitas sustos y accidentes."
+              "texto": "## 6.3 Normas de convivencia con peatones y ciclistas\n\n### 6.3.1 Ceder el paso y distancia lateral\n\n- Siempre **cede el paso** al peatón.\n- Mantén al menos **1 metro** de distancia lateral.\n\nCon esta distancia evitas sustos y accidentes.\n\n![Img](/assets/6007.jpg)"
             },
             {
               "subId": 2,
@@ -1353,7 +1353,7 @@
           "teoria": [
             {
               "subId": 1,
-              "texto": "## 6.4 Riesgos específicos\n\n### 6.4.1 Velocidad inadecuada\n\nIr muy rápido puede hacerte perder el control, sobre todo en suelos **irregulares**.\n\n- Ajusta la velocidad según el terreno.\n- Reduce al pasar por topes o curvas cerradas."
+              "texto": "## 6.4 Riesgos específicos\n\n### 6.4.1 Velocidad inadecuada\n\nIr muy rápido puede hacerte perder el control, sobre todo en suelos **irregulares**.\n\n- Ajusta la velocidad según el terreno.\n- Reduce al pasar por topes o curvas cerradas.\n\n![Img](/assets/6010.jpg)"
             },
             {
               "subId": 2,
@@ -1614,7 +1614,7 @@
             },
             {
               "subId": 2,
-              "texto": "## 7.4 Primeros auxilios básicos: Proteger-Avisar-Socorrer (PAS)\n\n### 7.4.2 Avisar a los servicios de emergencia\n\nDespués, **avisa** al 112:  \n- Di **qué** ha pasado y **dónde** estás con detalle.  \n- Mantén la calma para que te entiendan bien."
+              "texto": "## 7.4 Primeros auxilios básicos: Proteger-Avisar-Socorrer (PAS)\n\n### 7.4.2 Avisar a los servicios de emergencia\n\nDespués, **avisa** al 112:  \n- Di **qué** ha pasado y **dónde** estás con detalle.  \n- Mantén la calma para que te entiendan bien.\n\n![Img](/assets/7011.jpg)"
             },
             {
               "subId": 3,
