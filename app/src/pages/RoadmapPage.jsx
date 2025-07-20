@@ -23,9 +23,9 @@ export default function RoadmapPage() {
     error,
   } = useApi(progresoService.getRoadmap);
 
-  const apiNiveles  = useMemo(() => data?.niveles   || [], [data]);
-  const apiTemas    = useMemo(() => data?.temas     || [], [data]);
-  const minijuegos  = useMemo(() => data?.minijuegos|| [], [data]);
+  const apiNiveles = useMemo(() => data?.niveles || [], [data]);
+  const apiTemas = useMemo(() => data?.temas || [], [data]);
+  const minijuegos = useMemo(() => data?.minijuegos || [], [data]);
   const nivelActual = data?.nivelActual ?? null;
 
   useEffect(() => {

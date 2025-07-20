@@ -32,7 +32,7 @@ export default function MinigamesPage() {
             }`}
           >
             {juego.desbloqueado ? (
-              <div className="flex items-center justify-between">
+              <div className="flex items-center justify-between h-full">
                 <div>
                   <h2 className="text-lg font-semibold">{juego.nombre}</h2>
                   {juego.puntuacion !== undefined ? (
