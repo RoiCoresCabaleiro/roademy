@@ -1163,7 +1163,7 @@
             },
             {
               "preguntaId": 5014,
-              "texto": "Verdadero o falso: “El anclaje ISOFIX mantiene la silla infantil estable si no se mueve más de 2 cm”.",
+              "texto": "Verdadero o falso: “El anclaje ISOFIX mantiene la silla infantil estable si no se mueve más de 2 cm”.\n\n![Img](/assets/5014.jpg)",
               "opciones": [
                 "Verdadero",
                 "Falso"
@@ -1171,7 +1171,7 @@
             },
             {
               "preguntaId": 5015,
-              "texto": "Al usar la tablet en el coche, debes:",
+              "texto": "Al usar la tablet en el coche, debes:\n\n![Img](/assets/5015.jpg)",
               "opciones": [
                 "Bajar el volumen y sujetar la pantalla con ambas manos",
                 "Subir el volumen al máximo",
@@ -1409,7 +1409,7 @@
             },
             {
               "preguntaId": 6014,
-              "texto": "¿Cuál de estos vehículos es un VMP?",
+              "texto": "¿Cuál de estos vehículos es un VMP?\n\n![Img](/assets/6014.jpg)",
               "opciones": [
                 "Hoverboard",
                 "Turismo",
@@ -1418,7 +1418,7 @@
             },
             {
               "preguntaId": 6015,
-              "texto": "¿Dónde está prohibido circular con un VMP?",
+              "texto": "¿Dónde está prohibido circular con un VMP?\n\n![Img](/assets/6015.jpg)",
               "opciones": [
                 "En aceras",
                 "En carriles bici",
@@ -1437,7 +1437,7 @@
             },
             {
               "preguntaId": 6017,
-              "texto": "Verdadero o falso: “La homologación CE verifica la seguridad del VMP”.",
+              "texto": "Verdadero o falso: “La homologación CE verifica la seguridad del VMP”.\n\n![Img](/assets/6017.jpg)",
               "opciones": [
                 "Verdadero",
                 "Falso"
@@ -1473,7 +1473,7 @@
             },
             {
               "subId": 2,
-              "texto": "## 7.1 Elegir la ruta más segura\n\n### 7.1.2 Uso de rutas escolares establecidas\n\nMuchos colegios y ayuntamientos crean **caminos escolares** señalizados:  \n- Suelen tener **semáforos especiales** o voluntarios ayudando.  \n- Siguen siempre el mismo **recorrido seguro**.  \n- Pregunta en tu colegio si existe uno y ¡únete al grupo!"
+              "texto": "## 7.1 Elegir la ruta más segura\n\n### 7.1.2 Uso de rutas escolares establecidas\n\nMuchos colegios y ayuntamientos crean **caminos escolares** señalizados:  \n- Suelen tener **semáforos especiales** o voluntarios ayudando.  \n- Siguen siempre el mismo **recorrido seguro**.  \n- Pregunta en tu colegio si existe uno y ¡únete al grupo!\n\n![Img](/assets/7002.jpg)"
             },
             {
               "subId": 3,
@@ -1524,7 +1524,7 @@
             },
             {
               "subId": 3,
-              "texto": "## 7.2 Señales de peligro y zonas de riesgo\n\n### 7.2.3 Salidas de garajes y accesos secundarios\n\nMuchos coches salen **de improvisto** por garajes:  \n- Reconoce las puertas de garaje y señalizaciones.  \n- Detente un momento, mira y solo avanza si no vienen coches.  \n- Mantén la calma para no sobresaltarte."
+              "texto": "## 7.2 Señales de peligro y zonas de riesgo\n\n### 7.2.3 Salidas de garajes y accesos secundarios\n\nMuchos coches salen **de improvisto** por garajes:  \n- Reconoce las puertas de garaje y señalizaciones.  \n- Detente un momento, mira y solo avanza si no vienen coches.  \n- Mantén la calma para no sobresaltarte.\n\n![Img](/assets/7006.jpg)"
             }
           ],
           "preguntas": [
@@ -1567,7 +1567,7 @@
             },
             {
               "subId": 2,
-              "texto": "## 7.3 Comportamiento ante imprevistos\n\n### 7.3.2 Averías o fallos de equipo\n\nSi tu bici o patinete se **estropea**:  \n- Para en un lugar seguro, fuera del paso de otros.  \n- Revisa frenos, cadena o batería.  \n- Pide ayuda a un adulto para arreglar o llevar el vehículo."
+              "texto": "## 7.3 Comportamiento ante imprevistos\n\n### 7.3.2 Averías o fallos de equipo\n\nSi tu bici o patinete se **estropea**:  \n- Para en un lugar seguro, fuera del paso de otros.  \n- Revisa frenos, cadena o batería.  \n- Pide ayuda a un adulto para arreglar o llevar el vehículo.\n\n![Img](/assets/7008.jpg)"
             },
             {
               "subId": 3,
@@ -1658,7 +1658,7 @@
           "preguntas": [
             {
               "preguntaId": 7013,
-              "texto": "¿Cuál de estas acciones es la primera del método PAS?",
+              "texto": "¿Cuál de estas acciones es la primera del método PAS?\n\n![Img](/assets/7013.jpg)",
               "opciones": [
                 "Proteger la escena",
                 "Avisar a emergencias",
@@ -1685,7 +1685,7 @@
             },
             {
               "preguntaId": 7016,
-              "texto": "¿Qué debes hacer si tu patinete se detiene repentinamente en medio de la calzada?",
+              "texto": "¿Qué debes hacer si tu patinete se detiene repentinamente en medio de la calzada?\n\n![Img](/assets/7016.jpg)",
               "opciones": [
                 "Moverlo a un lugar seguro antes de revisar la avería",
                 "Dejarlo y seguir caminando",
@@ -1724,7 +1724,7 @@
             },
             {
               "subId": 3,
-              "texto": "## 8.1 Movilidad saludable y medioambientalmente sostenible\n\n### 8.1.3 Organizar caminatas y rutas escolares verdes\n\nLos **pedibus** y **bicibus** son rutas en grupo:\n\n- Un adulto guía a los niños por un camino seguro.\n- Se cumple un **horario fijo**, como un autobús escolar a pie.\n- Cada familia colabora: unos acompañan, otros señalan el paso."
+              "texto": "## 8.1 Movilidad saludable y medioambientalmente sostenible\n\n### 8.1.3 Organizar caminatas y rutas escolares verdes\n\nLos **pedibus** y **bicibus** son rutas en grupo:\n\n- Un adulto guía a los niños por un camino seguro.\n- Se cumple un **horario fijo**, como un autobús escolar a pie.\n- Cada familia colabora: unos acompañan, otros señalan el paso.\n\n![Img](/assets/8003.jpg)"
             }
           ],
           "preguntas": [
@@ -1763,7 +1763,7 @@
           "teoria": [
             {
               "subId": 1,
-              "texto": "## 8.2 Respeto al espacio público y a los demás usuarios\n\n### 8.2.1 Convivencia en aceras y carriles bici\n\n- Camina con **cuidado**: no bloquees el paso.\n- Si vas en bici, no invadas la acera; usa el carril bici.\n- Cede siempre el paso a quienes van más **lento** o con **movilidad reducida**."
+              "texto": "## 8.2 Respeto al espacio público y a los demás usuarios\n\n### 8.2.1 Convivencia en aceras y carriles bici\n\n- Camina con **cuidado**: no bloquees el paso.\n- Si vas en bici, no invadas la acera; usa el carril bici.\n- Cede siempre el paso a quienes van más **lento** o con **movilidad reducida**.\n\n![Img](/assets/8004.jpg)"
             },
             {
               "subId": 2,
@@ -1818,7 +1818,7 @@
             },
             {
               "subId": 3,
-              "texto": "## 8.3 Movilidad responsable y ejemplo familiar\n\n### 8.3.3 Ser un ejemplo familiar de movilidad sostenible\n\nLas familias pueden liderar con el **buen ejemplo**:\n\n- Salir juntos en **bicicleta** o andando al colegio, mostrando a los niños que es divertido y seguro.\n- Mantener el coche parado en casa los **días elegidos**, demostrando que se puede vivir sin él.\n- Hablar en casa sobre la importancia de cuidar el planeta y celebrar cada kilómetro recorrido sin usar coche."
+              "texto": "## 8.3 Movilidad responsable y ejemplo familiar\n\n### 8.3.3 Ser un ejemplo familiar de movilidad sostenible\n\nLas familias pueden liderar con el **buen ejemplo**:\n\n- Salir juntos en **bicicleta** o andando al colegio, mostrando a los niños que es divertido y seguro.\n- Mantener el coche parado en casa los **días elegidos**, demostrando que se puede vivir sin él.\n- Hablar en casa sobre la importancia de cuidar el planeta y celebrar cada kilómetro recorrido sin usar coche.\n\n![Img](/assets/8009.jpg)"
             }
           ],
           "preguntas": [
@@ -1858,7 +1858,7 @@
           "preguntas": [
             {
               "preguntaId": 8010,
-              "texto": "¿Qué significa \"huella de carbono\" en movilidad?",
+              "texto": "¿Qué significa \"huella de carbono\" en movilidad?\n\n![Img](/assets/8010.jpg)",
               "opciones": [
                 "Gases emitidos al usar vehículos",
                 "Cantidad de zapatos usados",
@@ -1868,7 +1868,7 @@
             },
             {
               "preguntaId": 8011,
-              "texto": "Verdadero o falso: “Usar bus y bici reduce el tráfico y la contaminación”.",
+              "texto": "Verdadero o falso: “Usar bus y bici reduce el tráfico y la contaminación”.\n\n![Img](/assets/8011.jpg)",
               "opciones": [
                 "Verdadero",
                 "Falso"
