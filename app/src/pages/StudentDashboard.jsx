@@ -126,6 +126,7 @@ export default function StudentDashboard() {
       setErrorClass(extractError(err));
     } finally {
       setIsJoining(false);
+      setConfirmLeaving(false);
     }
   };
 

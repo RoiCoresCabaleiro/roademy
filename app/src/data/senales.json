@@ -1,0 +1,62 @@
+[
+  {
+    "image": "/assets/senal_1.jpg",
+    "name": "GIRO A LA DERECHA OBLIGATORIO"
+  },
+  {
+    "image": "/assets/senal_2.jpg",
+    "name": "PROHIBIDO EL ACCESO EN BICICLETA"
+  },
+  {
+    "image": "/assets/senal_3.jpg",
+    "name": "PROHIBIDO EL ACCESO A PEATONES"
+  },
+  {
+    "image": "/assets/senal_4.jpg",
+    "name": "DIRECCIÓN PROHIBIDA"
+  },
+  {
+    "image": "/assets/senal_5.jpg",
+    "name": "CEDA EL PASO"
+  },
+  {
+    "image": "/assets/senal_6.jpg",
+    "name": "VÍA RESERVADA PARA BICICLETAS"
+  },
+  {
+    "image": "/assets/senal_7.jpg",
+    "name": "CAMINO RESEERVADO PARA PEATONES"
+  },
+  {
+    "image": "/assets/senal_8.jpg",
+    "name": "DETENCIÓN OBLIGATORIA"
+  },
+  {
+    "image": "/assets/senal_9.jpg",
+    "name": "LÍMITE DE VELOCIDAD"
+  },
+  {
+    "image": "/assets/senal_10.jpg",
+    "name": "PELIGRO: PASO DE PEATONES"
+  },
+  {
+    "image": "/assets/senal_11.jpg",
+    "name": "SITUACIÓN DE UN PASO DE PEATONES"
+  },
+  {
+    "image": "/assets/senal_12.jpg",
+    "name": "PELIGRO: ZONA ESCOLAR"
+  },
+  {
+    "image": "/assets/senal_13.jpg",
+    "name": "PROHIBIDO ACCESO A VMPs"
+  },
+  {
+    "image": "/assets/senal_14.jpg",
+    "name": "PELIGRO: PEATONES"
+  },
+  {
+    "image": "/assets/senal_15.jpg",
+    "name": "PELIGRO: CICLISTAS"
+  }
+]

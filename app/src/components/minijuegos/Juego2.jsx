@@ -1,6 +1,6 @@
 // src/components/minijuegos/Juego2.jsx
 
-import { useMemo, useState} from "react";
+import { useMemo, useState } from "react";
 import conductasData from "../../data/conductas.json";
 
 const PUNTOS_POR_ACIERTO = 100;
@@ -73,9 +73,9 @@ export default function Juego2({ onComplete }) {
       {/* Contenido */}
       {slide.type === 1 ? (
         <div className="space-y-4 text-center">
-          <img 
-            src={slide.image} 
-            alt="" 
+          <img
+            src={slide.image}
+            alt=""
             className="mx-auto w-full h-auto max-h-[370px] object-contain"
           />
           <div className="flex justify-center gap-4">
@@ -133,7 +133,7 @@ export default function Juego2({ onComplete }) {
       )}
 
       {/* Feedback */}
-      {(feedback == "¡Acertaste!") ? (
+      {feedback == "¡Acertaste!" ? (
         <div className="text-center text-2xl text-green-600 font-bold animate-pulse">
           {feedback}
         </div>

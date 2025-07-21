@@ -7,15 +7,17 @@ import ErrorMessage from "../components/ErrorMessage";
 import CompletionModal from "../components/minijuegos/CompletionModal";
 
 const juegosMeta = {
-  1: { name: 'Pasapalabra' },
-  2: { name: 'Conductas Correctas' },
+  1: { name: "Pasapalabra Vial" },
+  2: { name: "Conductas Correctas" },
+  3: { name: "Señales Misteriosas" },
   // …
 };
 
 const juegosMap = [
-  null,
+  null, // id = 0 (no existe)
   lazy(() => import("../components/minijuegos/Juego1")), // id = "1"
-  lazy(() => import('../components/minijuegos/Juego2')), // id = "2"
+  lazy(() => import("../components/minijuegos/Juego2")), // id = "2"
+  lazy(() => import("../components/minijuegos/Juego3")), // id = "3"
   // …
 ];
 
@@ -48,7 +50,9 @@ export default function MinigamePage() {
 
   return (
     <div className="p-4 max-w-3xl mx-auto">
-      <h1 className="text-2xl font-bold text-center mb-4">{juegosMeta[minijuegoId]?.name ?? `Minijuego ${minijuegoId}`}</h1>
+      <h1 className="text-2xl font-bold text-center mb-4">
+        {juegosMeta[minijuegoId]?.name ?? `Minijuego ${minijuegoId}`}
+      </h1>
       <Suspense fallback={<div className="p-4">Cargando juego...</div>}>
         <JuegoComponent onComplete={handleComplete} />
       </Suspense>

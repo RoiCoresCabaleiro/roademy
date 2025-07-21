@@ -25,10 +25,11 @@ export default defineConfig({
     host: true,
     port: 5173,
     strictPort: false,
-    // Para hostear desde ngrok
+    /* Para hostear desde ngrok
     allowedHosts: [
       '.ngrok.io',
       '.ngrok-free.app'
     ]
+    */
   },
 });

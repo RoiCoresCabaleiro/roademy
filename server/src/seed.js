@@ -43,7 +43,7 @@ async function seedData() {
   const minijuegos = [
     { nombre: "Pasapalabra Vial", nivelDesbloqueo: 104 },
     { nombre: "Conductas Correctas", nivelDesbloqueo: 205 },
-    { nombre: "Minijuego3", nivelDesbloqueo: 305 },
+    { nombre: "Señales Misteriosas", nivelDesbloqueo: 305 },
   ];
   await Minijuego.bulkCreate(minijuegos, { validate: true });
 
