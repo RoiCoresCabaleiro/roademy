@@ -1,0 +1,17 @@
+# === GENERAL ===
+**/*.log
+**/.env*
+**/.DS_Store
+**/*.sqlite
+**/*.pid
+**/.vscode/
+
+# === Node.js ===
+**/node_modules
+
+# === APP ===
+#**/android/
+**/dist/
+
+# === Docker ===
+**/docker-compose.override.yml
