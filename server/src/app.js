@@ -2,7 +2,7 @@
 
 //require("dotenv").config();
 const express = require("express");
-const cors = require("cors");
+//const cors = require("cors");
 const helmet = require("helmet");
 const cookieParser = require('cookie-parser');
 
@@ -22,10 +22,10 @@ const app = express();
 app.use(helmet());
 app.use(cookieParser());
 app.use(express.json());
-app.use(cors({
+//app.use(cors({
 //  origin: FRONTEND,
-  credentials: true,
-}));
+//  credentials: true,
+//}));
 
 // Rutas de la API
 app.use("/api/v1/auth", authRoutes);
