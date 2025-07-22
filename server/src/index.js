@@ -10,7 +10,7 @@ const PORT = 3000;  // const PORT = process.env.PORT || 3000;
 
 async function start() {
   try {
-    await sequelize.sync({ alter: true });  // en desarrollo usar "{ alter: true }" y en produción usar migraciones
+    await sequelize.sync();  // en desarrollo usar "{ alter: true }" y en produción usar migraciones
 
     // Sembrar datos iniciales si no se ha hecho ya
     const { Tema } = require("./models");
