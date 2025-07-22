@@ -1,1 +1,0 @@
-import{r as t}from"./index-ASKq3XeY.js";import{e as i}from"./errorHandler-D6McV1xb.js";function d(a=[]){const[c,n]=t.useState(null),[u,s]=t.useState(!0),[l,o]=t.useState(null),r=t.useCallback(async()=>{s(!0),o(null);try{const e=await a();n(e.data)}catch(e){o(i(e))}finally{s(!1)}},[a]);return t.useEffect(()=>{r()},[r]),{data:c,isLoading:u,error:l,refetch:r}}export{d as u};
