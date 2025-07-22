@@ -4,6 +4,7 @@ const jwt = require("jsonwebtoken");
 const crypto = require("crypto");
 const { RefreshToken } = require("../models");
 const path = require("path");
+const { NONAME } = require("dns");
 
 /**
  * Genera y envía al cliente accessToken + refreshToken.
@@ -19,7 +20,7 @@ async function generateTokensForUser(user, res) {
   const accessToken = jwt.sign(
     { id: user.id, email: user.email, rol: user.rol, claseId: user.claseId },
     process.env.JWT_SECRET,
-    { expiresIn: "15m" }
+    { expiresIn: "1m" }
   );
 
   // 2) Refresh Token (aleatorio) + expiración (7 días)
@@ -37,8 +38,8 @@ async function generateTokensForUser(user, res) {
   // 4) Mandar la cookie HTTP-only
   res.cookie("refreshToken", refreshToken, {
     httpOnly: true,
-    secure: process.env.NODE_ENV === "production",
-    sameSite: "strict",
+    secure: true,
+    sameSite: "none", 
     expires: expiresAt,
     path: "/",
   });

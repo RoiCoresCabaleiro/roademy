@@ -30,7 +30,7 @@ async function refresh(req, res, next) {
     const accessToken = jwt.sign(
       { id: user.id, email: user.email, rol: user.rol, claseId: user.claseId },
       process.env.JWT_SECRET,
-      { expiresIn: "15m" }
+      { expiresIn: "1m" }
     );
 
     return res.json({ accessToken });
@@ -53,8 +53,8 @@ async function logout(req, res, next) {
     // Borrar la cookie en el cliente
     res.clearCookie("refreshToken", {
       httpOnly: true,
-      secure: process.env.NODE_ENV === "production",
-      sameSite: "strict",
+      secure: true,
+      sameSite: "none",
       path: "/",
     });
     return res.status(204).send();

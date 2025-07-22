@@ -404,8 +404,8 @@ async function eliminarCuenta(req, res, next) {
 
     res.clearCookie("refreshToken", {
       httpOnly: true,
-      secure: process.env.NODE_ENV === "production",
-      sameSite: "strict",
+      secure: true,
+      sameSite: "none",
       path: "/",
     });
 
