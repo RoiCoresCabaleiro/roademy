@@ -3,7 +3,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import { ErrorBoundary } from 'react-error-boundary';
-import { BrowserRouter } from 'react-router-dom';
+//import { BrowserRouter } from 'react-router-dom';
+import { HashRouter }    from 'react-router-dom';
 import { AuthProvider } from './context/AuthContext';
 import App from './App';
 import './index.css';
@@ -23,11 +24,13 @@ const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
     <ErrorBoundary FallbackComponent={ErrorFallback}>
-      <BrowserRouter>
+      <HashRouter>
+        {/* <BrowserRouter> */}
         <AuthProvider>
           <App />
         </AuthProvider>
-      </BrowserRouter>
+        {/* </BrowserRouter> */}
+      </HashRouter>
     </ErrorBoundary>
   </React.StrictMode>
 );
