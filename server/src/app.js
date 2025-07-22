@@ -1,6 +1,6 @@
 // server/src/app.js
 
-require("dotenv").config();
+//require("dotenv").config();
 const express = require("express");
 const cors = require("cors");
 const helmet = require("helmet");
@@ -14,7 +14,7 @@ const claseRoutes = require("./routes/claseRoutes");
 const progresoRoutes = require('./routes/progresoRoutes');
 const minijuegoRoutes = require("./routes/minijuegoRoutes");
 
-const FRONTEND = process.env.FRONTEND_URL || 'http://localhost:5173';
+//const FRONTEND = process.env.FRONTEND_URL || 'http://localhost:5173';
 
 const app = express();
 
@@ -23,7 +23,7 @@ app.use(helmet());
 app.use(cookieParser());
 app.use(express.json());
 app.use(cors({
-  origin: FRONTEND,
+//  origin: FRONTEND,
   credentials: true,
 }));
 

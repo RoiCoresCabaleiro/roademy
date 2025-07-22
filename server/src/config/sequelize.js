@@ -1,6 +1,6 @@
 // server/src/config/sequelize.js
 
-require("dotenv").config();
+//require("dotenv").config();
 const { Sequelize } = require("sequelize");
 
 const sequelize = new Sequelize(
