@@ -1,0 +1,1 @@
+function t(a){var e,s;const r=a.response;return(e=r==null?void 0:r.data)!=null&&e.errors&&Array.isArray(r.data.errors)&&r.data.errors.length>0?r.data.errors[0].message:(s=r==null?void 0:r.data)!=null&&s.message?r.data.message:a.message||"Ha ocurrido un error inesperado"}export{t as e};

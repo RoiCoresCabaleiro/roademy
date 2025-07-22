@@ -1,0 +1,1 @@
+function i(t){const e=String(t);let l,r;if(e.length===3)l=Number(e[0]),r=Number(e.slice(1));else if(e.length===4)l=Number(e.slice(0,2)),r=Number(e.slice(2));else return null;return`${l}.${r}`}export{i as f};
