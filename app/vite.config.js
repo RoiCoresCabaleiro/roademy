@@ -4,7 +4,7 @@ import tailwindcss from '@tailwindcss/vite'
 
 // https://vite.dev/config/
 export default defineConfig({
-  base: "./",
+  base: "/roademy/",
   build: {
     outDir: "dist",
   },
@@ -13,14 +13,15 @@ export default defineConfig({
     tailwindcss(),
   ],
   server: {
-    proxy: {
-      // Cualquier llamada a /api/... la redirige a http://localhost:3000/api/v1/...
-      "/api": {
-        target: "http://localhost:3000",
-        changeOrigin: true,
-        rewrite: (path) => path.replace(/^\/api/, "/api/v1"),
-      },
-    },
+    //proxy: {
+    //  // Cualquier llamada a /api/... la redirige a http://localhost:3000/api/v1/...
+    //  "/api": {
+    //    target: "http://localhost:3000",
+    //    changeOrigin: true,
+    //    rewrite: (path) => path.replace(/^\/api/, "/api/v1"),
+    //  },
+    //},
+    
     // Para hostear en local
     host: true,
     port: 5173,
