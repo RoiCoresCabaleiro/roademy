@@ -1,5 +1,7 @@
 // src/components/minijuegos/CompletionModal.jsx
 
+import { useNavigate } from 'react-router-dom';
+
 export default function CompletionModal({
   open,
   onClose,
@@ -7,6 +9,8 @@ export default function CompletionModal({
   mejorPuntuacion,
   mejorado
 }) {
+  const navigate = useNavigate();
+
   return (
     <div
       className={`
@@ -48,7 +52,7 @@ export default function CompletionModal({
             type="button"
             onClick={() => {
               onClose();
-              window.location.href = '/minigames';
+              navigate('/minigames');
             }}
             className="px-4 py-2 bg-gray-300 rounded hover:bg-gray-400"
           >
