@@ -4,9 +4,9 @@ import { NavLink } from "react-router-dom";
 import {
   HomeIcon,
   MapPinIcon,
-  QuestionMarkCircleIcon,
   BuildingLibraryIcon,
 } from "@heroicons/react/24/outline";
+import GamepadIcon from "./icons/GamepadIcon";
 import { useAuth } from "../hooks/useAuth";
 
 export default function FooterNav() {
@@ -17,7 +17,7 @@ export default function FooterNav() {
   const studentItems = [
     { to: "/dashboard", icon: HomeIcon, label: "Perfil" },
     { to: "/roadmap", icon: MapPinIcon, label: "RoadMap" },
-    { to: "/minigames", icon: QuestionMarkCircleIcon, label: "Juegos" },
+    { to: "/minigames", icon: GamepadIcon, label: "Juegos" },
   ];
 
   const tutorItems = [
