@@ -1,23 +1,26 @@
 // server/src/index.js
 
-//require("dotenv").config();
+require("dotenv").config();
 const { sequelize } = require("./models");
 const { seedData } = require("./seed");
 const app = require("./app");
 require("./cron/cleanupRefreshTokens");
 
-const PORT = 3000; // const PORT = process.env.PORT || 3000;
+const PORT = +process.env.PORT || 3000;
 
 async function start() {
   try {
     await sequelize.sync(); // en desarrollo usar "{ alter: true }" y en produción usar migraciones
 
     // Sembrar datos iniciales si no se ha hecho ya
-    const { Tema } = require("./models");
-    if ((await Tema.count()) === 0) await seedData();
+    const { Tema } = require('./models');
+    if ((await Tema.count()) === 0) {
+      await seedData();
+      console.log('Temario sembrado correctamente');
+    }
 
     app.listen(PORT, () => {
-      console.log(`Server listening on port ${PORT} : MODE: (${process.env.NODE_ENV || 'development'})`);
+      console.log(`Server listening on port ${PORT}`);
     });
   } catch (err) {
     console.error("Error starting server:", err);

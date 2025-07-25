@@ -1,13 +1,5 @@
 // src/config/index.js
 
-const env = process.env.NODE_ENV || "dev";
-
-const base = {
-  port: +process.env.PORT || 3000,
-  jwtSecret: process.env.JWT_SECRET,
-  env,
-};
-
 const dbConfig = (() => {
   // En prod con Raiway, usar url completa (MYSQL_URL):
   if (process.env.MYSQL_URL) {
@@ -39,4 +31,4 @@ const dbConfig = (() => {
   };
 })();
 
-module.exports = { ...base, dbConfig };
+module.exports = { dbConfig };
