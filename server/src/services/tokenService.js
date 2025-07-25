@@ -18,7 +18,7 @@ async function generateTokensForUser(user, res) {
   const accessToken = jwt.sign(
     { id: user.id, email: user.email, rol: user.rol, claseId: user.claseId },
     process.env.JWT_SECRET,
-    { expiresIn: "1m" }
+    { expiresIn: "15m" }
   );
 
   // 2) Refresh Token (aleatorio) + expiración (7 días)
@@ -34,10 +34,11 @@ async function generateTokensForUser(user, res) {
   });
 
   // 4) Mandar la cookie HTTP-only
+  const isProd = process.env.NODE_ENV === "prod";
   res.cookie("refreshToken", refreshToken, {
     httpOnly: true,
-    secure: true,
-    sameSite: "none", 
+    secure: isProd,
+    sameSite: isProd ? "none" : "lax", 
     expires: expiresAt,
     path: "/",
   });

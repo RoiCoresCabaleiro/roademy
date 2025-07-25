@@ -30,7 +30,7 @@ async function refresh(req, res, next) {
     const accessToken = jwt.sign(
       { id: user.id, email: user.email, rol: user.rol, claseId: user.claseId },
       process.env.JWT_SECRET,
-      { expiresIn: "1m" }
+      { expiresIn: "15m" }
     );
 
     return res.json({ accessToken });
