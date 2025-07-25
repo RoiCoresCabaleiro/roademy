@@ -7,6 +7,10 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build",
+    "build:prod": "vite build",
+    "build:dev": "vite build --mode development",
+    "cap:dev":  "copy .\\capacitor.config.dev.json .\\capacitor.config.json && npm run build:dev && npx cap sync android",
+    "cap:prod": "copy .\\capacitor.config.prod.json .\\capacitor.config.json && npm run build:prod && npx cap sync android",
     "lint": "eslint .",
     "preview": "vite preview",
     "predeploy": "npm run build",

@@ -13,11 +13,8 @@ async function start() {
     await sequelize.sync(); // en desarrollo usar "{ alter: true }" y en produción usar migraciones
 
     // Sembrar datos iniciales si no se ha hecho ya
-    const { Tema } = require('./models');
-    if ((await Tema.count()) === 0) {
-      await seedData();
-      console.log('Temario sembrado correctamente');
-    }
+    const { Tema } = require("./models");
+    if ((await Tema.count()) === 0) await seedData();
 
     app.listen(PORT, () => {
       console.log(`Server listening on port ${PORT}`);
