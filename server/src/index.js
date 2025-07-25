@@ -1,6 +1,8 @@
 // server/src/index.js
 
-//require("dotenv").config();
+if (process.env.NODE_ENV !== 'prod') {
+  require('dotenv').config(); 
+}
 const { sequelize } = require("./models");
 const { seedData } = require("./seed");
 const app = require("./app");

@@ -3,8 +3,6 @@
 const jwt = require("jsonwebtoken");
 const crypto = require("crypto");
 const { RefreshToken } = require("../models");
-const path = require("path");
-const { NONAME } = require("dns");
 
 /**
  * Genera y envía al cliente accessToken + refreshToken.
