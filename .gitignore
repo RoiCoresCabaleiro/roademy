@@ -12,7 +12,7 @@
 # === APP ===
 #**/android/
 **/dist/
-**/capacitor.config.json
+/app/capacitor.config.json
 
 # === Docker ===
 **/docker-compose.override.yml
