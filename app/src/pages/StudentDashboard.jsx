@@ -23,6 +23,7 @@ export default function StudentDashboard() {
     email: "",
     antiguaContraseña: "",
     contraseña: "",
+    confirmar: "",
   });
   const [errorEdit, setErrorEdit] = useState(null);
   const [isSaving, setIsSaving] = useState(false);
@@ -59,7 +60,8 @@ export default function StudentDashboard() {
     error: errorDash,
   } = useApi(fetchDashboard);
 
-  if (loadingProfile || (loadingDash && !dashboard)) return <div className="p-4">Cargando datos...</div>;
+  if (loadingProfile || (loadingDash && !dashboard))
+    return <div className="p-4">Cargando datos...</div>;
   if (errorProfile)
     return (
       <div className="p-4">
@@ -74,7 +76,8 @@ export default function StudentDashboard() {
     );
 
   const { user } = profileData;
-  const { progresoTotalCurso, progresoTemaActual, actividadReciente } = dashboard;
+  const { progresoTotalCurso, progresoTemaActual, actividadReciente } =
+    dashboard;
 
   // Agrupar actividad por día
   const actividadesPorDia = actividadReciente.reduce((acc, log) => {
@@ -93,6 +96,10 @@ export default function StudentDashboard() {
     setErrorEdit(null);
     setIsSaving(true);
     try {
+      if (form.contraseña && form.contraseña !== form.confirmar) {
+        setErrorEdit("Las contraseñas nuevas no coinciden");
+        return;
+      }
       const payload = {};
       if (form.nombre.trim()) {
         payload.nombre = form.nombre.trim();
@@ -157,7 +164,8 @@ export default function StudentDashboard() {
 
   const cursoCompletado =
     progresoTemaActual.completados >= progresoTemaActual.totalNiveles &&
-    progresoTotalCurso.estrellasObtenidasCurso >= progresoTotalCurso.estrellasPosiblesCurso;
+    progresoTotalCurso.estrellasObtenidasCurso >=
+      progresoTotalCurso.estrellasPosiblesCurso;
 
   return (
     <div className="pb-8 p-4 space-y-6">
@@ -242,7 +250,9 @@ export default function StudentDashboard() {
                 </div>
                 <hr />
                 <div className="flex flex-col">
-                  <label className="text-sm font-medium">Contraseña actual</label>
+                  <label className="text-sm font-medium">
+                    Contraseña actual
+                  </label>
                   <input
                     type="password"
                     name="antiguaContraseña"
@@ -252,11 +262,25 @@ export default function StudentDashboard() {
                   />
                 </div>
                 <div className="flex flex-col">
-                  <label className="text-sm font-medium">Nueva contraseña</label>
+                  <label className="text-sm font-medium">
+                    Nueva contraseña
+                  </label>
                   <input
                     type="password"
                     name="contraseña"
                     value={form.contraseña}
+                    onChange={handleChange}
+                    className="w-full border px-2 py-1 rounded"
+                  />
+                </div>
+                <div className="flex flex-col">
+                  <label className="text-sm font-medium">
+                    Confirmar nueva contraseña
+                  </label>
+                  <input
+                    type="password"
+                    name="confirmar"
+                    value={form.confirmar}
                     onChange={handleChange}
                     className="w-full border px-2 py-1 rounded"
                   />
@@ -278,9 +302,11 @@ export default function StudentDashboard() {
                   <button
                     onClick={handleSaveProfile}
                     className="px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600 disabled:opacity-50"
-                    disabled={
-                      isSaving || (form.contraseña && !form.antiguaContraseña)
-                    }
+                    /*disabled={
+                      isSaving ||
+                      (form.contraseña && !form.antiguaContraseña) ||
+                      (form.contraseña && form.contraseña !== form.confirmar)
+                    }*/
                   >
                     Guardar
                   </button>
@@ -297,8 +323,12 @@ export default function StudentDashboard() {
 
         {user.clase ? (
           <div className="space-y-1">
-            <p><strong>Nombre:</strong> {user.clase.nombre}</p>
-            <p><strong>Código:</strong> {user.clase.codigo}</p>
+            <p>
+              <strong>Nombre:</strong> {user.clase.nombre}
+            </p>
+            <p>
+              <strong>Código:</strong> {user.clase.codigo}
+            </p>
             <p>
               <strong>Tutor:</strong> {user.clase.tutor.nombre} (
               {user.clase.tutor.email})
@@ -602,7 +632,7 @@ export default function StudentDashboard() {
             placeholder="Contraseña"
             className="w-full border px-3 py-2 rounded"
           />
-          
+
           {errorDel && (
             <div className="mt-4">
               <ErrorMessage error={errorDel} />

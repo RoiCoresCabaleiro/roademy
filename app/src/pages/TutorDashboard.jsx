@@ -1,17 +1,16 @@
 // src/pages/TutorDashboard.jsx
 
-import { useState, useCallback } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { useApi } from '../hooks/useApi';
-import { useAuth } from '../hooks/useAuth';
-import { usuarioService } from '../services/usuarioService';
-import ErrorMessage from '../components/ErrorMessage';
-import ConfirmationModal from '../components/ConfirmationModal';
-import Portal from '../components/Portal';
-import { extractError } from '../utils/errorHandler';
+import { useState, useCallback } from "react";
+import { useNavigate } from "react-router-dom";
+import { useApi } from "../hooks/useApi";
+import { useAuth } from "../hooks/useAuth";
+import { usuarioService } from "../services/usuarioService";
+import ErrorMessage from "../components/ErrorMessage";
+import ConfirmationModal from "../components/ConfirmationModal";
+import Portal from "../components/Portal";
+import { extractError } from "../utils/errorHandler";
 
-import { ArrowRightOnRectangleIcon } from '@heroicons/react/24/outline';
-
+import { ArrowRightOnRectangleIcon } from "@heroicons/react/24/outline";
 
 export default function TutorDashboard() {
   const { logout } = useAuth();
@@ -19,12 +18,18 @@ export default function TutorDashboard() {
 
   // Estados locales para editar perfil
   const [isEditing, setIsEditing] = useState(false);
-  const [form, setForm] = useState({ nombre: '', email: '', antiguaContraseña: '', contraseña: '' });
+  const [form, setForm] = useState({
+    nombre: "",
+    email: "",
+    antiguaContraseña: "",
+    contraseña: "",
+    confirmar: "",
+  });
   const [errorEdit, setErrorEdit] = useState(null);
   const [isSaving, setIsSaving] = useState(false);
   // Estados locales para borrar cuenta
   const [confirmingDelete, setConfirmingDelete] = useState(false);
-  const [delPassword, setDelPassword] = useState('');
+  const [delPassword, setDelPassword] = useState("");
   const [errorDel, setErrorDel] = useState(null);
   const [isDeleting, setIsDeleting] = useState(false);
 
@@ -33,7 +38,7 @@ export default function TutorDashboard() {
     data: profileData,
     isLoading: loadingProfile,
     error: errorProfile,
-    refetch: refetchProfile
+    refetch: refetchProfile,
   } = useApi(usuarioService.getProfile);
 
   // 2. Clases del tutor
@@ -45,10 +50,11 @@ export default function TutorDashboard() {
     data: clasesData,
     isLoading: loadingClases,
     error: errorClases,
-    refetch: refetchClases
+    refetch: refetchClases,
   } = useApi(fetchTutorDashboard);
 
-  if (loadingProfile || (loadingClases && !clasesData)) return <div className="p-4">Cargando datos…</div>;
+  if (loadingProfile || (loadingClases && !clasesData))
+    return <div className="p-4">Cargando datos…</div>;
   if (errorProfile)
     return (
       <div className="p-4">
@@ -66,14 +72,18 @@ export default function TutorDashboard() {
   const { clases } = clasesData;
 
   // Handlers
-  const handleChange = e => {
-    setForm(f => ({ ...f, [e.target.name]: e.target.value }));
+  const handleChange = (e) => {
+    setForm((f) => ({ ...f, [e.target.name]: e.target.value }));
   };
 
   const handleSaveProfile = async () => {
     setErrorEdit(null);
     setIsSaving(true);
     try {
+      if (form.contraseña && form.contraseña !== form.confirmar) {
+        setErrorEdit("Las contraseñas no coinciden");
+        return;
+      }
       const payload = {};
       if (form.nombre.trim()) {
         payload.nombre = form.nombre.trim();
@@ -88,7 +98,7 @@ export default function TutorDashboard() {
       await usuarioService.updateProfile(payload);
       await refetchProfile();
       setIsEditing(false);
-      setForm(f => ({ ...f, antiguaContraseña: '', contraseña: '' }));
+      setForm((f) => ({ ...f, antiguaContraseña: "", contraseña: "" }));
     } catch (err) {
       setErrorEdit(extractError(err));
     } finally {
@@ -108,11 +118,10 @@ export default function TutorDashboard() {
     }
   };
 
-  const goToDetalle = claseId => {
+  const goToDetalle = (claseId) => {
     navigate(`/tutor/classes/${claseId}`);
   };
 
-  
   return (
     <div className="pb-8 p-4 space-y-6">
       <section className="md:hidden relative p-4 ">
@@ -134,7 +143,12 @@ export default function TutorDashboard() {
             className="px-1 py-1 bg-yellow-500 rounded hover:bg-yellow-600"
             onClick={() => {
               setErrorEdit(null);
-              setForm({ nombre:'', email:'', antiguaContraseña:'', contraseña:'' });
+              setForm({
+                nombre: "",
+                email: "",
+                antiguaContraseña: "",
+                contraseña: "",
+              });
               setIsEditing(true);
             }}
           >
@@ -143,9 +157,13 @@ export default function TutorDashboard() {
         </div>
 
         <div className="space-y-1">
-            <p><strong>Nombre:</strong> {user.nombre}</p>
-            <p><strong>Email:</strong> {user.email}</p>
-          </div>
+          <p>
+            <strong>Nombre:</strong> {user.nombre}
+          </p>
+          <p>
+            <strong>Email:</strong> {user.email}
+          </p>
+        </div>
       </section>
 
       {/* MODAL DE EDICIÓN DE PERFIL */}
@@ -153,11 +171,14 @@ export default function TutorDashboard() {
         <Portal>
           <div
             className="fixed inset-0 bg-black/50 flex items-center justify-center z-50"
-            onClick={() => { setIsEditing(false); setErrorEdit(null); }}
+            onClick={() => {
+              setIsEditing(false);
+              setErrorEdit(null);
+            }}
           >
             <div
               className="bg-white p-6 rounded shadow-lg w-11/12 max-w-md no-scrollbar"
-              onClick={e => e.stopPropagation()}
+              onClick={(e) => e.stopPropagation()}
             >
               <h3 className="text-lg font-semibold mb-4">Editar perfil</h3>
               {/* Formulario */}
@@ -184,7 +205,9 @@ export default function TutorDashboard() {
                 </div>
                 <hr />
                 <div className="flex flex-col">
-                  <label className="text-sm font-medium">Contraseña actual</label>
+                  <label className="text-sm font-medium">
+                    Contraseña actual
+                  </label>
                   <input
                     type="password"
                     name="antiguaContraseña"
@@ -194,11 +217,25 @@ export default function TutorDashboard() {
                   />
                 </div>
                 <div className="flex flex-col">
-                  <label className="text-sm font-medium">Nueva contraseña</label>
+                  <label className="text-sm font-medium">
+                    Nueva contraseña
+                  </label>
                   <input
                     type="password"
                     name="contraseña"
                     value={form.contraseña}
+                    onChange={handleChange}
+                    className="w-full border px-2 py-1 rounded"
+                  />
+                </div>
+                <div className="flex flex-col">
+                  <label className="text-sm font-medium">
+                    Confirmar nueva contraseña
+                  </label>
+                  <input
+                    type="password"
+                    name="confirmar"
+                    value={form.confirmar}
                     onChange={handleChange}
                     className="w-full border px-2 py-1 rounded"
                   />
@@ -208,7 +245,10 @@ export default function TutorDashboard() {
 
                 <div className="flex justify-end space-x-2 mt-4">
                   <button
-                    onClick={() => { setIsEditing(false); setErrorEdit(null); }}
+                    onClick={() => {
+                      setIsEditing(false);
+                      setErrorEdit(null);
+                    }}
                     className="px-4 py-2 bg-gray-200 rounded hover:bg-gray-300"
                     disabled={isSaving}
                   >
@@ -217,7 +257,11 @@ export default function TutorDashboard() {
                   <button
                     onClick={handleSaveProfile}
                     className="px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600 disabled:opacity-50"
-                    disabled={isSaving || (form.contraseña && !form.antiguaContraseña)}
+                    /*disabled={
+                      isSaving ||
+                      (form.contraseña && !form.antiguaContraseña) ||
+                      (form.contraseña && form.contraseña !== form.confirmar)
+                    }*/
                   >
                     Guardar
                   </button>
@@ -246,7 +290,7 @@ export default function TutorDashboard() {
           <p className="text-gray-600">No tienes clases asignadas.</p>
         ) : (
           <ul className="space-y-4">
-            {clases.map(c => (
+            {clases.map((c) => (
               <li
                 key={c.id}
                 className="flex justify-between items-center border rounded p-4 hover:shadow"
@@ -254,13 +298,15 @@ export default function TutorDashboard() {
                 <div>
                   <h3 className="font-medium">{c.nombre}</h3>
                   <p className="text-sm text-gray-600">
-                    {c.numEstudiantes} {c.numEstudiantes === 1 ? 'estudiante' : 'estudiantes'} {c.numEstudiantes > 0 && ` · ${c.totalEstrellas} ⭐`}
+                    {c.numEstudiantes}{" "}
+                    {c.numEstudiantes === 1 ? "estudiante" : "estudiantes"}{" "}
+                    {c.numEstudiantes > 0 && ` · ${c.totalEstrellas} ⭐`}
                   </p>
                   {c.numEstudiantes > 0 && (
                     <>
-                    <p className="text-sm text-gray-600">
-                      Progreso medio: {c.mediaProgresoTotal}%
-                    </p>
+                      <p className="text-sm text-gray-600">
+                        Progreso medio: {c.mediaProgresoTotal}%
+                      </p>
                     </>
                   )}
                 </div>
@@ -276,7 +322,6 @@ export default function TutorDashboard() {
         )}
       </section>
 
-
       {/* DARSE DE BAJA */}
       <section className="p-4 bg-white shadow rounded space-y-2">
         <h2 className="font-semibold">Eliminar Cuenta</h2>
@@ -286,7 +331,7 @@ export default function TutorDashboard() {
           type="button"
           onClick={() => {
             setErrorDel(null);
-            setDelPassword('');
+            setDelPassword("");
             setConfirmingDelete(true);
           }}
           className="mt-2 px-4 py-2 bg-red-500 hover:bg-red-600 text-white rounded"
@@ -306,7 +351,7 @@ export default function TutorDashboard() {
           <input
             type="password"
             value={delPassword}
-            onChange={e => setDelPassword(e.target.value)}
+            onChange={(e) => setDelPassword(e.target.value)}
             placeholder="Contraseña"
             className="w-full border px-3 py-2 rounded"
           />

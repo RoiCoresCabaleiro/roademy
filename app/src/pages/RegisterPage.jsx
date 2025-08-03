@@ -1,27 +1,39 @@
 // src/pages/RegisterPage.jsx
 
-import { useState } from 'react';
-import { useAuth } from '../hooks/useAuth';
-import { Link } from 'react-router-dom';
-import ErrorMessage from '../components/ErrorMessage';
-import { extractError } from '../utils/errorHandler';
+import { useState } from "react";
+import { useAuth } from "../hooks/useAuth";
+import { Link } from "react-router-dom";
+import ErrorMessage from "../components/ErrorMessage";
+import { extractError } from "../utils/errorHandler";
 
 export default function RegisterPage() {
   const { register } = useAuth();
-  const [form, setForm] = useState({ nombre: '', email: '', contraseña: '', rol: 'estudiante', codigoClase: '' });
+  const [form, setForm] = useState({
+    nombre: "",
+    email: "",
+    contraseña: "",
+    confirmar: "",
+    rol: "estudiante",
+    codigoClase: "",
+  });
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
 
-  const handleChange = e => {
-    setForm(prev => ({ ...prev, [e.target.name]: e.target.value }));
+  const handleChange = (e) => {
+    setForm((prev) => ({ ...prev, [e.target.name]: e.target.value }));
   };
 
-  const handleSubmit = async e => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
+    if (form.contraseña !== form.confirmar) {
+      setError("Las contraseñas no coinciden");
+      return;
+    }
     setLoading(true);
     setError(null);
     try {
-      const payload = {...form };
+      const payload = { ...form };
+      delete payload.confirmar; // No se envía la confirmación a la API
       if (!payload.codigoClase.trim()) {
         delete payload.codigoClase; // Elimina si está vacío
       }
@@ -70,6 +82,17 @@ export default function RegisterPage() {
           />
         </div>
         <div>
+          <label className="block mb-1">Confirmar contraseña</label>
+          <input
+            type="password"
+            name="confirmar"
+            value={form.confirmar}
+            onChange={handleChange}
+            //required
+            className="w-full px-4 py-2 border rounded focus:outline-none focus:ring"
+          />
+        </div>
+        <div>
           <label className="block mb-1">Rol</label>
           <select
             name="rol"
@@ -81,7 +104,7 @@ export default function RegisterPage() {
             <option value="tutor">Tutor</option>
           </select>
         </div>
-        {form.rol === 'estudiante' && (
+        {form.rol === "estudiante" && (
           <div>
             <label className="block mb-1">Código de clase (opcional)</label>
             <input
@@ -94,18 +117,20 @@ export default function RegisterPage() {
           </div>
         )}
 
-        <div className='my-4'><ErrorMessage error={error} /></div>
-        
+        <div className="my-4">
+          <ErrorMessage error={error} />
+        </div>
+
         <button
           type="submit"
           disabled={loading}
           className="w-full bg-green-500 text-white py-2 rounded hover:bg-green-600 disabled:opacity-50"
         >
-          {loading ? 'Creando...' : 'Registrar'}
+          {loading ? "Creando..." : "Registrar"}
         </button>
       </form>
       <p className="mt-4 text-sm">
-        ¿Ya tienes cuenta?{' '}
+        ¿Ya tienes cuenta?{" "}
         <Link to="/login" className="text-blue-500 hover:underline">
           Inicia sesión
         </Link>
