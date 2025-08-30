@@ -25,7 +25,7 @@ export default function MinigamesPage() {
     <div className="min-h-full bg-purple-50 p-4">
       <div className="max-w-5xl mx-auto">
         {/* Header */}
-        <div className="text-center mb-8">
+        <div className="text-center mb-4">
           <div className="flex items-center justify-center gap-3 mb-2">
             <h1 className="text-3xl font-bold text-gray-900">Juegos</h1>
           </div>
@@ -35,7 +35,7 @@ export default function MinigamesPage() {
         </div>
 
         {/* Grid de minijuegos */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
           {minijuegos.map((juego) => (
             <div
               key={juego.id}

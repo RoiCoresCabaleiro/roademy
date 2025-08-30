@@ -10,6 +10,7 @@ const { RefreshToken, Usuario } = require("../models");
  */
 async function refresh(req, res, next) {
   try {
+    console.log('Cookies recibidas en /auth/refresh:', req.cookies);
     const token = req.cookies.refreshToken;
     if (!token) {
       const err = new Error("Falta refresh token en cookie");
@@ -30,7 +31,7 @@ async function refresh(req, res, next) {
     const accessToken = jwt.sign(
       { id: user.id, email: user.email, rol: user.rol, claseId: user.claseId },
       process.env.JWT_SECRET,
-      { expiresIn: "15m" }
+      { expiresIn: "2m" }
     );
 
     return res.json({ accessToken });

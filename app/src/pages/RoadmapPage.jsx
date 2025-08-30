@@ -1,3 +1,5 @@
+"use client"
+
 import { useEffect, useLayoutEffect, useRef, useMemo, useState } from "react"
 import { useNavigate } from "react-router-dom"
 import { useApi } from "../hooks/useApi"
@@ -101,7 +103,7 @@ export default function RoadmapPage() {
     const scrollToElement = (element) => {
       if (element) {
         element.scrollIntoView({
-          behavior: "smooth",
+          behavior: "instant",
           block: "center",
         })
       }
@@ -272,9 +274,9 @@ export default function RoadmapPage() {
   const filas = calcularFilas()
 
   return (
-    <div className="min-h-full bg-primary-50 pb-8">
+    <div className="bg-primary-50 pb-8 overflow-x-hidden">
       {temasConFlujo.map((tema, temaIndex) => (
-        <section key={tema.temaId} className="relative">
+        <div key={tema.temaId} className="w-full">
           {/* Banner del tema */}
           <div
             ref={(el) => {
@@ -294,7 +296,7 @@ export default function RoadmapPage() {
           </div>
 
           {/* Filas secuenciales */}
-          <div className="relative overflow-x-hidden">
+          <div className="w-full">
             {filas
               .filter((fila) => fila.temaIndex === temaIndex)
               .map((fila) => (
@@ -338,7 +340,7 @@ export default function RoadmapPage() {
                 </div>
               ))}
           </div>
-        </section>
+        </div>
       ))}
     </div>
   )

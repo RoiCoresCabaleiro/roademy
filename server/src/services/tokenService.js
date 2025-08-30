@@ -18,7 +18,7 @@ async function generateTokensForUser(user, res) {
   const accessToken = jwt.sign(
     { id: user.id, email: user.email, rol: user.rol, claseId: user.claseId },
     process.env.JWT_SECRET,
-    { expiresIn: "15m" }
+    { expiresIn: "2m" }
   );
 
   // 2) Refresh Token (aleatorio) + expiración (7 días)
