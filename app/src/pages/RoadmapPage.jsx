@@ -103,7 +103,7 @@ export default function RoadmapPage() {
     const scrollToElement = (element) => {
       if (element) {
         element.scrollIntoView({
-          behavior: "instant",
+          behavior: "smooth",
           block: "center",
         })
       }
