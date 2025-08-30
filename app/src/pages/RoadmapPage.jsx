@@ -274,7 +274,7 @@ export default function RoadmapPage() {
   const filas = calcularFilas()
 
   return (
-    <div className="bg-primary-50 pb-8 overflow-x-hidden">
+    <div className="bg-primary-50 pb-8">
       {temasConFlujo.map((tema, temaIndex) => (
         <div key={tema.temaId} className="w-full">
           {/* Banner del tema */}
@@ -300,7 +300,7 @@ export default function RoadmapPage() {
             {filas
               .filter((fila) => fila.temaIndex === temaIndex)
               .map((fila) => (
-                <div key={fila.key} className="relative w-full" style={{ height: `${fila.altura}px` }}>
+                <div key={fila.key} className="relative w-full overflow-x-clip" style={{ height: `${fila.altura}px` }}>
                   {fila.tipo === "conector" ? (
                     <div className="absolute inset-0 flex items-center justify-center">
                       <RoadConnector startSide={fila.startSide} endSide={fila.endSide} />
