@@ -1,40 +1,67 @@
-export default function MinijuegoCard({ juego, expandido, onToggle, onAccion }) {
-  const base = `mb-4 mt-2 py-2 px-2 inline-flex flex-col items-center justify-center gap-2 rounded-lg border-2 transition-all duration-300 ${
-    expandido ? "scale-[1.1]" : ""
-  } ${
-    juego.desbloqueado
-      ? "cursor-pointer bg-purple-100 border-purple-500 text-black"
-      : "bg-gray-200 text-gray-500 border-gray-400"
-  }`;
+import { Lock, Play } from "lucide-react"
+import GamepadIcon from "./icons/GamepadIcon"
+import Button from "./ui/Button"
+
+export default function MinijuegoCard({ juego, expandido, onToggle, onAccion, position = "center" }) {
+  const { nombre, desbloqueado } = juego
+
+  const handleClick = () => {
+    if (desbloqueado) onToggle()
+  }
+
+  const handleJugar = (e) => {
+    e.stopPropagation()
+    onAccion(juego.id)
+  }
 
   return (
     <div
-      className={base}
-      onClick={() => {
-        if (juego.desbloqueado) onToggle();
-      }}
+      className={`
+        relative transition-all duration-300 rounded-xl border-2 shadow-soft
+        ${expandido ? "w-64 p-4" : "w-32 p-3"}
+        ${
+          desbloqueado
+            ? "border-purple-500 bg-purple-100 cursor-pointer"
+            : "border-neutral-300 bg-neutral-100 opacity-60 scale-80"
+        }
+        ${
+          expandido
+            ? position === "right"
+              ? "transform -translate-x-32 md:-translate-x-16"
+              : position === "left"
+                ? "md:-translate-x-16"
+                : ""
+            : ""
+        }
+      `}
+      onClick={handleClick}
     >
-      <span className="text-center text-sm font-medium mt-2">
-        {juego.nombre}
-      </span>
+      {/* Icono de minijuego */}
+      <div className="flex flex-col items-center gap-2">
+        {desbloqueado ? (
+          <GamepadIcon className="w-6 h-6 text-purple-600" />
+        ) : (
+          <Lock className="w-6 h-6 text-neutral-400" />
+        )}
 
-      <div
-        className={`w-full transition-all duration-300 overflow-hidden ${
-          expandido && juego.desbloqueado
-            ? "max-h-20 opacity-100 scale-100"
-            : "max-h-0 opacity-0 scale-95"
-        }`}
-      >
-        <button
-          className="w-full bg-purple-600 text-white text-sm rounded px-2 py-2 hover:bg-purple-700"
-          onClick={(e) => {
-            e.stopPropagation();
-            onAccion(juego.id);
-          }}
+        <span
+          className={`text-center text-sm font-medium ${
+            expandido ? "text-base" : ""
+          } ${desbloqueado ? "text-neutral-900" : "text-neutral-500"}`}
         >
-          Jugar
-        </button>
+          {nombre}
+        </span>
       </div>
+
+      {/* Contenido expandido */}
+      {expandido && desbloqueado && (
+        <div className="w-full mt-4">
+          <Button onClick={handleJugar} className="w-full flex items-center justify-center gap-2 bg-indigo-600">
+            <Play className="w-4 h-4" />
+            Jugar
+          </Button>
+        </div>
+      )}
     </div>
-  );
+  )
 }

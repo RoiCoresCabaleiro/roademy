@@ -69,6 +69,7 @@ const Clase = sequelize.define(
   },
   {
     tableName: "clases",
+    indexes: [{ fields: ["tutor_id"] }],
   }
 );
 

@@ -10,7 +10,7 @@
 **/node_modules
 
 # === APP ===
-#**/android/
+#app/android/
 **/dist/
 /app/capacitor.config.json
 

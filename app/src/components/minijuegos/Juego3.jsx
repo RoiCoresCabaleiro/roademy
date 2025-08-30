@@ -1,6 +1,5 @@
-// src/components/minijuegos/Juego3.jsx
-
 import { useMemo, useState } from "react";
+import { TrophyIcon } from "@heroicons/react/24/outline";
 import señalesData from "../../data/senales.json";
 
 const PUNTOS = 100;
@@ -60,34 +59,75 @@ export default function Juego3({ onComplete }) {
   };
 
   return (
-    <div className="p-4 max-w-xl mx-auto space-y-4">
-      {/* Puntuación */}
-      <p className="text-center text-xl font-semibold">Puntos: {score}</p>
+    <div className="space-y-6">
+      {/* Puntuacion */}
+      <div className="flex justify-center">
+        <div className="bg-white/90 backdrop-blur-sm p-4 rounded-xl shadow-lg border border-purple-100 w-fit">
+          <div className="flex items-center gap-3">
+            <div className="p-2 bg-gradient-to-br from-yellow-400 to-yellow-500 rounded-lg">
+              <TrophyIcon className="h-5 w-5 text-white" />
+            </div>
+            <div className="text-center">
+              <p className="text-sm text-gray-600 font-medium">Puntuación</p>
+              <p className="text-2xl font-bold text-gray-800">{score}</p>
+            </div>
+          </div>
+        </div>
+      </div>
 
-      {/* Imagen */}
+      {/* Instrucciones */}
       <div className="text-center">
-        <img
-          src={image}
-          alt={correctName}
-          className="mx-auto w-full h-auto max-h-[370px] object-contain"
-        />
+        <h2 className="text-xl font-semibold text-gray-800 mb-6">
+          ¿Qué señal de tráfico es esta?
+        </h2>
+      </div>
+
+      {/* Imagenes */}
+      <div className="text-center">
+        <div className="relative inline-block">
+          <img
+            src={image || "/placeholder.svg"}
+            alt={correctName}
+            className="mx-auto w-full h-auto max-h-[400px] object-contain rounded-xl shadow-lg"
+          />
+          <div className="absolute inset-0 bg-gradient-to-t from-black/10 to-transparent rounded-xl pointer-events-none"></div>
+
+          {/* Feedback superpuesto */}
+          {feedback && (
+            <div className="absolute inset-0 flex items-center justify-center">
+              <div
+                className={`px-6 py-3 rounded-xl text-2xl font-bold shadow-lg transform animate-pulse ${
+                  feedback === "¡Acertaste!"
+                    ? "bg-gradient-to-r from-green-500 to-green-600 text-white"
+                    : "bg-gradient-to-r from-red-500 to-red-600 text-white"
+                }`}
+              >
+                {feedback}
+              </div>
+            </div>
+          )}
+        </div>
       </div>
 
       {/* Opciones */}
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
         {opciones.map((opt) => {
-          let base = "px-4 py-2 rounded text-white w-full";
+          let buttonClass =
+            "group relative px-6 py-4 rounded-xl font-semibold text-white shadow-lg transform transition-all duration-200 w-full";
+
           if (!disabled) {
-            base += " bg-purple-600 hover:bg-purple-700";
+            buttonClass +=
+              " bg-gradient-to-r from-purple-600 to-purple-700 hover:from-purple-700 hover:to-purple-800 hover:scale-105 hover:shadow-xl";
           } else if (feedback === "¡Acertaste!") {
-            // acierto: solo la seleccionada en verde
-            base +=
+            buttonClass +=
               opt === selected
-                ? " bg-green-600"
-                : " bg-gray-200 text-gray-600 cursor-default";
+                ? " bg-gradient-to-r from-green-500 to-green-600 scale-105"
+                : " bg-gray-300 text-gray-600 cursor-not-allowed";
           } else {
-            // fallo: correcta verde, todas las demás rojas
-            base += opt === correctName ? " bg-green-600" : " bg-red-600";
+            buttonClass +=
+              opt === correctName
+                ? " bg-gradient-to-r from-green-500 to-green-600 scale-105"
+                : " bg-gradient-to-r from-red-500 to-red-600";
           }
 
           return (
@@ -95,25 +135,16 @@ export default function Juego3({ onComplete }) {
               key={opt}
               onClick={() => handleAnswer(opt)}
               disabled={disabled}
-              className={base}
+              className={buttonClass}
             >
-              {opt}
+              <span className="relative z-10">{opt}</span>
+              {!disabled && (
+                <div className="absolute inset-0 bg-white/20 rounded-xl opacity-0 group-hover:opacity-100 transition-opacity duration-200"></div>
+              )}
             </button>
           );
         })}
       </div>
-
-      {/* Feedback */}
-      {feedback && (
-        <div
-          className={`
-            text-center text-2xl font-bold animate-pulse
-            ${feedback === "¡Acertaste!" ? "text-green-600" : "text-red-600"}
-          `}
-        >
-          {feedback}
-        </div>
-      )}
     </div>
   );
 }

@@ -1,5 +1,3 @@
-// src/pages/StudentDashboard.jsx
-
 import { useState, useCallback } from "react";
 import { useApi } from "../hooks/useApi";
 import { useAuth } from "../hooks/useAuth";
@@ -7,11 +5,35 @@ import { usuarioService } from "../services/usuarioService";
 import ErrorMessage from "../components/ErrorMessage";
 import ConfirmationModal from "../components/ConfirmationModal";
 import Portal from "../components/Portal";
+import ScrollToTopButton from "../components/ScrollToTopButton";
 import { extractError } from "../utils/errorHandler";
 import { formatNivelId } from "../utils/formatters";
+import { LoadingScreen } from "../components/Spinner";
 
 import { format, parseISO } from "date-fns";
-import { ArrowRightOnRectangleIcon } from "@heroicons/react/24/outline";
+import {
+  ArrowRightOnRectangleIcon,
+  PencilIcon,
+  TrashIcon,
+  StarIcon,
+  AcademicCapIcon,
+  BookOpenIcon,
+  ClipboardDocumentCheckIcon,
+  XMarkIcon,
+  UserGroupIcon,
+  ArrowRightIcon,
+  CheckCircleIcon,
+} from "@heroicons/react/24/outline";
+import GamepadIcon from "../components/icons/GamepadIcon";
+
+import Card, {
+  CardHeader,
+  CardTitle,
+  CardContent,
+  CardFooter,
+} from "../components/ui/Card";
+import Button from "../components/ui/Button";
+import Input from "../components/ui/Input";
 
 export default function StudentDashboard() {
   const { logout } = useAuth();
@@ -61,7 +83,7 @@ export default function StudentDashboard() {
   } = useApi(fetchDashboard);
 
   if (loadingProfile || (loadingDash && !dashboard))
-    return <div className="p-4">Cargando datos...</div>;
+    return <LoadingScreen message="Cargando datos del estudiante..." />;
   if (errorProfile)
     return (
       <div className="p-4">
@@ -89,7 +111,8 @@ export default function StudentDashboard() {
 
   // Handlers
   const handleChange = (e) => {
-    setForm({ ...form, [e.target.name]: e.target.value });
+    setForm((prev) => ({ ...prev, [e.target.name]: e.target.value }));
+    if (errorEdit) setErrorEdit(null);
   };
 
   const handleSaveProfile = async () => {
@@ -97,7 +120,7 @@ export default function StudentDashboard() {
     setIsSaving(true);
     try {
       if (form.contraseña && form.contraseña !== form.confirmar) {
-        setErrorEdit("Las contraseñas nuevas no coinciden");
+        setErrorEdit("Las contraseñas no coinciden");
         return;
       }
       const payload = {};
@@ -114,7 +137,12 @@ export default function StudentDashboard() {
       await usuarioService.updateProfile(payload);
       await refetchProfile();
       setIsEditing(false);
-      setForm((f) => ({ ...f, antiguaContraseña: "", contraseña: "" }));
+      setForm((f) => ({
+        ...f,
+        antiguaContraseña: "",
+        contraseña: "",
+        confirmar: "",
+      }));
     } catch (err) {
       setErrorEdit(extractError(err));
     } finally {
@@ -133,7 +161,6 @@ export default function StudentDashboard() {
       setErrorClass(extractError(err));
     } finally {
       setIsJoining(false);
-      setConfirmLeaving(false);
     }
   };
 
@@ -143,6 +170,7 @@ export default function StudentDashboard() {
     try {
       await usuarioService.leaveClass();
       await refetchProfile();
+      setConfirmLeaving(false);
     } catch (err) {
       setErrorClass(extractError(err));
     } finally {
@@ -167,479 +195,684 @@ export default function StudentDashboard() {
     progresoTotalCurso.estrellasObtenidasCurso >=
       progresoTotalCurso.estrellasPosiblesCurso;
 
+  // Función para obtener el estilo de cada log de actividad
+  const getActivityLogStyle = (log) => {
+    if (log.logTipo === "tema") {
+      return {
+        bg: "bg-yellow-50 border-yellow-200",
+        icon: AcademicCapIcon,
+        iconColor: "text-yellow-600",
+        textColor: "text-yellow-800",
+      };
+    } else if (log.logTipo === "minijuego") {
+      return {
+        bg: "bg-purple-50 border-purple-200",
+        icon: GamepadIcon,
+        iconColor: "text-purple-600",
+        textColor: "text-purple-800",
+      };
+    } else if (log.logTipo === "nivel" && log.completado) {
+      if (log.nivelTipo === "leccion") {
+        return {
+          bg: "bg-success-50 border-success-200",
+          icon: BookOpenIcon,
+          iconColor: "text-success-600",
+          textColor: "text-success-800",
+        };
+      } else {
+        return {
+          bg: "bg-blue-50 border-blue-200",
+          icon: ClipboardDocumentCheckIcon,
+          iconColor: "text-blue-600",
+          textColor: "text-blue-800",
+        };
+      }
+    } else {
+      return {
+        bg: "bg-error-50 border-error-200",
+        icon: XMarkIcon,
+        iconColor: "text-error-600",
+        textColor: "text-error-800",
+      };
+    }
+  };
+
   return (
-    <div className="pb-8 p-4 space-y-6">
-      <section className="md:hidden relative p-4 ">
-        <button
-          onClick={logout}
-          className="absolute top-2 right-0 inline-flex items-center px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600"
-          title="Cerrar sesión"
-        >
-          <ArrowRightOnRectangleIcon className="w-4 h-4 mr-2" />
-          Cerrar sesión
-        </button>
-      </section>
-
-      {/* TARJETA 1: PERFIL */}
-      <section className="relative p-4 space-y-2 bg-white shadow rounded">
-        <div className="flex justify-between items-center">
-          <h2 className="font-semibold">Mi Perfil</h2>
-          <button
-            className="px-1 py-1 bg-yellow-500 rounded hover:bg-yellow-600"
-            onClick={() => {
-              setErrorEdit(null);
-              setForm({
-                nombre: "",
-                email: "",
-                antiguaContraseña: "",
-                contraseña: "",
-              });
-              setIsEditing(true);
-            }}
+    <div className="p-4">
+      <div className="max-w-4xl mx-auto space-y-6">
+        {/* Botón de logout SOLO para móvil - En desktop está en el header */}
+        <div className="flex justify-end md:hidden">
+          <Button
+            onClick={logout}
+            variant="danger"
+            size="sm"
+            className="flex items-center"
+            title="Cerrar sesión"
           >
-            ✏️
-          </button>
+            <ArrowRightOnRectangleIcon className="w-4 h-4 mr-2" />
+            Cerrar sesión
+          </Button>
         </div>
 
-        <div className="space-y-1">
-          <p>
-            <strong>Nombre:</strong> {user.nombre}
-          </p>
-          <p>
-            <strong>Email:</strong> {user.email}
-          </p>
-        </div>
-      </section>
-
-      {/* MODAL DE EDICIÓN DE PERFIL */}
-      {isEditing && (
-        <Portal>
-          <div
-            className="fixed inset-0 bg-black/50 flex items-center justify-center z-50"
-            onClick={() => {
-              setIsEditing(false);
-              setErrorEdit(null);
-            }}
-          >
-            <div
-              className="bg-white p-6 rounded shadow-lg w-11/12 max-w-md no-scrollbar"
-              onClick={(e) => e.stopPropagation()}
+        {/* PERFIL */}
+        <Card>
+          <CardHeader>
+            <CardTitle>Mi Perfil</CardTitle>
+            <Button
+              variant="primary"
+              size="sm"
+              onClick={() => {
+                setErrorEdit(null);
+                setForm({
+                  nombre: "",
+                  email: "",
+                  antiguaContraseña: "",
+                  contraseña: "",
+                  confirmar: "",
+                });
+                setIsEditing(true);
+              }}
+              title="Editar perfil"
             >
-              <h3 className="text-lg font-semibold mb-4">Editar perfil</h3>
-              {/* Formulario */}
-              <div className="space-y-4">
-                <div className="flex flex-col">
-                  <label className="text-sm font-medium">Nombre</label>
-                  <input
-                    name="nombre"
-                    value={form.nombre}
-                    onChange={handleChange}
-                    placeholder={user.nombre}
-                    className="w-full border px-2 py-1 rounded"
-                  />
-                </div>
-                <div className="flex flex-col">
-                  <label className="text-sm font-medium">Email</label>
-                  <input
-                    name="email"
-                    value={form.email}
-                    onChange={handleChange}
-                    placeholder={user.email}
-                    className="w-full border px-2 py-1 rounded"
-                  />
-                </div>
-                <hr />
-                <div className="flex flex-col">
-                  <label className="text-sm font-medium">
-                    Contraseña actual
-                  </label>
-                  <input
-                    type="password"
-                    name="antiguaContraseña"
-                    value={form.antiguaContraseña}
-                    onChange={handleChange}
-                    className="w-full border px-2 py-1 rounded"
-                  />
-                </div>
-                <div className="flex flex-col">
-                  <label className="text-sm font-medium">
-                    Nueva contraseña
-                  </label>
-                  <input
-                    type="password"
-                    name="contraseña"
-                    value={form.contraseña}
-                    onChange={handleChange}
-                    className="w-full border px-2 py-1 rounded"
-                  />
-                </div>
-                <div className="flex flex-col">
-                  <label className="text-sm font-medium">
-                    Confirmar nueva contraseña
-                  </label>
-                  <input
-                    type="password"
-                    name="confirmar"
-                    value={form.confirmar}
-                    onChange={handleChange}
-                    className="w-full border px-2 py-1 rounded"
-                  />
-                </div>
+              <PencilIcon className="w-4 h-4" />
+            </Button>
+          </CardHeader>
+          <CardContent>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <p className="text-neutral-700">
+                <strong className="font-semibold">Nombre:</strong> {user.nombre}
+              </p>
+              <p className="text-neutral-700">
+                <strong className="font-semibold">Email:</strong> {user.email}
+              </p>
+            </div>
+          </CardContent>
+        </Card>
 
-                {errorEdit && <ErrorMessage error={errorEdit} />}
-
-                <div className="flex justify-end space-x-2 mt-4">
-                  <button
+        {/* MODAL DE EDICIÓN DE PERFIL */}
+        {isEditing && (
+          <Portal>
+            <div
+              className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4"
+              onClick={() => {
+                setIsEditing(false);
+                setErrorEdit(null);
+              }}
+            >
+              <Card
+                className="w-full max-w-md overflow-y-auto max-h-[90vh]"
+                onClick={(e) => e.stopPropagation()}
+              >
+                <CardHeader>
+                  <CardTitle>Editar perfil</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <div className="space-y-4">
+                    <div>
+                      <label className="block text-sm font-medium text-neutral-700 mb-2">
+                        Nombre
+                      </label>
+                      <Input
+                        name="nombre"
+                        value={form.nombre}
+                        onChange={handleChange}
+                        placeholder={user.nombre}
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-sm font-medium text-neutral-700 mb-2">
+                        Email
+                      </label>
+                      <Input
+                        name="email"
+                        value={form.email}
+                        onChange={handleChange}
+                        placeholder={user.email}
+                      />
+                    </div>
+                    <hr className="border-neutral-200" />
+                    <div>
+                      <label className="block text-sm font-medium text-neutral-700 mb-2">
+                        Contraseña actual
+                      </label>
+                      <Input
+                        type="password"
+                        name="antiguaContraseña"
+                        value={form.antiguaContraseña}
+                        onChange={handleChange}
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-sm font-medium text-neutral-700 mb-2">
+                        Nueva contraseña
+                      </label>
+                      <Input
+                        type="password"
+                        name="contraseña"
+                        value={form.contraseña}
+                        onChange={handleChange}
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-sm font-medium text-neutral-700 mb-2">
+                        Confirmar nueva contraseña
+                      </label>
+                      <Input
+                        type="password"
+                        name="confirmar"
+                        value={form.confirmar}
+                        onChange={handleChange}
+                      />
+                    </div>
+                  </div>
+                  {errorEdit && (
+                    <ErrorMessage error={errorEdit} className="mt-4" />
+                  )}
+                </CardContent>
+                <CardFooter>
+                  <Button
+                    variant="secondary"
                     onClick={() => {
                       setIsEditing(false);
                       setErrorEdit(null);
                     }}
-                    className="px-4 py-2 bg-gray-200 rounded hover:bg-gray-300"
                     disabled={isSaving}
                   >
                     Cancelar
-                  </button>
-                  <button
+                  </Button>
+                  <Button
+                    variant="primary"
                     onClick={handleSaveProfile}
-                    className="px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600 disabled:opacity-50"
-                    /*disabled={
-                      isSaving ||
-                      (form.contraseña && !form.antiguaContraseña) ||
-                      (form.contraseña && form.contraseña !== form.confirmar)
-                    }*/
+                    loading={isSaving}
                   >
                     Guardar
-                  </button>
-                </div>
-              </div>
+                  </Button>
+                </CardFooter>
+              </Card>
             </div>
-          </div>
-        </Portal>
-      )}
-
-      {/* TARJETA 2: CLASE */}
-      <section className="p-4 space-y-2 bg-white shadow rounded">
-        <h2 className="font-semibold">Mi Clase</h2>
-
-        {user.clase ? (
-          <div className="space-y-1">
-            <p>
-              <strong>Nombre:</strong> {user.clase.nombre}
-            </p>
-            <p>
-              <strong>Código:</strong> {user.clase.codigo}
-            </p>
-            <p>
-              <strong>Tutor:</strong> {user.clase.tutor.nombre} (
-              {user.clase.tutor.email})
-            </p>
-
-            {/* Botón que abre el modal */}
-            <button
-              type="button"
-              onClick={() => {
-                setErrorClass(null);
-                setConfirmLeaving(true);
-              }}
-              className="mt-2 px-4 py-2 bg-red-500 hover:bg-red-600 text-white rounded"
-            >
-              Abandonar Clase
-            </button>
-
-            {/* Modal de confirmación */}
-            <ConfirmationModal
-              isOpen={confirmLeaving}
-              title="Abandonar clase"
-              message="¿Estás seguro de que quieres abandonar esta clase?"
-              onCancel={() => {
-                setConfirmLeaving(false);
-                setErrorClass(null);
-              }}
-              onConfirm={handleLeave}
-              isLoading={isLeaving}
-            >
-              {errorClass && (
-                <div className="mt-2">
-                  <ErrorMessage error={errorClass} />
-                </div>
-              )}
-            </ConfirmationModal>
-          </div>
-        ) : (
-          <div className="space-y-1">
-            <p className="text-gray-500">No perteneces a ninguna clase</p>
-            <div className="flex items-center justify-between space-x-4 pt-2">
-              <input
-                value={joinCode}
-                onChange={(e) => setJoinCode(e.target.value)}
-                placeholder="Código de la clase"
-                className="border px-2 py-1 rounded w-full"
-              />
-              <button
-                onClick={handleJoin}
-                disabled={isJoining}
-                className="px-4 py-2 bg-blue-500 text-white rounded disabled:opacity-50"
-              >
-                Unirse
-              </button>
-            </div>
-
-            {errorClass && (
-              <div className="mt-2">
-                <ErrorMessage error={errorClass} />
-              </div>
-            )}
-          </div>
+          </Portal>
         )}
-      </section>
 
-      {/* TARJETA 3: PROGRESO Y ACTIVIDAD */}
-      <section className="space-y-4">
-        {/* Progreso Total */}
-        <div className="bg-white shadow rounded p-4">
-          <h2 className="font-semibold mb-2">Progreso Total</h2>
-          <div className="flex items-center justify-between">
-            <p>
-              {progresoTotalCurso.estrellasObtenidasCurso}/
-              {progresoTotalCurso.estrellasPosiblesCurso} ⭐ (
-              {progresoTotalCurso.porcentajeProgresoTotal}%)
-              {cursoCompletado && (
-                <span className="text-green-500 ml-4">¡Curso completado!</span>
-              )}
-            </p>
-          </div>
-          <div className="w-full bg-gray-200 rounded-full h-4 mt-2 overflow-hidden">
-            {progresoTotalCurso.estrellasObtenidasCurso <
-            progresoTotalCurso.estrellasPosiblesCurso ? (
-              <div
-                className="bg-green-500 h-4"
-                style={{
-                  width: `${progresoTotalCurso.porcentajeProgresoTotal}%`,
-                }}
-              />
+        {/* MI CLASE */}
+        <Card>
+          <CardHeader>
+            <CardTitle className="flex items-center">
+              <UserGroupIcon className="w-6 h-6 flex-shrink-0 mr-2" />
+              Mi Clase
+            </CardTitle>
+          </CardHeader>
+          <CardContent>
+            {user.clase ? (
+              <div className="space-y-4">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <p className="text-neutral-700">
+                    <strong className="font-semibold">Nombre:</strong>{" "}
+                    {user.clase.nombre}
+                  </p>
+                  <p className="text-neutral-700">
+                    <strong className="font-semibold">Código:</strong>{" "}
+                    <span className="font-mono text-sm bg-neutral-100 px-2 py-1 rounded">
+                      {user.clase.codigo}
+                    </span>
+                  </p>
+                </div>
+                <p className="text-neutral-700">
+                  <strong className="font-semibold">Tutor:</strong>{" "}
+                  {user.clase.tutor.nombre} ({user.clase.tutor.email})
+                </p>
+                <Button
+                  onClick={() => {
+                    setErrorClass(null);
+                    setConfirmLeaving(true);
+                  }}
+                  variant="danger"
+                  size="sm"
+                  className="flex items-center"
+                >
+                  <ArrowRightIcon className="w-4 h-4 mr-2" />
+                  Abandonar Clase
+                </Button>
+              </div>
             ) : (
-              <div className="bg-yellow-500 h-4" />
+              <div className="space-y-4">
+                <p className="text-neutral-600">
+                  No perteneces a ninguna clase
+                </p>
+                <div className="flex flex-col sm:flex-row gap-3">
+                  <Input
+                    value={joinCode}
+                    onChange={(e) => setJoinCode(e.target.value)}
+                    placeholder="Código de la clase"
+                    className="flex-1"
+                  />
+                  <Button
+                    onClick={handleJoin}
+                    loading={isJoining}
+                    disabled={!joinCode.trim()}
+                    variant="primary"
+                    className="flex items-center justify-center"
+                  >
+                    <UserGroupIcon className="w-4 h-4 mr-2" />
+                    Unirse
+                  </Button>
+                </div>
+                {errorClass && <ErrorMessage error={errorClass} />}
+              </div>
             )}
-          </div>
-        </div>
+          </CardContent>
+        </Card>
 
-        {/* Tema Actual */}
-        {!cursoCompletado && (
-          <div className="bg-white shadow rounded p-4">
-            <h2 className="font-semibold mb-2">
-              Tema Actual: {progresoTemaActual.titulo}
-            </h2>
-            <p>
-              {progresoTemaActual.estrellasObtenidas}/
-              {progresoTemaActual.estrellasPosibles} ⭐ (
-              {progresoTemaActual.porcentaje}%)
-            </p>
-            <div className="relative w-full bg-gray-200 rounded-full h-4 mb-2 mt-2 overflow-hidden">
-              {progresoTemaActual.estrellasObtenidas <
-              progresoTemaActual.estrellasPosibles ? (
-                <>
-                  <div
-                    className="bg-blue-500 h-4"
-                    style={{
-                      width: `${
-                        (progresoTemaActual.estrellasObtenidas /
-                          progresoTemaActual.estrellasPosibles) *
-                        100
-                      }%`,
-                    }}
-                  />
-                  <div
-                    className={
-                      progresoTemaActual.estrellasObtenidas <
-                      progresoTemaActual.estrellasNecesarias
-                        ? "absolute top-0 h-4 w-2 bg-red-500"
-                        : "absolute top-0 h-4 w-2 bg-green-500"
-                    }
-                    style={{
-                      left: `${
-                        (progresoTemaActual.estrellasNecesarias /
-                          progresoTemaActual.estrellasPosibles) *
-                        100
-                      }%`,
-                    }}
-                  />
-                </>
-              ) : (
-                <div className="bg-yellow-500 h-4" />
-              )}
+        {/* PROGRESO TOTAL */}
+        <Card>
+          <CardHeader>
+            <CardTitle className="flex items-center">
+              <StarIcon className="w-6 h-6 flex-shrink-0 mr-2 text-yellow-500" />
+              Progreso Total del Curso
+            </CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="space-y-4">
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-2">
+                  <StarIcon className="w-5 h-5 text-yellow-500" />
+                  <span className="text-lg font-semibold">
+                    {progresoTotalCurso.estrellasObtenidasCurso}/
+                    {progresoTotalCurso.estrellasPosiblesCurso}
+                  </span>
+                  <span className="text-neutral-600">
+                    ({progresoTotalCurso.porcentajeProgresoTotal}%)
+                  </span>
+                </div>
+                {cursoCompletado && (
+                  <div className="flex items-center text-success-600 font-medium">
+                    <CheckCircleIcon className="w-5 h-5 mr-2" />
+                    ¡Curso completado!
+                  </div>
+                )}
+              </div>
+
+              {/* Barra de progreso total */}
+              <div className="w-full bg-neutral-200 rounded-full h-4 overflow-hidden">
+                <div
+                  className={`h-4 transition-all duration-500 ${
+                    cursoCompletado ? "bg-yellow-500" : "bg-success-500"
+                  }`}
+                  style={{
+                    width: `${progresoTotalCurso.porcentajeProgresoTotal}%`,
+                  }}
+                />
+              </div>
             </div>
-            <h2 className="font-semibold mb-2">
-              Requisitos para completar el tema:
-            </h2>
-            <p>
-              Estrellas:{" "}
-              <span
-                className={
-                  progresoTemaActual.estrellasObtenidas <
-                  progresoTemaActual.estrellasNecesarias
-                    ? "text-red-500"
-                    : "text-green-500"
-                }
-              >
-                {progresoTemaActual.estrellasObtenidas}/
-                {progresoTemaActual.estrellasNecesarias}
-              </span>
-            </p>
-            <p>
-              Niveles completados:{" "}
-              <span
-                className={
-                  progresoTemaActual.completados <
-                  progresoTemaActual.totalNiveles
-                    ? "text-red-500"
-                    : "text-green-500"
-                }
-              >
-                {progresoTemaActual.completados}/
-                {progresoTemaActual.totalNiveles}
-              </span>
-            </p>
-          </div>
+          </CardContent>
+        </Card>
+
+        {/* TEMA ACTUAL */}
+        {!cursoCompletado && (
+          <Card>
+            <CardHeader>
+              <CardTitle className="flex items-center">
+                <AcademicCapIcon className="w-6 h-6 flex-shrink-0 mr-2 text-primary-600" />
+                Tema Actual
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="space-y-6">
+                {/* Título del tema */}
+                <div className="bg-primary-50 rounded-lg p-3 border-l-4 border-primary-500">
+                  <h3 className="font-semibold text-primary-800">
+                    {progresoTemaActual.titulo}
+                  </h3>
+                </div>
+
+                {/* Progreso de estrellas */}
+                <div>
+                  <div className="flex items-center justify-between mb-2">
+                    <div className="flex items-center gap-2">
+                      <StarIcon className="w-4 h-4 text-yellow-500" />
+                      <span className="font-medium">
+                        {progresoTemaActual.estrellasObtenidas}/
+                        {progresoTemaActual.estrellasPosibles}
+                      </span>
+                      <span className="text-neutral-600">
+                        ({progresoTemaActual.porcentaje}%)
+                      </span>
+                    </div>
+                  </div>
+
+                  {/* Barra de progreso con indicador de estrellas necesarias */}
+                  <div className="relative">
+                    {(() => {
+                      const alcanzadasNecesarias =
+                        progresoTemaActual.estrellasObtenidas >=
+                        progresoTemaActual.estrellasNecesarias;
+                      const todasCompletas =
+                        progresoTemaActual.estrellasObtenidas >=
+                        progresoTemaActual.estrellasPosibles;
+
+                      return (
+                        <>
+                          {/* Etiqueta del indicador*/}
+                          <div
+                            className="absolute -top-8 transform -translate-x-1/2 z-10"
+                            style={{
+                              left: `${Math.min(
+                                95,
+                                Math.max(
+                                  5,
+                                  (progresoTemaActual.estrellasNecesarias /
+                                    progresoTemaActual.estrellasPosibles) *
+                                    100
+                                )
+                              )}%`,
+                            }}
+                          >
+                            <div
+                              className={`text-white text-xs px-2 py-1 rounded whitespace-nowrap shadow-md ${
+                                alcanzadasNecesarias
+                                  ? "bg-success-500"
+                                  : "bg-error-500"
+                              }`}
+                            >
+                              {progresoTemaActual.estrellasNecesarias} ★{" "}
+                              {alcanzadasNecesarias
+                                ? "alcanzadas"
+                                : "necesarias"}
+                            </div>
+                            <div
+                              className={`absolute top-full left-1/2 transform -translate-x-1/2 w-0 h-0 border-l-2 border-r-2 border-t-4 border-transparent ${
+                                alcanzadasNecesarias
+                                  ? "border-t-success-500"
+                                  : "border-t-error-500"
+                              }`}
+                            ></div>
+                          </div>
+
+                          {/* Barra de progreso */}
+                          <div className="w-full bg-neutral-200 rounded-full h-4 overflow-hidden relative">
+                            {/* Progreso actual */}
+                            <div
+                              className={`h-6 transition-all duration-500 ${
+                                todasCompletas
+                                  ? "bg-yellow-500" // Amarillo cuando todas las estrellas están completas
+                                  : alcanzadasNecesarias
+                                  ? "bg-success-500" // Verde cuando se alcanzan las necesarias
+                                  : "bg-blue-500" // Azul inicialmente
+                              }`}
+                              style={{
+                                width: `${
+                                  (progresoTemaActual.estrellasObtenidas /
+                                    progresoTemaActual.estrellasPosibles) *
+                                  100
+                                }%`,
+                              }}
+                            />
+
+                            {/* Indicador de estrellas necesarias */}
+                            <div
+                              className={`absolute top-0 h-6 w-1 shadow-md ${
+                                alcanzadasNecesarias
+                                  ? "bg-success-500"
+                                  : "bg-error-500"
+                              }`}
+                              style={{
+                                left: `${Math.min(
+                                  99,
+                                  Math.max(
+                                    0,
+                                    (progresoTemaActual.estrellasNecesarias /
+                                      progresoTemaActual.estrellasPosibles) *
+                                      100
+                                  )
+                                )}%`,
+                              }}
+                              title={`${
+                                progresoTemaActual.estrellasNecesarias
+                              } estrellas ${
+                                alcanzadasNecesarias
+                                  ? "alcanzadas"
+                                  : "necesarias"
+                              } para desbloquear el siguiente tema`}
+                            />
+                          </div>
+                        </>
+                      );
+                    })()}
+                  </div>
+                </div>
+
+                {/* Requisitos para completar */}
+                <div className="bg-neutral-50 rounded-xl p-4">
+                  <h3 className="font-semibold text-neutral-800 mb-3">
+                    Requisitos para completar el tema:
+                  </h3>
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div className="flex items-center gap-2">
+                      <StarIcon className="w-4 h-4 text-yellow-500" />
+                      <span>Estrellas:</span>
+                      <span
+                        className={`font-semibold ${
+                          progresoTemaActual.estrellasObtenidas >=
+                          progresoTemaActual.estrellasNecesarias
+                            ? "text-success-600"
+                            : "text-error-600"
+                        }`}
+                      >
+                        {progresoTemaActual.estrellasObtenidas}/
+                        {progresoTemaActual.estrellasNecesarias}
+                      </span>
+                      {progresoTemaActual.estrellasObtenidas >=
+                        progresoTemaActual.estrellasNecesarias && (
+                        <CheckCircleIcon className="w-4 h-4 text-success-600" />
+                      )}
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <BookOpenIcon className="w-4 h-4 text-primary-600" />
+                      <span>Niveles:</span>
+                      <span
+                        className={`font-semibold ${
+                          progresoTemaActual.completados >=
+                          progresoTemaActual.totalNiveles
+                            ? "text-success-600"
+                            : "text-error-600"
+                        }`}
+                      >
+                        {progresoTemaActual.completados}/
+                        {progresoTemaActual.totalNiveles}
+                      </span>
+                      {progresoTemaActual.completados >=
+                        progresoTemaActual.totalNiveles && (
+                        <CheckCircleIcon className="w-4 h-4 text-success-600" />
+                      )}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
         )}
 
-        {/* Actividad Reciente */}
-        <div className="bg-white shadow rounded p-4">
-          <div className="flex items-center justify-between mb-2">
-            <h2 className="font-semibold">Actividad Reciente</h2>
+        {/* ACTIVIDAD RECIENTE */}
+        <Card>
+          <CardHeader>
+            <div className="flex flex-wrap items-center justify-between gap-4 w-full">
+              <CardTitle className="flex items-center whitespace-nowrap">
+                <ClipboardDocumentCheckIcon className="w-5 h-5 mr-2" />
+                Actividad Reciente
+              </CardTitle>
 
-            <div className="flex items-center justify-end space-x-2 mb-2">
-              <label htmlFor="limitLogs" className="text-sm">
-                Nº de registros:
-              </label>
-              <select
-                id="limitLogs"
-                value={limitLogs}
-                onChange={(e) => setLimitLogs(Number(e.target.value))}
-                className="border px-2 py-1 rounded text-sm"
-              >
-                <option value={5}>5</option>
-                <option value={25}>25</option>
-                <option value={50}>50</option>
-                <option value={0}>Todos</option>
-              </select>
-            </div>
-          </div>
-          {actividadReciente.length === 0 ? (
-            <p className="text-sm text-gray-500">Sin actividad reciente</p>
-          ) : (
-            Object.entries(actividadesPorDia).map(([dia, logs]) => (
-              <div key={dia} className="mt-2">
-                {/* Fecha agrupada */}
-                <h4 className="text-lg font-medium">
-                  {format(parseISO(dia), "dd/MM/yyyy")}
-                </h4>
-                <ul className="space-y-1 mt-2">
-                  {logs.map((log, i) => {
-                    let bg = "bg-red-100";
-                    if (log.logTipo === "tema") {
-                      bg = "bg-yellow-100";
-                    } else if (log.logTipo === "nivel" && log.completado) {
-                      bg =
-                        log.nivelTipo === "leccion"
-                          ? "bg-green-100"
-                          : "bg-blue-100";
-                    } else if (log.logTipo === "minijuego") {
-                      bg = "bg-purple-100";
-                    }
-
-                    let left, right;
-                    if (log.logTipo === "minijuego") {
-                      left = <span className="text-sm">{log.nombre}</span>;
-                      right = (
-                        <span className="text-sm">
-                          Puntuación: {log.puntuacion} -{" "}
-                          {format(parseISO(log.createdAt), "[HH:mm]")}
-                        </span>
-                      );
-                    } else {
-                      const action =
-                        log.logTipo === "tema"
-                          ? `Tema ${log.referenciaId} completado`
-                          : `Nivel ${formatNivelId(log.referenciaId)}`;
-                      const score =
-                        log.puntuacion != null
-                          ? log.logTipo === "nivel"
-                            ? `${
-                                log.nivelTipo === "leccion"
-                                  ? `Estrellas: ${log.puntuacion}★ - `
-                                  : `Nota: ${log.puntuacion} - `
-                              }`
-                            : ""
-                          : "";
-                      const intento =
-                        log.intento != null ? `Intento: ${log.intento} - ` : "";
-                      left = <span className="text-sm">{action}</span>;
-                      right = (
-                        <span className="text-sm">
-                          {score}
-                          {intento}
-                          {format(parseISO(log.createdAt), "[HH:mm]")}
-                        </span>
-                      );
-                    }
-
-                    return (
-                      <li
-                        key={i}
-                        className={`${bg} p-2 rounded flex justify-between items-center`}
-                      >
-                        {left} {right}
-                      </li>
-                    );
-                  })}
-                </ul>
+              <div className="flex items-center gap-2">
+                <label
+                  htmlFor="limitLogs"
+                  className="text-sm text-neutral-600 whitespace-nowrap"
+                >
+                  Registros:
+                </label>
+                <select
+                  id="limitLogs"
+                  value={limitLogs}
+                  onChange={(e) => setLimitLogs(Number(e.target.value))}
+                  className="border border-neutral-300 px-2 py-1 rounded-lg text-sm focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
+                >
+                  <option value={5}>5</option>
+                  <option value={25}>25</option>
+                  <option value={50}>50</option>
+                  <option value={0}>Todos</option>
+                </select>
               </div>
-            ))
-          )}
-        </div>
-      </section>
+            </div>
+          </CardHeader>
+          <CardContent>
+            {actividadReciente.length === 0 ? (
+              <div className="text-center py-8">
+                <BookOpenIcon className="w-12 h-12 mx-auto text-neutral-400 mb-3" />
+                <p className="text-neutral-600">Sin actividad reciente</p>
+                <p className="text-sm text-neutral-500 mt-1">
+                  ¡Empieza a estudiar para ver tu progreso aquí!
+                </p>
+              </div>
+            ) : (
+              <div className="space-y-6">
+                {Object.entries(actividadesPorDia).map(([dia, logs]) => (
+                  <div key={dia}>
+                    <h4 className="text-lg font-medium text-neutral-800 mb-3 border-b border-neutral-200 pb-2">
+                      {format(parseISO(dia), "dd/MM/yyyy")}
+                    </h4>
+                    <div className="space-y-2">
+                      {logs.map((log, i) => {
+                        const style = getActivityLogStyle(log);
+                        const Icon = style.icon;
 
-      {/* TARJETA 4: ELIMINAR CUENTA */}
-      <section className="p-4 bg-white shadow rounded space-y-2">
-        <h2 className="font-semibold">Eliminar Cuenta</h2>
+                        let content, details;
+                        if (log.logTipo === "minijuego") {
+                          content = `Jugaste ${log.nombre}`;
+                          details = `Puntuación: ${log.puntuacion}`;
+                        } else if (log.logTipo === "tema") {
+                          content = `Completaste el tema ${log.referenciaId}`;
+                          details = "";
+                        } else {
+                          const tipoTexto =
+                            log.nivelTipo === "leccion"
+                              ? "Lección"
+                              : "Cuestionario";
+                          content = `${tipoTexto} ${formatNivelId(
+                            log.referenciaId
+                          )}`;
+                          const score =
+                            log.puntuacion != null
+                              ? log.nivelTipo === "leccion"
+                                ? `${log.puntuacion}★`
+                                : `Nota: ${log.puntuacion}`
+                              : "";
+                          const intento =
+                            log.intento != null
+                              ? `Intento: ${log.intento}`
+                              : "";
+                          details = [score, intento]
+                            .filter(Boolean)
+                            .join(" · ");
+                        }
 
-        {/* Botón que abre el modal */}
-        <button
-          type="button"
-          onClick={() => {
-            setErrorDel(null);
-            setDelPassword("");
-            setConfirmingDelete(true);
+                        return (
+                          <div
+                            key={i}
+                            className={`flex items-center gap-3 p-3 rounded-lg border ${style.bg} ${style.textColor}`}
+                          >
+                            <Icon
+                              className={`w-5 h-5 flex-shrink-0 ${style.iconColor}`}
+                            />
+                            <div className="flex-1 min-w-0">
+                              <p className="text-sm font-medium">{content}</p>
+                              {details && (
+                                <p className="text-xs opacity-75">{details}</p>
+                              )}
+                            </div>
+                            <span className="text-xs opacity-75 flex-shrink-0">
+                              {format(parseISO(log.createdAt), "HH:mm")}
+                            </span>
+                          </div>
+                        );
+                      })}
+                    </div>
+                  </div>
+                ))}
+              </div>
+            )}
+          </CardContent>
+        </Card>
+
+        {/* MODAL DE CONFIRMACIÓN DE ABANDONAR CLASE */}
+        <ConfirmationModal
+          isOpen={confirmLeaving}
+          title="Abandonar clase"
+          message="¿Estás seguro de que quieres abandonar esta clase? Perderás el acceso a las actividades grupales."
+          onCancel={() => {
+            setConfirmLeaving(false);
+            setErrorClass(null);
           }}
-          className="mt-2 px-4 py-2 bg-red-500 hover:bg-red-600 text-white rounded"
+          onConfirm={handleLeave}
+          isLoading={isLeaving}
         >
-          Darse de Baja
-        </button>
+          {errorClass && (
+            <div className="mt-2">
+              <ErrorMessage error={errorClass} />
+            </div>
+          )}
+        </ConfirmationModal>
 
-        {/* Modal de confirmación */}
+        {/* ELIMINAR CUENTA */}
+        <Card>
+          <div className="flex justify-between items-center mb-2">
+            <h2 className="font-semibold text-neutral-800 ">Eliminar Cuenta</h2>
+          </div>
+          <CardContent>
+            <p className="text-sm text-neutral-700 mb-4">
+              Esta acción es irreversible y eliminará permanentemente tu cuenta
+              y todos los datos asociados.
+            </p>
+            <Button
+              onClick={() => {
+                setErrorDel(null);
+                setDelPassword("");
+                setConfirmingDelete(true);
+              }}
+              variant="danger"
+              size="sm"
+              className="flex items-center"
+            >
+              <TrashIcon className="w-4 h-4 mr-2" />
+              Darse de baja
+            </Button>
+          </CardContent>
+        </Card>
+
+        {/* MODAL DE CONFIRMACIÓN DE ELIMINAR CUENTA */}
         <ConfirmationModal
           isOpen={confirmingDelete}
           title="Eliminar cuenta"
-          message="Esta acción es irreversible. Por favor, confirma tu contraseña:"
-          onCancel={() => setConfirmingDelete(false)}
+          message="Esta acción es irreversible. Por favor, confirma tu contraseña para continuar:"
+          onCancel={() => {
+            setConfirmingDelete(false);
+            setErrorDel(null);
+          }}
           onConfirm={handleDelete}
           isLoading={isDeleting}
         >
-          <input
+          <Input
             type="password"
             value={delPassword}
             onChange={(e) => setDelPassword(e.target.value)}
             placeholder="Contraseña"
-            className="w-full border px-3 py-2 rounded"
+            className="mb-4"
           />
-
           {errorDel && (
-            <div className="mt-4">
+            <div className="mt-2">
               <ErrorMessage error={errorDel} />
             </div>
           )}
         </ConfirmationModal>
-      </section>
+
+        <ScrollToTopButton threshold={900} />
+      </div>
     </div>
   );
 }

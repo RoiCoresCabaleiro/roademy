@@ -5,7 +5,7 @@ const { Op } = require("sequelize");
 const { Clase, Usuario, RefreshToken } = require("../models");
 const progresoService = require('../services/progresoService');
 const activityLogService = require("../services/activityLogService");
-const generateUniqueCode = require('../utils/generateUniqueCode');
+//const generateUniqueCode = require('../utils/generateUniqueCode');
 const tokenService = require("../services/tokenService");
 
 // POST /api/v1/register - Registra un nuevo usuario (Estudiante o Tutor)
@@ -42,7 +42,7 @@ async function register(req, res, next) {
       claseId: rol === "estudiante" && clase ? clase.id : null,
     });
 
-    // Crear clase inicial (tutor)
+    /* Crear clase inicial (tutor)
     let initialClass = null;
     if (rol === "tutor") {
       const codigo = await generateUniqueCode(6);
@@ -53,6 +53,7 @@ async function register(req, res, next) {
         tutorId: nuevoUser.id,
       });
     }
+    */
 
     // Generar y enviar tokens (access + refresh en cookie)
     const accessToken = await tokenService.generateTokensForUser(nuevoUser, res);
@@ -69,13 +70,13 @@ async function register(req, res, next) {
         claseId: nuevoUser.claseId,
       },
     };
-    if (initialClass) {
+    /*if (initialClass) {
       response.initialClass = {
         id: initialClass.id,
         nombre: initialClass.nombre,
         codigo: initialClass.codigo,
       };
-    }
+    }*/
 
     return res.status(201).json(response);
   } catch (err) {
@@ -183,6 +184,8 @@ async function dashboardTutor(req, res, next) {
     const clases  = await progresoService.getEstrellasClase(req.user.id);
     const { estrellasPosiblesCurso } = await progresoService.getTotalCourseStars();
 
+    const { chartData } = await activityLogService.getWeeklyClassActivityByTutor(req.user.id, 10);
+
     return res.json({
       success: true,
       clases: clases.map(c => ({
@@ -191,7 +194,8 @@ async function dashboardTutor(req, res, next) {
         numEstudiantes:   c.numEstudiantes,
         totalEstrellas:   c.totalEstrellas,
         mediaProgresoTotal: c.numEstudiantes > 0 ? Math.round(((c.totalEstrellas / c.numEstudiantes) / estrellasPosiblesCurso) * 100) : 0,
-      }))
+      })),
+      chartData,
     });
   } catch (err) {
     next(err);

@@ -1,5 +1,3 @@
-// src/pages/TutorDashboard.jsx
-
 import { useState, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 import { useApi } from "../hooks/useApi";
@@ -7,10 +5,28 @@ import { useAuth } from "../hooks/useAuth";
 import { usuarioService } from "../services/usuarioService";
 import ErrorMessage from "../components/ErrorMessage";
 import ConfirmationModal from "../components/ConfirmationModal";
+import ActivityChart from "../components/ActivityChart";
 import Portal from "../components/Portal";
 import { extractError } from "../utils/errorHandler";
+import { LoadingScreen } from "../components/Spinner";
 
-import { ArrowRightOnRectangleIcon } from "@heroicons/react/24/outline";
+import {
+  ArrowRightOnRectangleIcon,
+  PencilIcon,
+  TrashIcon,
+  ArrowPathIcon,
+  UsersIcon,
+  StarIcon,
+  ChevronRightIcon,
+} from "@heroicons/react/24/outline";
+import Card, {
+  CardHeader,
+  CardTitle,
+  CardContent,
+  CardFooter,
+} from "../components/ui/Card";
+import Button from "../components/ui/Button";
+import Input from "../components/ui/Input";
 
 export default function TutorDashboard() {
   const { logout } = useAuth();
@@ -54,7 +70,7 @@ export default function TutorDashboard() {
   } = useApi(fetchTutorDashboard);
 
   if (loadingProfile || (loadingClases && !clasesData))
-    return <div className="p-4">Cargando datos…</div>;
+    return <LoadingScreen message="Cargando datos del tutor..." />;
   if (errorProfile)
     return (
       <div className="p-4">
@@ -74,6 +90,7 @@ export default function TutorDashboard() {
   // Handlers
   const handleChange = (e) => {
     setForm((f) => ({ ...f, [e.target.name]: e.target.value }));
+    if (errorEdit) setErrorEdit(null);
   };
 
   const handleSaveProfile = async () => {
@@ -98,7 +115,12 @@ export default function TutorDashboard() {
       await usuarioService.updateProfile(payload);
       await refetchProfile();
       setIsEditing(false);
-      setForm((f) => ({ ...f, antiguaContraseña: "", contraseña: "" }));
+      setForm((f) => ({
+        ...f,
+        antiguaContraseña: "",
+        contraseña: "",
+        confirmar: "",
+      }));
     } catch (err) {
       setErrorEdit(extractError(err));
     } finally {
@@ -123,245 +145,300 @@ export default function TutorDashboard() {
   };
 
   return (
-    <div className="pb-8 p-4 space-y-6">
-      <section className="md:hidden relative p-4 ">
-        <button
-          onClick={logout}
-          className="absolute top-2 right-0 inline-flex items-center px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600"
-          title="Cerrar sesión"
-        >
-          <ArrowRightOnRectangleIcon className="w-4 h-4 mr-2" />
-          Cerrar sesión
-        </button>
-      </section>
-
-      {/* PERFIL */}
-      <section className="relative p-4 space-y-2 bg-white shadow rounded">
-        <div className="flex justify-between items-center">
-          <h2 className="font-semibold">Mi Perfil</h2>
-          <button
-            className="px-1 py-1 bg-yellow-500 rounded hover:bg-yellow-600"
-            onClick={() => {
-              setErrorEdit(null);
-              setForm({
-                nombre: "",
-                email: "",
-                antiguaContraseña: "",
-                contraseña: "",
-              });
-              setIsEditing(true);
-            }}
+    <div className="p-4">
+      <div className="max-w-4xl mx-auto space-y-6">
+        {/* Botón de logout en móvil (En desktop está en el header) */}
+        <div className="flex justify-end md:hidden">
+          <Button
+            onClick={logout}
+            variant="danger"
+            size="sm"
+            className="flex items-center"
+            title="Cerrar sesión"
           >
-            ✏️
-          </button>
+            <ArrowRightOnRectangleIcon className="w-4 h-4 mr-2" />
+            Cerrar sesión
+          </Button>
         </div>
 
-        <div className="space-y-1">
-          <p>
-            <strong>Nombre:</strong> {user.nombre}
-          </p>
-          <p>
-            <strong>Email:</strong> {user.email}
-          </p>
-        </div>
-      </section>
-
-      {/* MODAL DE EDICIÓN DE PERFIL */}
-      {isEditing && (
-        <Portal>
-          <div
-            className="fixed inset-0 bg-black/50 flex items-center justify-center z-50"
-            onClick={() => {
-              setIsEditing(false);
-              setErrorEdit(null);
-            }}
-          >
-            <div
-              className="bg-white p-6 rounded shadow-lg w-11/12 max-w-md no-scrollbar"
-              onClick={(e) => e.stopPropagation()}
+        {/* PERFIL */}
+        <Card>
+          <CardHeader>
+            <CardTitle>Mi Perfil</CardTitle>
+            <Button
+              variant="primary"
+              size="sm"
+              onClick={() => {
+                setErrorEdit(null);
+                setForm({
+                  nombre: "",
+                  email: "",
+                  antiguaContraseña: "",
+                  contraseña: "",
+                  confirmar: "",
+                });
+                setIsEditing(true);
+              }}
+              title="Editar perfil"
             >
-              <h3 className="text-lg font-semibold mb-4">Editar perfil</h3>
-              {/* Formulario */}
-              <div className="space-y-4">
-                <div className="flex flex-col">
-                  <label className="text-sm font-medium">Nombre</label>
-                  <input
-                    name="nombre"
-                    value={form.nombre}
-                    onChange={handleChange}
-                    placeholder={user.nombre}
-                    className="w-full border px-2 py-1 rounded"
-                  />
-                </div>
-                <div className="flex flex-col">
-                  <label className="text-sm font-medium">Email</label>
-                  <input
-                    name="email"
-                    value={form.email}
-                    onChange={handleChange}
-                    placeholder={user.email}
-                    className="w-full border px-2 py-1 rounded"
-                  />
-                </div>
-                <hr />
-                <div className="flex flex-col">
-                  <label className="text-sm font-medium">
-                    Contraseña actual
-                  </label>
-                  <input
-                    type="password"
-                    name="antiguaContraseña"
-                    value={form.antiguaContraseña}
-                    onChange={handleChange}
-                    className="w-full border px-2 py-1 rounded"
-                  />
-                </div>
-                <div className="flex flex-col">
-                  <label className="text-sm font-medium">
-                    Nueva contraseña
-                  </label>
-                  <input
-                    type="password"
-                    name="contraseña"
-                    value={form.contraseña}
-                    onChange={handleChange}
-                    className="w-full border px-2 py-1 rounded"
-                  />
-                </div>
-                <div className="flex flex-col">
-                  <label className="text-sm font-medium">
-                    Confirmar nueva contraseña
-                  </label>
-                  <input
-                    type="password"
-                    name="confirmar"
-                    value={form.confirmar}
-                    onChange={handleChange}
-                    className="w-full border px-2 py-1 rounded"
-                  />
-                </div>
+              <PencilIcon className="w-4 h-4" />
+            </Button>
+          </CardHeader>
+          <CardContent>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <p className="text-neutral-700">
+                <strong className="font-semibold">Nombre:</strong> {user.nombre}
+              </p>
+              <p className="text-neutral-700">
+                <strong className="font-semibold">Email:</strong> {user.email}
+              </p>
+            </div>
+          </CardContent>
+        </Card>
 
-                {errorEdit && <ErrorMessage error={errorEdit} />}
-
-                <div className="flex justify-end space-x-2 mt-4">
-                  <button
+        {/* MODAL DE EDICIÓN DE PERFIL */}
+        {isEditing && (
+          <Portal>
+            <div
+              className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4"
+              onClick={() => {
+                setIsEditing(false);
+                setErrorEdit(null);
+              }}
+            >
+              <Card
+                className="w-full max-w-md overflow-y-auto max-h-[90vh]"
+                onClick={(e) => e.stopPropagation()}
+              >
+                <CardHeader>
+                  <CardTitle>Editar perfil</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <div className="space-y-4">
+                    <div>
+                      <label className="block text-sm font-medium text-neutral-700 mb-2">
+                        Nombre
+                      </label>
+                      <Input
+                        name="nombre"
+                        value={form.nombre}
+                        onChange={handleChange}
+                        placeholder={user.nombre}
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-sm font-medium text-neutral-700 mb-2">
+                        Email
+                      </label>
+                      <Input
+                        name="email"
+                        value={form.email}
+                        onChange={handleChange}
+                        placeholder={user.email}
+                      />
+                    </div>
+                    <hr className="border-neutral-200" />
+                    <div>
+                      <label className="block text-sm font-medium text-neutral-700 mb-2">
+                        Contraseña actual
+                      </label>
+                      <Input
+                        type="password"
+                        name="antiguaContraseña"
+                        value={form.antiguaContraseña}
+                        onChange={handleChange}
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-sm font-medium text-neutral-700 mb-2">
+                        Nueva contraseña
+                      </label>
+                      <Input
+                        type="password"
+                        name="contraseña"
+                        value={form.contraseña}
+                        onChange={handleChange}
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-sm font-medium text-neutral-700 mb-2">
+                        Confirmar nueva contraseña
+                      </label>
+                      <Input
+                        type="password"
+                        name="confirmar"
+                        value={form.confirmar}
+                        onChange={handleChange}
+                      />
+                    </div>
+                  </div>
+                  {errorEdit && (
+                    <ErrorMessage error={errorEdit} className="mt-4" />
+                  )}
+                </CardContent>
+                <CardFooter>
+                  <Button
+                    variant="secondary"
                     onClick={() => {
                       setIsEditing(false);
                       setErrorEdit(null);
                     }}
-                    className="px-4 py-2 bg-gray-200 rounded hover:bg-gray-300"
                     disabled={isSaving}
                   >
                     Cancelar
-                  </button>
-                  <button
+                  </Button>
+                  <Button
+                    variant="primary"
                     onClick={handleSaveProfile}
-                    className="px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600 disabled:opacity-50"
-                    /*disabled={
-                      isSaving ||
-                      (form.contraseña && !form.antiguaContraseña) ||
-                      (form.contraseña && form.contraseña !== form.confirmar)
-                    }*/
+                    loading={isSaving}
                   >
                     Guardar
-                  </button>
-                </div>
-              </div>
+                  </Button>
+                </CardFooter>
+              </Card>
             </div>
-          </div>
-        </Portal>
-      )}
-
-      {/* — RESUMEN CLASES */}
-      <section className="p-4 bg-white shadow rounded space-y-4">
-        <div className="flex justify-between items-center">
-          <h2 className="font-semibold">Mis clases</h2>
-          {clases.length > 0 && (
-            <button
-              onClick={refetchClases}
-              className="text-sm text-blue-500 hover:underline"
-            >
-              ↻ Refrescar
-            </button>
-          )}
-        </div>
-
-        {clases.length === 0 ? (
-          <p className="text-gray-600">No tienes clases asignadas.</p>
-        ) : (
-          <ul className="space-y-4">
-            {clases.map((c) => (
-              <li
-                key={c.id}
-                className="flex justify-between items-center border rounded p-4 hover:shadow"
-              >
-                <div>
-                  <h3 className="font-medium">{c.nombre}</h3>
-                  <p className="text-sm text-gray-600">
-                    {c.numEstudiantes}{" "}
-                    {c.numEstudiantes === 1 ? "estudiante" : "estudiantes"}{" "}
-                    {c.numEstudiantes > 0 && ` · ${c.totalEstrellas} ⭐`}
-                  </p>
-                  {c.numEstudiantes > 0 && (
-                    <>
-                      <p className="text-sm text-gray-600">
-                        Progreso medio: {c.mediaProgresoTotal}%
-                      </p>
-                    </>
-                  )}
-                </div>
-                <button
-                  onClick={() => goToDetalle(c.id)}
-                  className="px-3 py-1 bg-blue-500 text-white rounded hover:bg-blue-600"
-                >
-                  Ver detalles
-                </button>
-              </li>
-            ))}
-          </ul>
+          </Portal>
         )}
-      </section>
 
-      {/* DARSE DE BAJA */}
-      <section className="p-4 bg-white shadow rounded space-y-2">
-        <h2 className="font-semibold">Eliminar Cuenta</h2>
+        {/* RESUMEN CLASES */}
+        <Card>
+          <CardHeader>
+            <CardTitle>Mis clases</CardTitle>
+            {clases.length > 0 && (
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={refetchClases}
+                className="flex items-center text-primary-600 hover:text-primary-700"
+              >
+                <ArrowPathIcon className="w-4 h-4 mr-1" /> Refrescar
+              </Button>
+            )}
+          </CardHeader>
+          <CardContent>
+            {clases.length === 0 ? (
+              <p className="text-neutral-600">
+                No tienes ninguna clase asignada.
+              </p>
+            ) : (
+              <ul className="space-y-4">
+                {clases.map((c) => (
+                  <li
+                    key={c.id}
+                    className="
+                      grid grid-cols-[1fr_auto] items-center gap-4
+                      max-[360px]:grid-cols-1
+                      border border-neutral-200 rounded-xl p-4
+                      hover:shadow-soft transition-shadow duration-200
+                    "
+                  >
+                    <div className="min-w-0">
+                      <h3 className="font-medium text-neutral-800 text-lg mb-2 truncate">
+                        {c.nombre}
+                      </h3>
 
-        {/* Botón que abre el modal */}
-        <button
-          type="button"
-          onClick={() => {
-            setErrorDel(null);
-            setDelPassword("");
-            setConfirmingDelete(true);
-          }}
-          className="mt-2 px-4 py-2 bg-red-500 hover:bg-red-600 text-white rounded"
-        >
-          Darse de baja
-        </button>
+                      <div className="space-y-1 text-sm text-neutral-600">
+                        <div className="flex items-center">
+                          <UsersIcon className="w-4 h-4 mr-2" />
+                          <span>
+                            {c.numEstudiantes}{" "}
+                            {c.numEstudiantes === 1
+                              ? "estudiante"
+                              : "estudiantes"}
+                          </span>
+                        </div>
 
-        {/* Modal de confirmación reutilizable */}
-        <ConfirmationModal
-          isOpen={confirmingDelete}
-          title="Eliminar cuenta"
-          message="Esta acción es irreversible. Por favor, confirma tu contraseña:"
-          onCancel={() => setConfirmingDelete(false)}
-          onConfirm={handleDelete}
-          isLoading={isDeleting}
-        >
-          <input
-            type="password"
-            value={delPassword}
-            onChange={(e) => setDelPassword(e.target.value)}
-            placeholder="Contraseña"
-            className="w-full border px-3 py-2 rounded"
-          />
-          {errorDel && (
-            <div className="mt-4">
-              <ErrorMessage error={errorDel} />
-            </div>
-          )}
-        </ConfirmationModal>
-      </section>
+                        {c.numEstudiantes > 0 && (
+                          <div className="flex items-center">
+                            <StarIcon className="w-4 h-4 mr-2 text-yellow-500" />
+                            <span>{c.totalEstrellas}</span>
+                          </div>
+                        )}
+
+                        {c.numEstudiantes > 0 && (
+                          <div className="flex items-center">
+                            <span className="mr-2">Progreso medio:</span>
+                            <span className="font-medium">
+                              {c.mediaProgresoTotal}%
+                            </span>
+                          </div>
+                        )}
+                      </div>
+                    </div>
+
+                    <Button
+                      variant="primary"
+                      size="sm"
+                      onClick={() => goToDetalle(c.id)}
+                      className="
+                        justify-self-end flex items-center flex-shrink-0 whitespace-nowrap
+                        max-[360px]:mt-2
+                      "
+                      title="Ver detalles"
+                    >
+                      <ChevronRightIcon className="w-4 h-4" />
+                      <span className="ml-2 max-[420px]:hidden">
+                        Ver detalles
+                      </span>
+                    </Button>
+                  </li>
+                ))}
+              </ul>
+            )}
+          </CardContent>
+        </Card>
+
+        {/* GRÁFICO DE ACTIVIDAD */}
+        <ActivityChart data={clasesData} />
+
+        {/* DARSE DE BAJA */}
+        <Card>
+          <div className="flex justify-between items-center mb-2">
+            <h2 className="font-semibold text-neutral-800 ">Eliminar Cuenta</h2>
+          </div>
+          <CardContent>
+            <p className="text-sm text-neutral-700 mb-4">
+              Esta acción es irreversible y eliminará permanentemente tu cuenta
+              y todos los datos asociados.
+            </p>
+            <Button
+              type="button"
+              variant="danger"
+              size="sm"
+              onClick={() => {
+                setErrorDel(null);
+                setDelPassword("");
+                setConfirmingDelete(true);
+              }}
+            >
+              <TrashIcon className="w-4 h-4 mr-2" /> Darse de baja
+            </Button>
+          </CardContent>
+
+          {/* Modal de confirmación */}
+          <ConfirmationModal
+            isOpen={confirmingDelete}
+            title="Eliminar cuenta"
+            message="Esta acción es irreversible. Por favor, confirma tu contraseña para continuar:"
+            onCancel={() => setConfirmingDelete(false)}
+            onConfirm={handleDelete}
+            isLoading={isDeleting}
+          >
+            <Input
+              type="password"
+              value={delPassword}
+              onChange={(e) => setDelPassword(e.target.value)}
+              placeholder="Contraseña"
+              className="mb-4"
+            />
+            {errorDel && (
+              <div className="mt-2">
+                <ErrorMessage error={errorDel} />
+              </div>
+            )}
+          </ConfirmationModal>
+        </Card>
+      </div>
     </div>
   );
 }

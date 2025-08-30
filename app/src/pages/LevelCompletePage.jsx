@@ -1,7 +1,16 @@
-// src/pages/LevelCompletePage.jsx
-
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { formatNivelId } from "../utils/formatters";
+import {
+  TrophyIcon,
+  StarIcon,
+  CheckCircleIcon,
+  XCircleIcon,
+  MapIcon,
+  ArrowPathIcon,
+  ChevronRightIcon,
+  LockClosedIcon,
+  SparklesIcon,
+} from "@heroicons/react/24/outline";
 
 export default function LevelCompletePage() {
   const { nivelId } = useParams();
@@ -82,97 +91,187 @@ export default function LevelCompletePage() {
     }
   };
 
+  // Determinar si es primer intento (no mostrar tarjeta de mejor puntuación)
+  const isFirstAttempt = intentos === 1;
+
   return (
-    <div className="flex flex-col items-center h-full justify-center p-4">
-      <h1
-        className={`text-2xl font-bold mb-4 ${
-          attemptCompletado ? "text-black" : "text-red-600"
-        }`}
-      >
-        {attemptCompletado
-          ? `Nivel ${formatNivelId(nivelId)} completado`
-          : `Nivel ${formatNivelId(nivelId)} no superado`}
-      </h1>
+    <div className="min-h-full flex items-center justify-center p-4">
+      <div className="max-w-2xl w-full">
+        <div className="text-center mb-8">
+          <div className="flex items-center justify-center mb-6">
+            {attemptCompletado ? (
+              <div className="p-4 bg-green-100 rounded-full">
+                <CheckCircleIcon className="w-16 h-16 text-green-600" />
+              </div>
+            ) : (
+              <div className="p-4 bg-red-100 rounded-full">
+                <XCircleIcon className="w-16 h-16 text-red-600" />
+              </div>
+            )}
+          </div>
 
-      {/* Puntuaciones */}
-      <div className="mb-4 text-lg">
-        {isLeccion ? `Estrellas: ${score}` : `Puntuación: ${score}`}
-      </div>
-      {!attemptCompletado && (
-        <div className="mb-4 text-sm text-red-700 text-center">
-          Necesario para superar el nivel:{" "}
-          {isLeccion ? `1 estrella` : `${notaMinima}`}
-        </div>
-      )}
-      {intentos > 1 && (
-        <div className="mb-4 text-sm text-gray-700 text-center">
-          Mejor puntuación:{" "}
-          {isLeccion
-            ? `${bestScore === 1 ? "1 estrella" : `${bestScore} estrellas`}`
-            : `${bestScore}`}
-        </div>
-      )}
-      {/* Mejora histórica */}
-      {mejorado && (
-        <div className="text-green-600 mb-4 text-center">
-          ¡Has superado tu mejor puntuación!
-        </div>
-      )}
-
-      {/* Mensaje motivacional */}
-      <p className="italic mb-6 text-center max-w-md">{msg}</p>
-
-      {/* Controles */}
-      <div className="flex flex-col items-center space-y-3 md:flex-row md:space-x-4 md:space-y-0 md:justify-center mb-2"
-      >
-        <button
-          onClick={() => navigate("/roadmap")}
-          className="px-4 py-2 border rounded hover:bg-gray-100"
-        >
-          Roadmap
-        </button>
-        <button
-          onClick={() => navigate(`/levels/${nivelId}`)}
-          className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
-        >
-          Reintentar
-        </button>
-        {nextAvailable && (
-          <button
-            onClick={handleNext}
-            className={`px-4 py-2 text-white rounded ${
-              nuevoTema
-                ? "bg-yellow-500 hover:bg-yellow-600"
-                : "bg-green-500 hover:bg-green-600"
+          <h1
+            className={`text-3xl font-bold mb-2 ${
+              attemptCompletado ? "text-green-700" : "text-red-600"
             }`}
           >
-            Siguiente: {formatNivelId(nivelSiguienteId)}
-          </button>
-        )}
-        {nextLocked && (
-          <button
-            disabled
-            className="px-4 py-2 bg-gray-400 text-white rounded cursor-not-allowed"
+            {attemptCompletado
+              ? `¡Nivel ${formatNivelId(nivelId)} completado!`
+              : `Nivel ${formatNivelId(nivelId)} no superado`}
+          </h1>
+
+          <p className="text-xl text-gray-600 italic max-w-md mx-auto leading-relaxed">
+            {msg}
+          </p>
+        </div>
+
+        {/* Tarjetas de puntuación */}
+        <div
+          className={`mb-8 ${
+            isFirstAttempt
+              ? "flex justify-center"
+              : "grid grid-cols-1 md:grid-cols-2 gap-6"
+          }`}
+        >
+          {/* Puntuación actual */}
+          <div
+            className={`bg-white/80 backdrop-blur-sm rounded-2xl shadow-lg border border-white/20 p-6 ${
+              isFirstAttempt ? "max-w-md" : ""
+            }`}
           >
-            Siguiente: {formatNivelId(nivelSiguienteId)}
-          </button>
-        )}
+            <div className="flex items-center gap-3 mb-4">
+              {isLeccion ? (
+                <StarIcon className="w-8 h-8 text-yellow-500" />
+              ) : (
+                <TrophyIcon className="w-8 h-8 text-blue-500" />
+              )}
+              <h3 className="text-lg font-semibold text-gray-800">
+                Tu Resultado
+              </h3>
+            </div>
+            <div className="text-center">
+              <div className="text-4xl font-bold text-gray-900 mb-2">
+                {score}
+                {isLeccion && (
+                  <span className="text-lg text-gray-600 ml-1">
+                    {score === 1 ? "estrella" : "estrellas"}
+                  </span>
+                )}
+              </div>
+              {!attemptCompletado && (
+                <div className="text-sm text-red-600 bg-red-50 rounded-lg p-2 mb-3">
+                  Necesario: {isLeccion ? "1 estrella" : `${notaMinima} puntos`}
+                </div>
+              )}
+              <div className="text-sm text-gray-600">
+                {intentos === 1 ? "Primer intento" : `Intento ${intentos}`}
+              </div>
+            </div>
+          </div>
+
+          {/* Mejor puntuación - solo si no es primer intento */}
+          {!isFirstAttempt && (
+            <div className="bg-white/80 backdrop-blur-sm rounded-2xl shadow-lg border border-white/20 p-6">
+              <div className="flex items-center gap-3 mb-4">
+                <TrophyIcon className="w-8 h-8 text-amber-500" />
+                <h3 className="text-lg font-semibold text-gray-800">
+                  Mejor Puntuación
+                </h3>
+              </div>
+              <div className="text-center">
+                <div className="text-4xl font-bold text-gray-900 mb-2">
+                  {bestScore}
+                  {isLeccion && (
+                    <span className="text-lg text-gray-600 ml-1">
+                      {bestScore === 1 ? "estrella" : "estrellas"}
+                    </span>
+                  )}
+                </div>
+                {mejorado && (
+                  <div className="flex items-center justify-center gap-1 bg-green-100 text-green-700 px-3 py-2 rounded-full text-sm font-medium mt-3">
+                    <SparklesIcon className="w-4 h-4" />
+                    ¡Nuevo récord!
+                  </div>
+                )}
+              </div>
+            </div>
+          )}
+        </div>
+
+        {/* Botones de acción */}
+        <div className="space-y-4">
+          <div className="flex flex-col sm:flex-row gap-4 justify-center">
+            {/* Roadmap */}
+            <button
+              onClick={() => navigate("/roadmap")}
+              className="flex items-center justify-center gap-2 px-6 py-3 bg-white/80 backdrop-blur-sm border border-gray-200 text-gray-700 font-medium rounded-xl hover:bg-white hover:shadow-lg transition-all duration-200"
+            >
+              <MapIcon className="w-5 h-5" />
+              Roadmap
+            </button>
+
+            {/* Reintentar */}
+            <button
+              onClick={() => navigate(`/levels/${nivelId}`)}
+              className="flex items-center justify-center gap-2 px-6 py-3 bg-blue-500 text-white font-medium rounded-xl hover:bg-blue-600 hover:shadow-lg transition-all duration-200"
+            >
+              <ArrowPathIcon className="w-5 h-5" />
+              Reintentar
+            </button>
+
+            {/* Siguiente nivel */}
+            {nextAvailable && (
+              <button
+                onClick={handleNext}
+                className={`flex items-center justify-center gap-2 px-6 py-3 text-white font-medium rounded-xl hover:shadow-lg transition-all duration-200 ${
+                  nuevoTema
+                    ? "bg-gradient-to-r from-yellow-500 to-orange-500 hover:from-yellow-600 hover:to-orange-600"
+                    : "bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700"
+                }`}
+              >
+                Siguiente: {formatNivelId(nivelSiguienteId)}
+                <ChevronRightIcon className="w-5 h-5" />
+              </button>
+            )}
+
+            {/* Siguiente bloqueado */}
+            {nextLocked && (
+              <button
+                disabled
+                className="flex items-center justify-center gap-2 px-6 py-3 bg-gray-300 text-gray-500 font-medium rounded-xl cursor-not-allowed"
+              >
+                <LockClosedIcon className="w-5 h-5" />
+                Siguiente: {formatNivelId(nivelSiguienteId)}
+              </button>
+            )}
+          </div>
+
+          {/* Mensajes informativos */}
+          {nextLocked && (
+            <div className="bg-amber-50 border border-amber-200 rounded-xl p-4 text-center">
+              <p className="text-amber-800 text-sm leading-relaxed">
+                <strong>Tema bloqueado:</strong> Necesitas conseguir más
+                estrellas en las lecciones de este tema para desbloquear el
+                siguiente.
+              </p>
+            </div>
+          )}
+
+          {isEndCourse && (
+            <div className="bg-green-50 border border-green-200 rounded-xl p-4 text-center">
+              <div className="flex items-center justify-center gap-2 mb-2">
+                <TrophyIcon className="w-6 h-6 text-green-600" />
+                <span className="font-semibold text-green-800">
+                  ¡Felicidades!
+                </span>
+              </div>
+              <p className="text-green-700 text-sm">
+                Has completado el último nivel del curso. ¡Excelente trabajo!
+              </p>
+            </div>
+          )}
+        </div>
       </div>
-
-      {/* Mensaje si tema bloqueado */}
-      {nextLocked && (
-        <p className="text-center text-sm text-gray-600 max-w-sm">
-          Necesitas conseguir más estrellas en las lecciones de este tema para
-          desbloquear el siguiente.
-        </p>
-      )}
-
-      {/* Fin del curso */}
-      {isEndCourse && (
-        <p className="text-center text-sm text-gray-600 max-w-sm">
-          Este fue el último nivel del curso. ¡Bien hecho!
-        </p>
-      )}
     </div>
   );
 }

@@ -69,6 +69,7 @@ const Usuario = sequelize.define(
   },
   {
     tableName: "usuarios",
+    indexes: [{ fields: ["clase_id"] }],
     hooks: {
       beforeCreate: async (usuario) => {
         if (usuario.contraseña) {

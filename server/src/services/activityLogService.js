@@ -4,6 +4,7 @@ const { ActivityLogNivel, ActivityLogTemaComplete, ActivityLogMinijuego } = requ
 const sequelize = require("../config/sequelize");
 const { QueryTypes } = require("sequelize");
 
+
 // Registra un intento de nivel
 async function logNivelAttempt(usuarioId, nivelId, completado, puntuacion, intento) {
   return ActivityLogNivel.create({
@@ -15,6 +16,7 @@ async function logNivelAttempt(usuarioId, nivelId, completado, puntuacion, inten
   });
 }
 
+
 // Registra el momento en el que se completa un tema
 async function logTemaCompletion(usuarioId, temaId) {
   return ActivityLogTemaComplete.findOrCreate({
@@ -23,6 +25,8 @@ async function logTemaCompletion(usuarioId, temaId) {
   });
 }
 
+
+// Registra un intento de minijuego
 async function logMinijuegoAttempt(usuarioId, minijuegoId, puntuacion) {
   return ActivityLogMinijuego.create({
     usuarioId,
@@ -30,6 +34,7 @@ async function logMinijuegoAttempt(usuarioId, minijuegoId, puntuacion) {
     puntuacion
   });
 }
+
 
 // Devuelve un log de actividad para una lista de usuarios.
 async function getActivityLog({ usuarioIds, types=['nivel','tema', "minijuego"], invertOrder = false, limit = 50 }) {
@@ -132,4 +137,128 @@ async function getActivityLog({ usuarioIds, types=['nivel','tema', "minijuego"],
   return logs;
 }
 
-module.exports = { getActivityLog, logNivelAttempt, logTemaCompletion, logMinijuegoAttempt };
+
+// Devuelve datos para gráfico de actividad semanal por clase de un tutor
+async function getWeeklyClassActivityByTutor(tutorId, numWeeks = 10) {
+  // 1) Calcular rango [from, to) de 10 semanas completas (lunes 00:00 → lunes 00:00)
+  const now = new Date();
+  const day = now.getDay();
+  const daysToNextMonday = ((8 - day) % 7) || 7;
+  const toDate = new Date(now.getFullYear(), now.getMonth(), now.getDate() + daysToNextMonday);
+  toDate.setHours(0, 0, 0, 0);
+
+  const fromDate = new Date(toDate);
+  fromDate.setDate(fromDate.getDate() - 7 * numWeeks);
+
+  const pad = n => String(n).padStart(2, "0");
+  const fmt = d => `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())} 00:00:00`;
+
+  const from = fmt(fromDate);
+  const to   = fmt(toDate);
+
+  // 2) Consultar clases del tutor
+  const clases = await sequelize.query(
+    `
+    SELECT id AS clase_id, nombre AS nombre_clase
+    FROM clases
+    WHERE tutor_id = :tutorId
+    ORDER BY id
+    `,
+    { replacements: { tutorId }, type: QueryTypes.SELECT }
+  );
+
+  // Sin clases → no hay nada que dibujar en el gráfico
+  if (clases.length === 0) {
+    return { chartData: [] };
+  }
+
+  // 3) Agregar por semana ISO y clase, rellenando semanas sin actividad con 0
+  const rows = await sequelize.query(
+    `
+    WITH RECURSIVE weeks AS (
+      SELECT DATE(:from) AS week_start
+      UNION ALL
+      SELECT DATE_ADD(week_start, INTERVAL 7 DAY)
+      FROM weeks
+      WHERE DATE_ADD(week_start, INTERVAL 7 DAY) < :to
+    ),
+    tutor_clases AS (
+      SELECT id AS clase_id, nombre AS nombre_clase
+      FROM clases
+      WHERE tutor_id = :tutorId
+    ),
+    union_logs AS (
+      SELECT u.clase_id, n.created_at
+      FROM activity_log_nivel n
+      JOIN usuarios u ON u.id = n.usuario_id
+      JOIN clases   c ON c.id = u.clase_id
+      WHERE c.tutor_id = :tutorId
+
+      UNION ALL
+
+      SELECT u.clase_id, t.created_at
+      FROM activity_log_tema_complete t
+      JOIN usuarios u ON u.id = t.usuario_id
+      JOIN clases   c ON c.id = u.clase_id
+      WHERE c.tutor_id = :tutorId
+
+      UNION ALL
+
+      SELECT u.clase_id, m.created_at
+      FROM activity_log_minijuego m
+      JOIN usuarios u ON u.id = m.usuario_id
+      JOIN clases   c ON c.id = u.clase_id
+      WHERE c.tutor_id = :tutorId
+    ),
+    bounded_logs AS (
+      SELECT *
+      FROM union_logs
+      WHERE created_at >= :from AND created_at < :to
+    ),
+    agg AS (
+      SELECT
+        DATE_FORMAT(created_at, '%x-%v') AS periodo,
+        clase_id,
+        COUNT(*) AS total_registros
+      FROM bounded_logs
+      GROUP BY periodo, clase_id
+    )
+    SELECT
+      DATE_FORMAT(w.week_start, '%x-%v') AS periodo,
+      tc.clase_id,
+      tc.nombre_clase,
+      COALESCE(a.total_registros, 0)     AS total_registros
+    FROM weeks w
+    CROSS JOIN tutor_clases tc
+    LEFT JOIN agg a
+      ON a.periodo = DATE_FORMAT(w.week_start, '%x-%v')
+     AND a.clase_id = tc.clase_id
+    ORDER BY w.week_start ASC, tc.clase_id ASC
+    `,
+    {
+      replacements: { tutorId, from, to },
+      type: QueryTypes.SELECT,
+    }
+  );
+
+  // 4) Transformar a { periodo, registrosPorClase: [...] }
+  const byPeriodo = new Map();
+  for (const r of rows) {
+    if (!byPeriodo.has(r.periodo)) byPeriodo.set(r.periodo, []);
+    byPeriodo.get(r.periodo).push({
+      claseId: r.clase_id,
+      nombreClase: r.nombre_clase,
+      totalRegistros: Number(r.total_registros),
+    });
+  }
+
+  const chartData = Array.from(byPeriodo.entries()).map(([periodo, registrosPorClase]) => ({
+    periodo,
+    registrosPorClase: registrosPorClase.sort((a, b) => a.claseId - b.claseId),
+  }));
+
+  return { chartData };
+}
+
+
+module.exports = { getActivityLog, getWeeklyClassActivityByTutor, logNivelAttempt, logTemaCompletion, logMinijuegoAttempt };

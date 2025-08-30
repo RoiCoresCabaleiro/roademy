@@ -44,7 +44,6 @@ export default function Juego1({ onComplete }) {
       const timer = setInterval(() => setTimeLeft((t) => t - 1), 1000);
       return () => clearInterval(timer);
     }
-    // cuando hasCompleted===true, se detiene el intervalo
   }, [timeLeft, onComplete, score, hasCompleted]);
 
   if (currentIndex >= preguntasArr.length && !hasCompleted) {
@@ -57,6 +56,7 @@ export default function Juego1({ onComplete }) {
   const handleAnswer = (chosenIndex) => {
     if (disabled || hasCompleted) return;
     const correcta = preguntaActual.correct;
+
     // Respuesta incorrecta
     if (chosenIndex !== correcta) {
       setDidFail(true);
@@ -70,6 +70,7 @@ export default function Juego1({ onComplete }) {
       onComplete(score);
       return;
     }
+
     // Respuesta correcta
     setScore((s) => s + PUNTOS_POR_ACIERTO);
     setLettersStatus((ss) => {
@@ -77,6 +78,7 @@ export default function Juego1({ onComplete }) {
       copia[currentIndex] = "correct";
       return copia;
     });
+
     // Ultima pregunta?
     if (currentIndex + 1 === preguntasArr.length) {
       setDisabled(true);
@@ -91,7 +93,7 @@ export default function Juego1({ onComplete }) {
   const preguntaActual = preguntasArr[currentIndex];
 
   return (
-    <div className="p-4 max-w-4xl mx-auto space-y-6">
+    <div className="space-y-2 md:space-y-6">
       <Rosco
         lettersStatus={lettersStatus}
         current={currentIndex}

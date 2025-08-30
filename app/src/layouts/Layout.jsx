@@ -1,26 +1,39 @@
-// src/layouts/Layout.jsx
-
-import { Outlet } from "react-router-dom";
-import FooterNav from "../components/FooterNav";
-import HeaderNav from "../components/HeaderNav";
+import { Outlet } from "react-router-dom"
+import HeaderNav from "../components/HeaderNav"
+import FooterNav from "../components/FooterNav"
+import { useEffect } from "react"
+import { useLocation } from "react-router-dom"
 
 export default function Layout() {
-  return (
-    <div className="flex flex-col h-screen">
-      {/* Header sticky */}
-      <header className="hidden md:flex sticky top-0 z-10 bg-white border-b">
-        <HeaderNav />
-      </header>
+  const location = useLocation()
+  useEffect(() => {
+    if (!location.pathname.includes("/roadmap")) {
+      const mainElement = document.querySelector("main")
+      if (mainElement) {
+        mainElement.scrollTo({
+          top: 0,
+          behavior: "instant",
+        })
+      }
+    }
+  }, [location.pathname])
 
-      {/* Contenedor scrolleable */}
-      <main className="flex-1 overflow-auto no-scrollbar">
+  return (
+    <div className="h-screen flex flex-col overflow-hidden">
+      {/* Header - Solo visible en desktop, sticky arriba */}
+      <div className="hidden md:block">
+        <HeaderNav />
+      </div>
+
+      {/* Contenido principal */}
+      <main className="flex-1 overflow-y-auto bg-primary-50">
         <Outlet />
       </main>
 
-      {/* Footer sticky */}
-      <footer className="md:hidden sticky bottom-0 z-10 bg-white border-t">
+      {/* Footer - Solo visible en móvil, sticky abajo */}
+      <div className="md:hidden">
         <FooterNav />
-      </footer>
+      </div>
     </div>
-  );
+  )
 }
