@@ -12,7 +12,7 @@
     "cap:dev": "copy .\\capacitor.config.dev.json .\\capacitor.config.json && npm run build:dev && npx cap sync android",
     "cap:prod": "copy .\\capacitor.config.prod.json .\\capacitor.config.json && npm run build:prod && npx cap sync android",
     "build:dev:apk": "npm run cap:dev && cd android && .\\gradlew assembleDebug && cd ..",
-    "build:prod:apk": "npm run cap:prod && cd android && .\\gradlew assembleRelease && cd ..",
+    "build:prod:apk": "npm run cap:prod && cd android && .\\gradlew assembleDebug && cd ..",
     "lint": "eslint .",
     "preview": "vite preview"
   },
