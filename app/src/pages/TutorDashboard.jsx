@@ -389,7 +389,7 @@ export default function TutorDashboard() {
         </Card>
 
         {/* GRÁFICO DE ACTIVIDAD */}
-        <ActivityChart data={clasesData} />
+        {clases.length > 0 && <ActivityChart data={clasesData} />}
 
         {/* DARSE DE BAJA */}
         <Card>
