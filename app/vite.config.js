@@ -5,7 +5,7 @@ import path from "path";
 
 // https://vite.dev/config/
 export default defineConfig({
-  base: "./", // base: "/roademy/", // para gh-pages
+  base: "./", // base: "/roademy/"
   build: {
     outDir: "dist",
   },
