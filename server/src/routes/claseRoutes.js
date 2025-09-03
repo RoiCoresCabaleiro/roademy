@@ -1,5 +1,3 @@
-// server/src/routes/claseRoutes.js
-
 const express = require('express');
 const router = express.Router();
 

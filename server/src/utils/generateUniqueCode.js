@@ -1,5 +1,3 @@
-// server/src/utils/generateUniqueCode.js
-
 const crypto = require("crypto");
 const { Clase } = require("../models");
 

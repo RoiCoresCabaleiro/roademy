@@ -1,5 +1,3 @@
-// server/src/middleware/ensureMinijuegoAccessible.js
-
 const { Minijuego } = require("../models");
 const progresoService = require("../services/progresoService");
 

@@ -1,5 +1,3 @@
-// server/src/middleware/ensureEstudiante.js
-
 module.exports = function ensureEstudiante(req, res, next) {
   if (req.user.rol !== 'estudiante') {
     const err = new Error('Acceso denegado: solo estudiantes pueden acceder a este recurso.');

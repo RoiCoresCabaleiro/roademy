@@ -1,5 +1,3 @@
-// server/src/middleware/validators/usuarioValidators.js
-
 const { body, validationResult } = require("express-validator");
 
 

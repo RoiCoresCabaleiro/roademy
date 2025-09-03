@@ -1,5 +1,3 @@
-// server/src/services/minijuegoService.js
-
 const { Minijuego } = require("../models");
 const progresoService = require("./progresoService");
 

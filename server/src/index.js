@@ -1,5 +1,3 @@
-// server/src/index.js
-
 require("dotenv").config();
 const { sequelize } = require("./models");
 const { seedData } = require("./seed");

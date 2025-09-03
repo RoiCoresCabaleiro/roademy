@@ -1,5 +1,3 @@
-// server/src/models/Clase.js
-
 const { DataTypes } = require("sequelize");
 const sequelize = require("../config/sequelize");
 

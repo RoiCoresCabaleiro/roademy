@@ -1,5 +1,3 @@
-// src/config/index.js
-
 const dbConfig = (() => {
   // En prod con Raiway, usar url completa (MYSQL_URL):
   if (process.env.MYSQL_URL) {

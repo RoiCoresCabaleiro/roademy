@@ -1,5 +1,3 @@
-"use client"
-
 import { useEffect, useLayoutEffect, useRef, useMemo, useState } from "react"
 import { useNavigate } from "react-router-dom"
 import { useApi } from "../hooks/useApi"
@@ -74,7 +72,6 @@ export default function RoadmapPage() {
       const flujo = []
 
       tema.niveles.forEach((nivel) => {
-        // Primero minijuegos
         const minijuegosDeEsteNivel = minijuegosPorNivel[nivel.nivelId] || []
         minijuegosDeEsteNivel.forEach((juego) => {
           flujo.push({
@@ -84,7 +81,6 @@ export default function RoadmapPage() {
           })
         })
 
-        // Después el nivel
         flujo.push({
           tipo: "nivel",
           data: nivel,

@@ -1,5 +1,3 @@
-// src/utils/formatters.js
-
 /**
  * Dado un nivelId como número o string (por ej. 101, 202, 1203),
  * devuelve "tema.nivel" quitando ceros a la izda.

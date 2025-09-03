@@ -1,5 +1,3 @@
-// src/icons/GamepadIcon.jsx
-
 export default function GamepadIcon({ className }) {
   return (
     <svg

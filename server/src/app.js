@@ -1,5 +1,3 @@
-// server/src/app.js
-
 //require("dotenv").config();
 const express = require("express");
 const helmet = require("helmet");

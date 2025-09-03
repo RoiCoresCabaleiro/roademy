@@ -1,5 +1,3 @@
-// server/src/models/ProgresoUsuarioMinijuego.js
-
 const { DataTypes } = require("sequelize");
 const sequelize = require("../config/sequelize");
 

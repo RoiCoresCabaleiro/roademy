@@ -1,5 +1,3 @@
-// src/cron/cleanupRefreshTokens.js
-
 const cron = require("node-cron");
 const { Op } = require("sequelize");
 const { RefreshToken } = require("../models");

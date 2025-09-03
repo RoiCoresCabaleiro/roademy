@@ -1,5 +1,3 @@
-// src/services/claseService.js
-
 import { api } from './api';
 
 export const claseService = {

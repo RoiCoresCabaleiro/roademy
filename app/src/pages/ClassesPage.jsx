@@ -1,5 +1,3 @@
-// src/pages/ClassesPage.jsx
-
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { useApi } from "../hooks/useApi";

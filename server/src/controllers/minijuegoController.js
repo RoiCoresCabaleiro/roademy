@@ -1,5 +1,3 @@
-// server/src/controllers/minijuegoController.js
-
 const { ProgresoUsuarioMinijuego } = require("../models");
 const minijuegoService = require("../services/minijuegoService");
 const activityLogService = require("../services/activityLogService");

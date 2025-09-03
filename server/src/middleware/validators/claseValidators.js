@@ -1,5 +1,3 @@
-// server/src/middleware/validators/claseValidators.js
-
 const { body, param, validationResult } = require('express-validator');
 
 

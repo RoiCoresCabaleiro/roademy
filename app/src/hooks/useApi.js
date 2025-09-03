@@ -1,4 +1,3 @@
-// src/hooks/useApi.js
 import { useState, useEffect, useCallback } from 'react';
 import { extractError } from '../utils/errorHandler';
 

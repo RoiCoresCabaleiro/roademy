@@ -1,5 +1,3 @@
-// server/src/seed.js
-
 const { Tema, Nivel, PreguntaSolucion, Minijuego } = require("./models");
 const temario = require("./data/temario.json");
 

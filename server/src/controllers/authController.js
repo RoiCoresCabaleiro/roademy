@@ -1,5 +1,3 @@
-// server/src/controllers/authController.js
-
 const jwt = require("jsonwebtoken");
 const { RefreshToken, Usuario } = require("../models");
 

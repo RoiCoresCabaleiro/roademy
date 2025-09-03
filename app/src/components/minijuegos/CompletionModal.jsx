@@ -1,5 +1,3 @@
-// src/components/minijuegos/CompletionModal.jsx
-
 import { useNavigate } from "react-router-dom";
 import {
   TrophyIcon,

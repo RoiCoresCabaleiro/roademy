@@ -1,5 +1,3 @@
-// src/components/minijuegos/QuestionPanel.jsx
-
 import PropTypes from "prop-types";
 
 export default function QuestionPanel({

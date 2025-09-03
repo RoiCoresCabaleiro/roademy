@@ -1,5 +1,3 @@
-// server/src/middleware/validators/progresoValidators.js
-
 const { param, body, validationResult } = require('express-validator');
 
 const validateNivelId = [

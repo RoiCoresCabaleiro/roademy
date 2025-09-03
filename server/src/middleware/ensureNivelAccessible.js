@@ -1,5 +1,3 @@
-// server/src/middleware/ensureNivelAccessible.js
-
 const { Nivel } = require('../models');
 const progresoService = require('../services/progresoService');
 

@@ -1,5 +1,3 @@
-// src/services/activityLogService.js
-
 const { ActivityLogNivel, ActivityLogTemaComplete, ActivityLogMinijuego } = require("../models");
 const sequelize = require("../config/sequelize");
 const { QueryTypes } = require("sequelize");

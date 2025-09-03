@@ -1,5 +1,3 @@
-// server/src/controllers/usuarioController.js
-
 const bcrypt = require("bcryptjs");
 const { Op } = require("sequelize");
 const { Clase, Usuario, RefreshToken } = require("../models");

@@ -1,5 +1,3 @@
-// src/utils/errorHandler.js
-
 /**
  * Dado un error Axios o genérico, devuelve el primer mensaje del servidor
  * o un mensaje genérico si no hay payload.

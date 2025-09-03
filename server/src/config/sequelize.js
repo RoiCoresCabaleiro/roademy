@@ -1,5 +1,3 @@
-// server/src/config/sequelize.js
-
 const { Sequelize } = require("sequelize");
 const { dbConfig } = require("./index");
 

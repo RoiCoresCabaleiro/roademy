@@ -1,5 +1,3 @@
-// src/middleware/ensureClaseAccessible.js
-
 const { Clase, Usuario } = require('../models');
 
 module.exports = async function ensureClaseAccessible(req, res, next) {

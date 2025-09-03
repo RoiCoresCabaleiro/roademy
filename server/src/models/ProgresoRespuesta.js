@@ -1,5 +1,3 @@
-// server/src/models/ProgresoRespuesta.js
-
 const { DataTypes } = require("sequelize");
 const sequelize = require("../config/sequelize");
 

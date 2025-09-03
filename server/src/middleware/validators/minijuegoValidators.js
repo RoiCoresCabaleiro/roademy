@@ -1,5 +1,3 @@
-// server/src/middleware/validators/minijuegoValidators.js
-
 const { body, param, validationResult } = require("express-validator");
 
 const validateCompleteMinijuego = [

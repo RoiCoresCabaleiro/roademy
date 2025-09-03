@@ -1,5 +1,3 @@
-// src/utils/clipboard.js
-
 export async function copyToClipboard(text) {
   // 1) API Clipboard
   // Falla cuando se intenta copiar desde un entorno no seguro (http) en Firefox, Opera o Safari (que lo exigen)

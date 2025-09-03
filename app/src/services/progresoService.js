@@ -1,5 +1,3 @@
-// src/services/progresoService.js
-
 import { api } from "./api";
 
 export const progresoService = {

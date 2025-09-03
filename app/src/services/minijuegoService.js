@@ -1,5 +1,3 @@
-// src/services/minijuegoService.js
-
 import { api } from "./api";
 
 export const minijuegoService = {

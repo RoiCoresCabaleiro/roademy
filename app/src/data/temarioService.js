@@ -1,4 +1,3 @@
-// src/data/temarioService.js
 import temario from './temario.front.json';
 
 /**

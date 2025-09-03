@@ -1,5 +1,3 @@
-// src/context/AuthContext.jsx
-
 import { createContext, useState, useEffect, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import api from '../services/api';

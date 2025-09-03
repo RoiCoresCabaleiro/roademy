@@ -1,5 +1,3 @@
-// server/src/controllers/claseController.js
-
 const { Clase, Usuario } = require("../models");
 const progresoService = require('../services/progresoService');
 const activityLogService = require("../services/activityLogService");

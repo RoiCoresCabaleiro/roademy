@@ -1,5 +1,3 @@
-// src/services/usuarioService.js
-
 import { api } from './api';
 
 export const usuarioService = {

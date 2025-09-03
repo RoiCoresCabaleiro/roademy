@@ -1,5 +1,3 @@
-// src/middleware/ensureTutor.js
-
 module.exports = function ensureTutor(req, res, next) {
   if (req.user.rol !== 'tutor') {
     const err = new Error('Acceso denegado: solo tutores pueden acceder a este recurso.');

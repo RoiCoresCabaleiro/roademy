@@ -1,5 +1,3 @@
-// server/src/controllers/progresoController.js
-
 const { PreguntaSolucion, ProgresoUsuarioNivel, ProgresoRespuesta, ActivityLogTemaComplete } = require("../models");
 const progresoService = require("../services/progresoService");
 const activityLogService = require("../services/activityLogService");

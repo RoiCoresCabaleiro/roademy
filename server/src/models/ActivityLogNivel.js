@@ -1,5 +1,3 @@
-// server/src/models/ActivityLogNivel.js
-
 const { DataTypes } = require("sequelize");
 const sequelize = require("../config/sequelize");
 

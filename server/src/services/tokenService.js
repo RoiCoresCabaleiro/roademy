@@ -1,5 +1,3 @@
-// server/src/services/tokenService.js
-
 const jwt = require("jsonwebtoken");
 const crypto = require("crypto");
 const { RefreshToken } = require("../models");

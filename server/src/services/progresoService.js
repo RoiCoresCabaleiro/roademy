@@ -1,5 +1,3 @@
-// server/src/services/progresoService.js
-
 const {
   Nivel,
   Tema,

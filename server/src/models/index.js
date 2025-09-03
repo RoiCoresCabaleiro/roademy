@@ -1,5 +1,3 @@
-// server/src/models/index.js
-
 const sequelize = require("../config/sequelize");
 const RefreshToken = require("./RefreshToken");
 const Usuario = require("./Usuario");
