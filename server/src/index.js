@@ -40,7 +40,6 @@ async function start() {
         await seedData();
       }
     } catch (err) {
-      // Si aún no existe la tabla, manejamos el error de forma segura.
       console.warn("Skipping seed: could not count Tema (table may not exist yet):", err.message);
     }
 
