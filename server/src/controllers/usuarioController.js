@@ -182,7 +182,7 @@ async function dashboardTutor(req, res, next) {
     const clases  = await progresoService.getEstrellasClase(req.user.id);
     const { estrellasPosiblesCurso } = await progresoService.getTotalCourseStars();
 
-    const { chartData } = await activityLogService.getWeeklyClassActivityByTutor(req.user.id, 10);
+    const { chartData } = await activityLogService.getWeeklyClassActivityByTutor(req.user.id, 5);
 
     return res.json({
       success: true,
