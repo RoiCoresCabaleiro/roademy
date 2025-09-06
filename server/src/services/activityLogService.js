@@ -137,8 +137,8 @@ async function getActivityLog({ usuarioIds, types=['nivel','tema', "minijuego"],
 
 
 // Devuelve datos para gráfico de actividad semanal por clase de un tutor
-async function getWeeklyClassActivityByTutor(tutorId, numWeeks = 10) {
-  // 1) Calcular rango [from, to) de 10 semanas completas (lunes 00:00 → lunes 00:00)
+async function getWeeklyClassActivityByTutor(tutorId, numWeeks = 5) {
+  // 1) Calcular rango [from, to) de 5 semanas completas (lunes 00:00 → lunes 00:00)
   const now = new Date();
   const day = now.getDay();
   const daysToNextMonday = ((8 - day) % 7) || 7;

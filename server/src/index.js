@@ -26,21 +26,17 @@ async function start() {
     await waitForDb(Number(process.env.DB_CONNECT_RETRIES || 8), Number(process.env.DB_CONNECT_DELAY_MS || 2000));
 
     if (!isProd) {
-      // Dev: permitimos que Sequelize adapte el esquema (útil en desarrollo)
       console.log("Development mode: running sequelize.sync({ alter: true })");
       await sequelize.sync({ alter: true });
     } else {
-      // Producción: no forzar alteraciones automáticas. Crear tablas si no existen, pero sin modificar esquema existente.
       console.log("Production mode: running sequelize.sync()");
-      await sequelize.sync(); // o considerar skip entirely and use migrations
+      await sequelize.sync();
     }
 
-    // Sembrado: solo si la tabla existe y no hay registros
     try {
       const { Tema } = require("./models");
       const count = await Tema.count();
       if (count === 0) {
-        console.log("Seeding initial data...");
         await seedData();
       }
     } catch (err) {
