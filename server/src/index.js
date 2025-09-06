@@ -8,11 +8,7 @@ const PORT = +process.env.PORT || 3000;
 
 async function start() {
   try {
-    if (process.env.NODE_ENV !== 'prod') {
-      await sequelize.sync({ alter: true });
-    } else {
-      console.log('Skipping automatic sync in production.');
-    }
+    await sequelize.sync(); // en desarrollo usar "{ alter: true }" y en produción usar migraciones
 
     // Sembrar datos iniciales si no se ha hecho ya
     const { Tema } = require("./models");
