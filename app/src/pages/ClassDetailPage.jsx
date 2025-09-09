@@ -81,7 +81,7 @@ export default function ClassDetailPage() {
   useEffect(() => {
     const intervalId = setInterval(() => {
       refetch();
-    }, 1000);
+    }, 10_000);
     return () => clearInterval(intervalId);
   }, [refetch]);
 
